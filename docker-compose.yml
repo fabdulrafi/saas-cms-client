@@ -1,0 +1,17 @@
+version: "3"
+services:
+  saas-cms-client:
+    image: registry.smartiv.my.id/saas-cms-client:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 3003:80
+    container_name: saas-cms-client
+    restart: unless-stopped
+    networks:
+      - npm-network
+      
+networks:
+  npm-network:
+    external: true
