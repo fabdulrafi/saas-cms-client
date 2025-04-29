@@ -5,7 +5,7 @@ WORKDIR /app
 
 ENV VITE_API_URL=https://api-dev.mitra3m.id/commander/
 
-VITE_API_PUBLIC=https://api-dev.mitra3m.id/public-access/
+ENV VITE_API_PUBLIC=https://api-dev.mitra3m.id/public-access/
 
 # VITE_API_URL=https://api.mitra3m.id/commander/
 
