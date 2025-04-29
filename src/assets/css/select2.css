@@ -1,0 +1,157 @@
+.custom-multiselect.multiselect {
+  @apply !text-inherit !min-h-max;
+}
+
+.custom-multiselect.multiselect,
+.custom-multiselect .multiselect__input,
+.custom-multiselect .multiselect__single {
+  @apply !text-sm;
+}
+
+.custom-multiselect.multiselect .multiselect__tags {
+  @apply ltr:pl-4.5 rtl:pr-4.5 !py-2 !min-h-max;
+}
+
+.custom-multiselect.multiselect .multiselect__tags,
+.custom-multiselect .multiselect__content-wrapper,
+.custom-multiselect .multiselect--above .multiselect__content-wrapper {
+  /* @apply bg-white dark:bg-[#1b2e4b] border-[rgb(224,230,237)] dark:border-[#253b5c] text-black !font-semibold; */
+
+  @apply w-full rounded-md border border-[#e0e6ed] bg-white px-4 py-2 text-sm font-semibold text-black !outline-none focus:border-primary focus:ring-transparent dark:border-[#17263c] dark:bg-[#121e32] dark:text-white-dark dark:focus:border-primary;
+}
+
+.custom-multiselect .multiselect__single,
+.custom-multiselect .multiselect__placeholder,
+.custom-multiselect .multiselect__input {
+  @apply !mb-0 !pl-0 dark:bg-[#121e32];
+}
+
+.custom-multiselect .multiselect__option--highlight,
+.custom-multiselect .multiselect__option--selected.multiselect__option--highlight,
+.custom-multiselect .multiselect__option.multiselect__option--selected {
+  @apply !bg-[#f1f1f1] dark:!bg-[#17263c] !text-inherit;
+}
+
+.custom-multiselect .multiselect__option.multiselect__option--disabled {
+  @apply !bg-transparent !text-[#999];
+}
+
+.custom-multiselect.multiselect--active .multiselect__placeholder {
+  @apply !inline-block;
+}
+
+.custom-multiselect .multiselect__placeholder {
+  @apply !pt-0 dark:text-white-dark text-black/60 !font-semibold !text-sm;
+}
+
+.modal_placeholder .multiselect__placeholder {
+  @apply !pt-0 dark:text-gray-500 text-black/60 !font-normal !text-sm;
+}
+
+.custom-multiselect .multiselect__tag {
+  @apply !mb-0 !py-[3px] !bg-primary;
+}
+
+.custom-multiselect .multiselect__tags-wrap {
+  @apply !flex;
+}
+
+.custom-multiselect .multiselect__tag-icon {
+  @apply !top-auto;
+}
+
+
+
+/* CUSTOM IN DATATABLE */
+.custom-multiselect-table.multiselect {
+  @apply !text-inherit !min-h-max;
+}
+
+.custom-multiselect-table.multiselect,
+.custom-multiselect-table .multiselect__input,
+.custom-multiselect-table .multiselect__single {
+  @apply !text-sm;
+}
+
+.custom-multiselect-table.multiselect .multiselect__tags {
+  @apply ltr:pl-4.5 rtl:pr-4.5 !py-2 !min-h-max;
+}
+
+.custom-multiselect-table.multiselect .multiselect__tags,
+.custom-multiselect-table .multiselect__content-wrapper,
+.custom-multiselect-table .multiselect--above .multiselect__content-wrapper {
+  @apply w-full rounded-[4px] border border-[#e0e6ed] bg-white !px-3 !py-[5px] text-sm font-semibold text-black !outline-none focus:border-primary focus:ring-transparent dark:border-[#17263c] dark:bg-[#121e32] dark:text-white-dark dark:focus:border-primary;
+
+  min-width: 250px;
+}
+
+.custom-multiselect-table .multiselect__single,
+.custom-multiselect-table .multiselect__placeholder,
+.custom-multiselect-table .multiselect__input {
+  @apply !mb-0 !pl-0 dark:bg-[#121e32];
+}
+
+.custom-multiselect-table .multiselect__option--highlight,
+.custom-multiselect-table .multiselect__option--selected.multiselect__option--highlight,
+.custom-multiselect-table .multiselect__option.multiselect__option--selected {
+  @apply !bg-[#f1f1f1] dark:!bg-[#17263c] !text-inherit;
+}
+
+.custom-multiselect-table .multiselect__option.multiselect__option--disabled {
+  @apply !bg-transparent !text-[#999];
+}
+
+.custom-multiselect-table.multiselect--active .multiselect__placeholder {
+  @apply !inline-block;
+}
+
+.custom-multiselect-table .multiselect__placeholder {
+  @apply !pt-0 dark:text-white-dark text-black/60 !font-semibold !text-sm;
+}
+
+.modal_placeholder .multiselect__placeholder {
+  @apply !pt-0 dark:text-gray-500 text-black/60 !font-normal !text-sm;
+}
+
+.custom-multiselect-table .multiselect__tag {
+  @apply !mb-0 !py-[3px] !bg-primary;
+}
+
+.custom-multiselect-table .multiselect__tags-wrap {
+  @apply !flex;
+}
+
+.custom-multiselect-table .multiselect__tag-icon {
+  @apply !top-auto;
+}
+
+.custom-multiselect-table {
+  .multiselect__select {
+    line-height: 16px;
+    display: block;
+    position: absolute;
+    box-sizing: border-box;
+    width: 36px;
+    height: 30px;
+    right: 1px;
+    top: 1px;
+    padding: 4px 8px;
+    margin: 0;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .multiselect__select::before {
+    position: relative;
+    right: 0;
+    top: 65%;
+    color: #999;
+    margin-top: 4px;
+    border-style: solid;
+    border-width: 5px 5px 0 5px;
+    border-color: #999 transparent transparent transparent;
+    content: "";
+  }
+}

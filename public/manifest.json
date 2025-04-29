@@ -1,0 +1,40 @@
+{
+  "manifest_version": 2,
+  "name": "Smartiv",
+  "short_name": "Smartiv",
+  "version": "0.1.0",
+  "version_name": "0.1.0",
+  "description": "Smartiv - Your Hospitality System",
+  "author": "Fabdulrafi",
+  "icons": [
+    {
+      "src": "/img/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/icons/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/icons/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ],
+  "browser_action": {
+    "default_popup": "dist/index.html",
+    "default_title": "Extension"
+  },
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#2A4896",
+  "gcm_sender_id": "403502709904"
+}
