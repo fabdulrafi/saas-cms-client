@@ -12,7 +12,7 @@
       </div>
     </div>
     
-    <div class="panel p- mt-[24px] shadow-sm">
+    <div class="panel p- mt-[24px] shadow-none rounded-xl">
       <div class="">
         <div class="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-6 xs:gap-2">
           <div class="text-sm font-semibold">
@@ -150,7 +150,7 @@
             <span class="text-danger">*</span>
           </div>
 
-          <div class="col-span-4 xs:col-span-5 xs:mb-4">
+          <div class="col-span-4 xs:col-span-5 xs:mb-4 rounded-xl overflow-hidden">
             <GoogleMap 
               class="gmap"
               api-key="AIzaSyDZjAMqmqMFwnx0yDVkqNAD3sI4S_c91Ps"
@@ -194,7 +194,7 @@
                       <div
                         @click="modal = true; typeColor = 'base';"
     
-                        class="flex items-center justify-start h-[40px] w-full rounded-md border border-[#e0e6ed] dark:border-[#1b2e4b] bg-[#e0e6ed] dark:bg-[#121e33] cursor-pointer overflow-hidden">
+                        class="flex items-center justify-start h-[40px] w-full rounded-xl border border-[#e0e6ed] dark:border-[#1b2e4b] bg-[#e0e6ed] dark:bg-[#121e33] cursor-pointer overflow-hidden">
                         <div
                           :style="`background: ${payload.color_base}`"
                           class="h-[40px] w-[40px]">
@@ -218,7 +218,7 @@
                       <div
                         @click="modal = true ; typeColor = 'text';"
     
-                        class="flex items-center justify-start h-[40px] w-full rounded-md border border-[#e0e6ed] dark:border-[#1b2e4b] bg-[#e0e6ed] dark:bg-[#121e33] cursor-pointer overflow-hidden">
+                        class="flex items-center justify-start h-[40px] w-full rounded-xl border border-[#e0e6ed] dark:border-[#1b2e4b] bg-[#e0e6ed] dark:bg-[#121e33] cursor-pointer overflow-hidden">
                         <div
                           :style="`background: ${payload.color_text}`"
                           class="h-[40px] w-[40px]">
@@ -242,7 +242,7 @@
                       <div
                         @click="modal = true; typeColor = 'active';"
     
-                        class="flex items-center justify-start h-[40px] w-full rounded-md border border-[#e0e6ed] dark:border-[#1b2e4b] bg-[#e0e6ed] dark:bg-[#121e33] cursor-pointer overflow-hidden">
+                        class="flex items-center justify-start h-[40px] w-full rounded-xl border border-[#e0e6ed] dark:border-[#1b2e4b] bg-[#e0e6ed] dark:bg-[#121e33] cursor-pointer overflow-hidden">
                         <div
                           :style="`background: ${payload.color_active}`"
                           class="h-[40px] w-[40px]">
@@ -266,11 +266,11 @@
           </div>
   
           <div class="col-span-4 xs:col-span-5">
-            <div>
+            <div class="relative h-[175px] w-[175px] rounded-xl">
               <div v-if="payload.image_url"
                 class="relative">
                 <img
-                  class="h-[175px] w-[175px] object-contain rounded-md border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b]"
+                  class="h-[175px] w-[175px] object-contain rounded-xl border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b]"
                   :src="payload.image_url"
                   alt="" />
   
@@ -386,7 +386,7 @@
                         @click="modal = false; typeColor = '';"
 
                         type="button"
-                        class="btn btn-outline-danger text-sm !font-semibold w-[80px] ltr:ml-4 rtl:mr-4">
+                        class="btn btn-outline-danger text-sm !font-semibold w-[80px] ltr:ml-4 rtl:mr-4 rounded-xl">
                         Close
                       </button>
                     </div>

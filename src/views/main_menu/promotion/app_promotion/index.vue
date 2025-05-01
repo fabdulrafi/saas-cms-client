@@ -23,7 +23,7 @@
       </div>
     </div>
     
-    <div class="panel p-0 mt-[24px] shadow-sm overflow-hidden">
+    <div class="panel p-0 mt-[24px] shadow-none rounded-xl overflow-hidden">
       <div
         class="flex items-center justify-between p-4">
         <div class="relative">

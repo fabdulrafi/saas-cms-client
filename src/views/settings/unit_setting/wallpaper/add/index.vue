@@ -19,7 +19,7 @@
       </div>
     </div>
     
-    <div class="panel p-0 mt-[24px] shadow-sm sm:h-[calc(100vh-227px)] sm:overflow-auto relative">
+    <div class="panel p-0 mt-[24px] shadow-none rounded-xl sm:h-[calc(100vh-227px)] sm:overflow-auto relative">
       <div class="p-5">
         <div class="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-6 xs:gap-2">
           <div class="text-sm font-semibold">
@@ -135,7 +135,7 @@
                 placeholder="Ex: 3600"
                 class="form-input ltr:rounded-r-none rtl:rounded-l-none" />
 
-              <div class="bg-[#eee] flex justify-center items-center ltr:rounded-r-md rtl:rounded-l-md px-3 font-semibold border ltr:border-l-0 rtl:border-r-0 border-[#e0e6ed] dark:border-[#17263c] dark:bg-[#1b2e4b]">
+              <div class="bg-[#eee] flex justify-center items-center ltr:rounded-r-xl rtl:rounded-l-xl px-3 font-semibold border ltr:border-l-0 rtl:border-r-0 border-[#e0e6ed] dark:border-[#17263c] dark:bg-[#1b2e4b]">
                 Second
               </div>
             </div>
@@ -159,14 +159,14 @@
           </div>
 
           <div class="col-span-4">
-            <div class="p-4 font-semibold rounded-md border border-[#e0e6ed] dark:border-[#17263c]">
+            <div class="p-4 font-semibold rounded-xl border border-[#e0e6ed] dark:border-[#17263c]">
               <div class="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-6 xs:gap-4">
                 <div v-for="(item, index) in payload.attachment_json_array" :key="index"
                   class="relative">
                   <img
                     @click="toImage(item, 'empty')"
 
-                    class="w-full h-[200px] object-contain rounded-md border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] cursor-pointer"
+                    class="w-full h-[200px] object-contain rounded-xl border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] cursor-pointer"
                     :src="item"
                     alt="" />
 

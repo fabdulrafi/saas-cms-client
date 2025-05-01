@@ -159,7 +159,7 @@
               <img
                 @click="toImage(payload.image_url, 'empty')"
 
-                class="h-[175px] w-[300px] object-contain rounded-md border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] cursor-pointer"
+                class="h-[175px] w-[300px] object-contain rounded-xl border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] cursor-pointer"
                 :src="payload.image_url"
                 alt="" />
 

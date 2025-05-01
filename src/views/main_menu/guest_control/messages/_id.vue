@@ -23,7 +23,7 @@
       :class="{ 'min-h-[999px]': isShowChatMenu }"
       class="flex gap-5 relative sm:h-[calc(100vh_-_226px)] h-full sm:min-h-0 mt-[24px]">
       <div
-        class="panel shadow-sm p-4 flex-none max-w-xs w-full absolute xl:relative z-10 space-y-4 h-full hidden xl:block overflow-hidden"
+        class="panel shadow-none rounded-xl p-4 flex-none max-w-xs w-full absolute xl:relative z-10 space-y-4 h-full hidden xl:block overflow-hidden"
         :class="isShowChatMenu && '!block !overflow-y-auto'">
         <div class="flex justify-between items-center">
           <div class="flex items-center">
@@ -83,9 +83,9 @@
             <template v-for="person in searchUsers" :key="person.id">
               <button
                 type="button"
-                class="w-full flex justify-between items-center p-2 hover:bg-gray-100 dark:hover:bg-[#181f32] rounded-md dark:hover:text-primary hover:text-primary"
+                class="w-full flex justify-between items-center p-2 hover:bg-gray-100 dark:hover:bg-[#181f32] rounded-xl dark:hover:text-primary hover:text-primary"
                 :class="{
-                    'bg-gray-100 dark:bg-[#181f32] dark:text-primary text-primary': selectedUser && selectedUser.userId === person.userId,
+                  'bg-gray-100 dark:bg-[#181f32] dark:text-primary text-primary': selectedUser && selectedUser.userId === person.userId,
                 }"
                 @click="selectUser(person)">
                 <div class="flex-1">
@@ -129,7 +129,7 @@
         @click="isShowChatMenu = !isShowChatMenu">
       </div>
 
-      <div class="panel shadow-sm p-0 flex-1">
+      <div class="panel shadow-none rounded-xl p-0 flex-1">
         <template v-if="!isShowUserChat">
           <div class="flex items-center justify-center h-full relative p-4">
             <button
@@ -282,7 +282,7 @@
                 </svg>
               </div>
 
-              <p class="flex justify-center bg-white-dark/20 p-2 font-semibold rounded-md max-w-[190px] mx-auto">
+              <p class="flex justify-center bg-white-dark/20 p-2 font-semibold rounded-xl max-w-[190px] mx-auto">
                 <icon-message class="ltr:mr-2 rtl:ml-2" />
 
                 Select User to Chat
@@ -370,7 +370,7 @@
                       <div class="space-y-2">
                         <div class="flex items-center gap-3">
                           <div
-                            class="dark:bg-gray-800 p-4 py-2 rounded-md bg-black/10"
+                            class="dark:bg-gray-800 p-4 py-2 rounded-xl bg-black/10"
                             :class="message.fromUserId == selectedUser.userId
                                     ? 'ltr:rounded-br-none rtl:rounded-bl-none !bg-primary text-white'
                                     : 'ltr:rounded-bl-none rtl:rounded-br-none'">
@@ -416,23 +416,23 @@
                 </div>
                 
                 <div class="items-center space-x-3 rtl:space-x-reverse sm:py-0 py-3 hidden sm:block">
-                  <!-- <button type="button" class="bg-[#f4f4f4] dark:bg-[#1b2e4b] hover:bg-primary-light rounded-md p-2 hover:text-primary">
+                  <!-- <button type="button" class="bg-[#f4f4f4] dark:bg-[#1b2e4b] hover:bg-primary-light rounded-xl p-2 hover:text-primary">
                     <icon-microphone-off />
                   </button> -->
                   
-                  <!-- <button type="button" class="bg-[#f4f4f4] dark:bg-[#1b2e4b] hover:bg-primary-light rounded-md p-2 hover:text-primary">
+                  <!-- <button type="button" class="bg-[#f4f4f4] dark:bg-[#1b2e4b] hover:bg-primary-light rounded-xl p-2 hover:text-primary">
                     <icon-download />
                   </button> -->
                   
-                  <button type="button" class="bg-[#f4f4f4] dark:bg-[#1b2e4b] hover:bg-primary-light rounded-md p-2 hover:text-primary">
+                  <button type="button" class="bg-[#f4f4f4] dark:bg-[#1b2e4b] hover:bg-primary-light rounded-xl p-2 hover:text-primary">
                     <icon-camera />
                   </button>
 
-                  <button type="button" class="bg-[#f4f4f4] dark:bg-[#1b2e4b] hover:bg-primary-light rounded-md p-2 hover:text-primary">
+                  <button type="button" class="bg-[#f4f4f4] dark:bg-[#1b2e4b] hover:bg-primary-light rounded-xl p-2 hover:text-primary">
                     <icon-paperclip />
                   </button>
                   
-                  <!-- <button type="button" class="bg-[#f4f4f4] dark:bg-[#1b2e4b] hover:bg-primary-light rounded-md p-2 hover:text-primary">
+                  <!-- <button type="button" class="bg-[#f4f4f4] dark:bg-[#1b2e4b] hover:bg-primary-light rounded-xl p-2 hover:text-primary">
                     <icon-horizontal-dots class="opacity-70" />
                   </button> -->
                 </div>

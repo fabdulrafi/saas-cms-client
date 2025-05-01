@@ -23,8 +23,8 @@
 
 .ql-toolbar.ql-snow {
   box-sizing: border-box;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
   border-width: 1px;
   border-color: #e0e6ed !important;
   padding: 8px;
@@ -37,8 +37,8 @@
 }
 
 .ql-container.ql-snow {
-  border-bottom-right-radius: 6px;
-  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
   border-width: 1px;
   border-top: 0px !important;
   border-color: #e0e6ed !important;

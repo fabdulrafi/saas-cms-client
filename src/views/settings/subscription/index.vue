@@ -14,14 +14,14 @@
     
     <div class="mt-[24px]">
       <div class="flex-1 grid grid-cols-1 sm:grid-cols-7 gap-6 mb-6 h-[320px]">
-        <div class="panel p-4 w-full h-full shadow-sm overflow-hidden col-span-5">
+        <div class="panel p-4 w-full h-full shadow-none rounded-xl overflow-hidden col-span-5">
           <div class="flex items-center justify-center w-full h-full">
             BANNER
           </div>
         </div>
 
         <div class="col-span-2">
-          <div class="panel shadow-sm h-full">
+          <div class="panel shadow-none rounded-xl h-full">
             <ul class="space-y-6">
               <li>
                 <div class="text-base font-semibold mb-2">
@@ -76,13 +76,13 @@
       </div>
 
       <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6 h-[calc(100vh_-_572px)]">
-        <div class="panel p-4 w-full h-full shadow-sm overflow-hidden">
+        <div class="panel p-4 w-full h-full shadow-none rounded-xl overflow-hidden">
           <div class="flex items-center justify-center w-full h-full">
             BANNER
           </div>
         </div>
 
-        <div class="panel p-4 w-full h-full shadow-sm overflow-hidden">
+        <div class="panel p-4 w-full h-full shadow-none rounded-xl overflow-hidden">
           <div class="flex items-center justify-center w-full h-full">
             BANNER
           </div>

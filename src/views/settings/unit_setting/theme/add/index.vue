@@ -19,7 +19,7 @@
       </div>
     </div>
     
-    <div class="panel p- mt-[24px] shadow-sm">
+    <div class="panel p- mt-[24px] shadow-none rounded-xl">
       <div class="">
         <div class="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-6 xs:gap-2">
           <div class="text-sm font-semibold">
@@ -156,7 +156,7 @@
           </div>
 
           <div class="col-span-4">
-            <div class="p-4 font-semibold rounded-md border border-[#e0e6ed] dark:border-[#17263c] min-h-[500px] xs:min-h-[200px]">
+            <div class="p-4 font-semibold rounded-xl border border-[#e0e6ed] dark:border-[#17263c] min-h-[500px] xs:min-h-[200px]">
               
             </div>
           </div>

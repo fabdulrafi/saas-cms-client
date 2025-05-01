@@ -6,7 +6,7 @@
       <div
         class="flex items-center gap-4"
         :style="`width: ${widths + 20}%;`">
-        <div class="h-14 bg-gray-200 rounded-md dark:bg-gray-700 w-[100%]"></div>
+        <div class="h-14 bg-gray-200 rounded-xl dark:bg-gray-700 w-[100%]"></div>
       </div>
     </div>
   </div>

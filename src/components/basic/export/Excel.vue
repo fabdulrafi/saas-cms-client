@@ -4,7 +4,7 @@
 
     type="button"
     v-tippy:success
-    class="btn btn-success w-9 h-9 p-2 rounded-md mx-auto">
+    class="btn btn-success w-9 h-9 p-2 rounded-xl mx-auto">
     <icon-loader v-if="isLoading"
       class="animate-[spin_2s_linear_infinite] inline-block align-middle shrink-0" />
 

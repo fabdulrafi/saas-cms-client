@@ -1,5 +1,5 @@
 <template>
-  <div class="panel p-0 bg-white shadow-md rounded-md overflow-hidden relative w-full h-full">
+  <div class="panel p-0 bg-white shadow-md rounded-xl overflow-hidden relative w-full h-full">
     <div
       @mousemove="handleMouseMove"
       @mouseleave="handleMouseLeave"

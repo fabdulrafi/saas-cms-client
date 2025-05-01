@@ -6,7 +6,7 @@
 
     type="button"
     v-tippy:warning
-    class="btn btn-warning rounded-md mx-auto">
+    class="btn btn-warning rounded-xl mx-auto">
     <div v-if="props.types === 'icon'">
       <icon-loader v-if="isLoading"
         class="animate-[spin_2s_linear_infinite] inline-block align-middle shrink-0" />

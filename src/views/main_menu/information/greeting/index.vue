@@ -12,7 +12,7 @@
       </div>
     </div>
     
-    <div class="panel p- mt-[24px] shadow-sm overflow-hidden">
+    <div class="panel p- mt-[24px] shadow-none rounded-xl overflow-hidden">
       <div class="">
         <div class="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-6 xs:gap-2">
           <div class="text-sm font-semibold">
@@ -28,7 +28,7 @@
                   @click="payload.type = option.id"
   
                   :class="{ '!border-primary' : payload.type === option.id }"
-                  class="relative p-4 border border-[#e0e6ed] dark:border-[#1b2e4b] rounded-md cursor-pointer">
+                  class="relative p-4 border border-[#e0e6ed] dark:border-[#1b2e4b] rounded-xl cursor-pointer">
                   <div class="text-center">
                     <div class="flex items-center justify-center space-x-4">
                       <div v-if="option.id === 'text_image'">
@@ -88,7 +88,7 @@
                     <img
                       @click="toImage(payload.image_url, 'empty')"
 
-                      class="h-[505px] w-full object-contain rounded-md border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] cursor-pointer"
+                      class="h-[505px] w-full object-contain rounded-xl border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] cursor-pointer"
                       :src="payload.image_url"
                       alt="" />
       

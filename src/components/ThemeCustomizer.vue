@@ -40,14 +40,14 @@
             </p>
           </div>
 
-          <div class="border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] rounded-md mb-4 p-3">
+          <div class="border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] rounded-xl mb-4 p-3">
             <h5 class="mb-1 text-base dark:text-white leading-none">Color Scheme</h5>
             <p class="text-white-dark text-xs">Overall light or dark presentation.</p>
 
             <div class="grid grid-cols-2 gap-2 mt-3">
               <button
                 type="button"
-                class="btn"
+                class="btn rounded-xl"
                 :class="[store.theme === 'light' ? 'btn-primary' : 'btn-outline-primary']"
                 @click="store.toggleTheme('light')">
                 <icon-sun class="w-5 h-5 shrink-0 ltr:mr-2 rtl:ml-2" />
@@ -56,7 +56,7 @@
 
               <button
                 type="button"
-                class="btn"
+                class="btn rounded-xl"
                 :class="[store.theme === 'dark' ? 'btn-primary' : 'btn-outline-primary']"
                 @click="store.toggleTheme('dark')">
                 <icon-moon class="w-5 h-5 shrink-0 ltr:mr-2 rtl:ml-2" />
@@ -65,7 +65,7 @@
 
               <!-- <button
                 type="button"
-                class="btn"
+                class="btn rounded-xl"
                 :class="[store.theme === 'system' ? 'btn-primary' : 'btn-outline-primary']"
                 @click="store.toggleTheme('system')">
                 <icon-laptop class="w-5 h-5 shrink-0 ltr:mr-2 rtl:ml-2" />
@@ -74,14 +74,14 @@
             </div>
           </div>
 
-          <div class="border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] rounded-md mb-4 p-3">
+          <div class="border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] rounded-xl mb-4 p-3">
             <h5 class="mb-1 text-base dark:text-white leading-none">Navigation Position</h5>
             <p class="text-white-dark text-xs">Select the primary navigation paradigm for your app.</p>
 
             <div class="grid grid-cols-3 gap-2 mt-3">
               <button
                 type="button"
-                class="btn"
+                class="btn rounded-xl"
                 :class="[store.menu === 'horizontal' ? 'btn-primary' : 'btn-outline-primary']"
                 @click="store.toggleMenu('horizontal')">
                 Horizontal
@@ -89,7 +89,7 @@
               
               <button
                 type="button"
-                class="btn"
+                class="btn rounded-xl"
                 :class="[store.menu === 'vertical' ? 'btn-primary' : 'btn-outline-primary']"
                 @click="store.toggleMenu('vertical')">
                 Vertical
@@ -97,7 +97,7 @@
               
               <button
                 type="button"
-                class="btn"
+                class="btn rounded-xl"
                 :class="[store.menu === 'collapsible-vertical' ? 'btn-primary' : 'btn-outline-primary']"
                 @click="store.toggleMenu('collapsible-vertical')">
                 Collapsible
@@ -112,14 +112,14 @@
             </div>
           </div>
 
-          <div class="border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] rounded-md mb-4 p-3">
+          <div class="border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] rounded-xl mb-4 p-3">
             <h5 class="mb-1 text-base dark:text-white leading-none">Layout Style</h5>
             <p class="text-white-dark text-xs">Select the primary layout style for your app.</p>
 
             <div class="flex gap-2 mt-3">
               <button
                 type="button"
-                class="btn flex-auto"
+                class="btn flex-auto rounded-xl"
                 :class="[store.layout === 'boxed-layout' ? 'btn-primary' : 'btn-outline-primary']"
                 @click="store.toggleLayout('boxed-layout')">
                 Box
@@ -127,7 +127,7 @@
               
               <button
                 type="button"
-                class="btn flex-auto"
+                class="btn flex-auto rounded-xl"
                 :class="[store.layout === 'full' ? 'btn-primary' : 'btn-outline-primary']"
                 @click="store.toggleLayout('full')">
                 Full
@@ -135,14 +135,14 @@
             </div>
           </div>
           
-          <div class="border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] rounded-md mb-4 p-3">
+          <div class="border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] rounded-xl mb-4 p-3">
             <h5 class="mb-1 text-base dark:text-white leading-none">Direction</h5>
             <p class="text-white-dark text-xs">Select the direction for your app.</p>
             
             <div class="flex gap-2 mt-3">
               <button
                 type="button"
-                class="btn flex-auto"
+                class="btn flex-auto rounded-xl"
                 :class="[store.rtlClass === 'ltr' ? 'btn-primary' : 'btn-outline-primary']"
                 @click="store.toggleRTL('ltr')">
                 LTR
@@ -150,7 +150,7 @@
               
               <button
                 type="button"
-                class="btn flex-auto"
+                class="btn flex-auto rounded-xl"
                 :class="[store.rtlClass === 'rtl' ? 'btn-primary' : 'btn-outline-primary']"
                 @click="store.toggleRTL('rtl')">
                 RTL
@@ -158,7 +158,7 @@
             </div>
           </div>
 
-          <div class="border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] rounded-md mb-4 p-3">
+          <div class="border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] rounded-xl mb-4 p-3">
             <h5 class="mb-1 text-base dark:text-white leading-none">Navbar Type</h5>
             <p class="text-white-dark text-xs">Sticky or Floating.</p>
             
@@ -195,7 +195,7 @@
             </div>
           </div>
 
-          <div class="border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] rounded-md mb-4 p-3">
+          <div class="border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] rounded-xl mb-4 p-3">
             <h5 class="mb-1 text-base dark:text-white leading-none">Router Transition</h5>
             <p class="text-white-dark text-xs">Animation of main content.</p>
             

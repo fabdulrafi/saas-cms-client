@@ -4,7 +4,7 @@
       @click="onFileLaunch()"
 
       :class="onProgress ? 'p-0 px-8' : 'p-0'"
-      class="panel !rounded-md bg-[#e0e6ed] dark:bg-[#121e32] h-full w-full flex items-center justify-center shadow-none cursor-pointer">
+      class="panel !rounded-xl bg-[#e0e6ed] dark:bg-[#121e32] h-full w-full flex items-center justify-center shadow-none cursor-pointer">
       <IconLoader v-if="isLoading && !onProgress"
         class="animate-[spin_2s_linear_infinite] h-auto w-6 inline-block align-middle shrink-0" />
 

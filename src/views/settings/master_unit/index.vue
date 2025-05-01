@@ -25,7 +25,7 @@
       </div>
     </div>
     
-    <div class="panel p-0 mt-[24px] shadow-sm overflow-hidden">
+    <div class="panel p-0 mt-[24px] shadow-none rounded-xl overflow-hidden">
       <div
         class="flex items-center justify-between p-4">
         <div class="relative">
@@ -295,7 +295,7 @@
                             <button
                               type="button"
                               v-tippy="{ content: 'Add Type', theme: 'dark' }"
-                              class="btn btn-dark w-[38px] h-[38px] p-0">
+                              class="btn btn-dark w-[38px] h-[38px] p-0 rounded-xl">
                               <IconPlus class="w-5 h-5" />
                             </button>
                           </div>
@@ -369,7 +369,7 @@
                         @click="modal = false"
 
                         type="button"
-                        class="btn btn-outline-danger text-sm !font-semibold w-[80px] ltr:ml-4 rtl:mr-4">
+                        class="btn btn-outline-danger text-sm !font-semibold w-[80px] ltr:ml-4 rtl:mr-4 rounded-xl">
                         Close
                       </button>
                     </div>
