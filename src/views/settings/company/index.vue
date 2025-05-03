@@ -344,7 +344,7 @@
               leave="duration-200 ease-in"
               leave-from="opacity-100 scale-100"
               leave-to="opacity-0 scale-95">
-              <DialogPanel class="panel border-0 p-0 rounded-lg overflow-hidden w-full max-w-xs text-black dark:text-white-dark">
+              <DialogPanel class="panel border-0 p-0 rounded-xl overflow-hidden w-full max-w-xs text-black dark:text-white-dark">
                 <form @submit.prevent="submit">
                   <button
                     @click="modal = false; typeColor = '';"

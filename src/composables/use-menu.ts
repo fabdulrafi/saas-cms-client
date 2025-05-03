@@ -254,16 +254,52 @@ export const useArraymenus = (actived: boolean = false) => {
           tabs: []
         },
         {
-          name: 'Add Ons',
+          name: 'Leisure',
           icon: 'add_on_gray',
           icon_active: 'add_on_white',
-          link: '/main-menu/add-ons',
+          link: '/main-menu/leisure',
           checked: actived,
           children: [
             {
               name: 'Tourism',
               icon: 'IconMinus',
-              link: '/main-menu/information/tourism',
+              link: '/main-menu/leisure/tourism',
+              checked: actived,
+              children: [],
+              actions: [],
+              tabs: []
+            },
+            {
+              name: 'Culinary',
+              icon: 'IconMinus',
+              link: '/main-menu/leisure/culinary',
+              checked: actived,
+              children: [],
+              actions: [],
+              tabs: []
+            },
+            {
+              name: 'Gift',
+              icon: 'IconMinus',
+              link: '/main-menu/leisure/gift',
+              checked: actived,
+              children: [],
+              actions: [],
+              tabs: []
+            },
+            {
+              name: 'Holiday Package',
+              icon: 'IconMinus',
+              link: '/main-menu/leisure/holiday-package',
+              checked: actived,
+              children: [],
+              actions: [],
+              tabs: []
+            },
+            {
+              name: 'Transportation Rent',
+              icon: 'IconMinus',
+              link: '/main-menu/leisure/transportation-rent',
               checked: actived,
               children: [],
               actions: [],
@@ -272,7 +308,7 @@ export const useArraymenus = (actived: boolean = false) => {
             {
               name: 'Airport Schedule',
               icon: 'IconMinus',
-              link: '/main-menu/information/airport-schedule',
+              link: '/main-menu/leisure/airport-schedule',
               checked: actived,
               children: [],
               actions: [],
@@ -281,16 +317,7 @@ export const useArraymenus = (actived: boolean = false) => {
             {
               name: 'CCTV',
               icon: 'IconMinus',
-              link: '/main-menu/information/cctv',
-              checked: actived,
-              children: [],
-              actions: [],
-              tabs: []
-            },
-            {
-              name: 'Radio',
-              icon: 'IconMinus',
-              link: '/main-menu/information/radio',
+              link: '/main-menu/leisure/cctv',
               checked: actived,
               children: [],
               actions: [],

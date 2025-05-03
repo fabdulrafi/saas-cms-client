@@ -14,9 +14,12 @@
     
     <div class="mt-[24px]">
       <div class="flex-1 grid grid-cols-1 sm:grid-cols-7 gap-6 mb-6 h-[320px]">
-        <div class="panel p-4 w-full h-full shadow-none rounded-xl overflow-hidden col-span-5">
-          <div class="flex items-center justify-center w-full h-full">
-            BANNER
+        <div class="panel p-0 w-full h-full shadow-none rounded-xl overflow-hidden col-span-5">
+          <div class="w-full h-full">
+            <img
+              src="/assets/images/dashboard/new/banner_promo.svg"
+              alt=""
+              class="w-full h-full object-cover" />
           </div>
         </div>
 
@@ -78,13 +81,13 @@
       <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6 h-[calc(100vh_-_572px)]">
         <div class="panel p-4 w-full h-full shadow-none rounded-xl overflow-hidden">
           <div class="flex items-center justify-center w-full h-full">
-            BANNER
+            CONTENT
           </div>
         </div>
 
         <div class="panel p-4 w-full h-full shadow-none rounded-xl overflow-hidden">
           <div class="flex items-center justify-center w-full h-full">
-            BANNER
+            CONTENT
           </div>
         </div>
       </div>

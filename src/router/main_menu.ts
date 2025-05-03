@@ -83,6 +83,22 @@ export const useRouterMainMenu = () => [
 
 
 
+  // leisure
+  {
+    path: '/main-menu/leisure/cctv',
+    name: 'cctv',
+    component: () => import(/* webpackChunkName: "main-menu/leisure/cctv" */ '@/views/main_menu/leisure/cctv/index.vue'),
+    meta: { requiresAuth: true, title: 'CCTV' }
+  },
+  {
+    path: '/main-menu/leisure/cctv/add',
+    name: 'cctv add',
+    component: () => import(/* webpackChunkName: "main-menu/leisure/cctv/add" */ '@/views/main_menu/leisure/cctv/add/index.vue'),
+    meta: { requiresAuth: true, title: 'CCTV Add' }
+  },
+
+
+
   // direct notification
   {
     path: '/main-menu/direct-notification',
