@@ -501,6 +501,16 @@ export const useArraymenus = (actived: boolean = false) => {
           tabs: []
         },
         {
+          name: 'Media',
+          icon: 'master_data_gray',
+          icon_active: 'master_data_white',
+          link: '/settings/media',
+          checked: actived,
+          children: [],
+          actions: [],
+          tabs: []
+        },
+        {
           name: 'User Role',
           icon: 'user_role_gray',
           icon_active: 'user_role_white',

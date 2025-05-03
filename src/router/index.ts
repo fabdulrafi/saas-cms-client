@@ -154,7 +154,7 @@ const initRoutes = (to, from, next, authenticating) => {
     to.name !== 'error 404' && to.name !== 'error 500' && to.name !== 'profile' && 
     to.name !== 'screen saver add' && to.name !== 'digital signage add' && to.name !== 'facility add' && 
     to.name !== 'direct notification add' && to.name !== 'wallpaper add' && to.name !== 'theme add' &&
-    to.name !== 'cctv add' &&
+    to.name !== 'cctv add' && to.name !== 'running text add' && to.name !== 'wifi add' &&
     to.name !== 'guest control messages' && to.name !== 'guest control request' &&
     !vr.value && token && !lock ) {
     console.log('not valid route');

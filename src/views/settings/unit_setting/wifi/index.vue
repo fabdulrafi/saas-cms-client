@@ -16,7 +16,7 @@
           icons="check" />
 
         <router-link
-          to="/main-menu/leisure/cctv/add">
+          to="/settings/unit-setting/wifi/add">
           <BtnPrivate
             texts="Add New"
             colors="bg-success"

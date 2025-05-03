@@ -2,7 +2,7 @@
   <div>
     <div class="flex items-center whitespace-nowrap">
       <router-link
-        to="/main-menu/leisure/cctv"
+        to="/settings/unit-setting/wifi"
 
         class="rounded-full p-1 text-primary hover:text-danger ring-2 ring-primary/30 hover:ring-danger ltr:mr-3 rtl:ml-3">
         <IconArrowBackward class="w-5 h-5" />
@@ -33,7 +33,7 @@
               v-model="payload.title"
 
               type="text"
-              placeholder="Ex: CCTV Camera"
+              placeholder="Ex: Wifi Network"
               class="form-input" />
 
             <div v-if="v$.title.$error"
@@ -53,7 +53,7 @@
               v-model="payload.information"
 
               type="text"
-              placeholder="Ex: This wallpaper cant be remove for default"
+              placeholder="Ex: This wifi cant be remove for default"
               class="form-input" />
 
             <div v-if="v$.information.$error"
