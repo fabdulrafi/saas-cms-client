@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue';
+import { ref, watch, toRaw } from 'vue';
 import { useApiWithAuth } from '@/modules/api';
 import { useAuth } from '@/modules/auth';
 
@@ -613,7 +613,7 @@ export const useValidRouter = () => {
     const valid = ref(false);
 
     if (menu?.value) {
-      valid.value = menu.value.some(item => isValidRoute(item, path));
+      valid.value = toRaw(menu.value).some(item => isValidRoute(item, path));
     }
 
     return valid;

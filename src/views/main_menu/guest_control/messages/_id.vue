@@ -370,9 +370,9 @@
                       <div class="space-y-2">
                         <div class="flex items-center gap-3">
                           <div
-                            class="dark:bg-gray-800 p-4 py-2 rounded-xl bg-black/10"
+                            class="p-4 py-2 rounded-xl bg-primary text-white"
                             :class="message.fromUserId == selectedUser.userId
-                                    ? 'ltr:rounded-br-none rtl:rounded-bl-none !bg-primary text-white'
+                                    ? 'ltr:rounded-br-none rtl:rounded-bl-none !bg-[#FFF7E9] !text-black dark:!bg-gray-800 dark:!text-white'
                                     : 'ltr:rounded-bl-none rtl:rounded-br-none'">
                             {{ message.text }}
                           </div>
