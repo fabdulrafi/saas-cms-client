@@ -19,7 +19,7 @@
           to="/main-menu/promotion/digital-signage/add">
           <BtnPrivate
             texts="Add New"
-            colors="bg-success"
+            colors="bg-primary"
             shadows="shadow-success/50"
             :xs="true" />
         </router-link>

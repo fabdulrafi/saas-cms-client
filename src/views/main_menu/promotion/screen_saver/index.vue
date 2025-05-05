@@ -19,7 +19,7 @@
           to="/main-menu/promotion/screen-saver/add">
           <BtnPrivate
             texts="Add New"
-            colors="bg-success"
+            colors="bg-primary"
             shadows="shadow-success/50"
             :xs="true" />
         </router-link>

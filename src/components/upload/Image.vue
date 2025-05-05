@@ -9,7 +9,7 @@
         class="animate-[spin_2s_linear_infinite] h-auto w-6 inline-block align-middle shrink-0" />
 
       <IconCamera v-if="!isLoading && !onProgress"
-        class="h-auto w-10 text-black/50 dark:text-white-dark" />
+        class="h-auto w-10 text-primary dark:text-white-dark" />
 
       <div v-if="onProgress"
         class="w-full h-4 bg-[#ebedf2] dark:bg-dark/40 rounded-full">

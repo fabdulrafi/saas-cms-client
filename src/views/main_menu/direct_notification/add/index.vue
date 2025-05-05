@@ -87,7 +87,7 @@
 
                 <span
                   for="custom_switch_checkbox7"
-                  class="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-success before:transition-all before:duration-300">
+                  class="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300">
                 </span>
               </label>
 
@@ -190,7 +190,7 @@
               <BtnPrivate
                 @click="submit"
 
-                colors="bg-success"
+                colors="bg-primary"
                 shadows="shadow-primary/50" />
             </div>
           </div>

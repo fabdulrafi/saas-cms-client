@@ -19,7 +19,7 @@
           to="/settings/unit-setting/wifi/add">
           <BtnPrivate
             texts="Add New"
-            colors="bg-success"
+            colors="bg-primary"
             shadows="shadow-success/50"
             :xs="true" />
         </router-link>

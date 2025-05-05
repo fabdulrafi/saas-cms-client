@@ -229,7 +229,7 @@
             <BtnPrivate
               @click="submit"
 
-              colors="bg-success"
+              colors="bg-primary"
               shadows="shadow-primary/50" />
           </div>
         </div>
