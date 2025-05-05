@@ -59,7 +59,7 @@
         <!--  BEGIN CONTENT AREA  -->
         <div 
           :class="{ 'rounded-2xl rounded-r-none': !store.sidebar }"
-          class="p-6 animation bg-[#F0F3FF] dark:bg-[#060818]">
+          class="p-6 animation bg-[#F0F3FF] dark:bg-[#060818] min-h-[calc(100vh-130px)]">
           <router-view></router-view>
         </div>
         <!--  END CONTENT AREA  -->
