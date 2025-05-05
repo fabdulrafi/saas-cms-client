@@ -2,7 +2,7 @@
   <div>
     <div class="flex items-center whitespace-nowrap">
       <router-link
-        to="/settings/unit-setting/running-text"
+        to="/settings/unit-setting/emergency"
 
         class="rounded-full p-1 text-primary hover:text-danger ring-2 ring-primary/30 hover:ring-danger ltr:mr-3 rtl:ml-3">
         <IconArrowBackward class="w-5 h-5" />
@@ -19,8 +19,8 @@
       </div>
     </div>
     
-    <div class="panel p-0 mt-[24px] shadow-none rounded-xl sm:overflow-auto relative">
-      <div class="p-5 sm:h-[calc(100vh-333px)]">
+    <div class="panel p- mt-[24px] shadow-none rounded-xl overflow-hidden sm:overflow-auto relative">
+      <div class="">
         <div class="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-6 xs:gap-2">
           <div class="text-sm font-semibold">
             Title
@@ -33,7 +33,7 @@
               v-model="payload.title"
 
               type="text"
-              placeholder="Ex: Running Text"
+              placeholder="Ex: Emergency"
               class="form-input" />
 
             <div v-if="v$.title.$error"
@@ -53,7 +53,7 @@
               v-model="payload.information"
 
               type="text"
-              placeholder="Ex: This running text cant be remove for default"
+              placeholder="Ex: This casting cant be remove for default"
               class="form-input" />
 
             <div v-if="v$.information.$error"
@@ -148,29 +148,63 @@
           </div>
 
           <div class="text-sm font-semibold">
-            Content
+            Audio
 
             <span class="text-danger">*</span>
           </div>
-
+  
           <div class="col-span-4 xs:mb-4">
-            <textarea
-              v-model="payload.content"
+            <input
+              v-model="payload.audio"
 
-              placeholder="Write a content here . . ."
+              type="text"
+              placeholder="Ex: Song-audio.mp3"
+              class="form-input" />
 
-              class="form-textarea min-h-[100px]">
-            </textarea>
-
-            <div v-if="v$.content.$error"
+            <div v-if="v$.audio.$error"
               class="validator">
-              {{ v$.content.$errors[0].$message }}
+              {{ v$.audio.$errors[0].$message }}
             </div>
+          </div>
+
+          <div>
+            <div class="text-sm font-semibold mb-2 xs:mb-1">
+              Route Plan
+
+              <span class="text-danger">*</span>
+            </div>
+  
+            <div class="text-sm text-black/50 dark:text-white/50">
+              Your Route Plan must be a JPEG, up to 5 MB, and 1,920 px by 1,080 px a 16:9 ratio.
+            </div>
+          </div>
+
+          <div class="col-span-4">
+            <div v-if="payload.route_plan"
+              class="relative w-full xs:w-full">
+              <img
+                @click="toImage(payload.route_plan, 'empty')"
+
+                class="h-[600px] w-full object-contain rounded-xl border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] cursor-pointer"
+                :src="payload.route_plan"
+                alt="" />
+
+              <button
+                @click="payload.route_plan = ''"
+
+                type="button"
+                class="btn btn-danger w-5 h-5 p-0 rounded-md absolute top-[-8px] right-[-8px]">
+                <icon-trash-lines class="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            <uploadImage v-else
+              @input="changeImage"
+              class="h-[600px] w-full xs:w-full" />
           </div>
         </div>
       </div>
       
-      <div class="w-full p-5 xs:pt-0">
         <div class="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-6 sm:mt-6">
           <div class="col-span-5 grid grid-cols-subgrid">
             <div class="col-start-2 col-span-3">
@@ -186,8 +220,15 @@
             </div>
           </div>
         </div>
-      </div>
     </div>
+
+    <!-- preview image -->
+    <vue-easy-lightbox
+      :visible="modal_img"
+      :imgs="imgVal ? imgVal : `/assets/images/${imgEmptyVal}.png`"
+
+      @hide="modal_img = false">
+    </vue-easy-lightbox>
   </div>
 </template>
 
@@ -245,7 +286,8 @@
     unit_tag?: any[];
     custom_tag?: any[];
     status?: boolean;
-    content?: string;
+    audio?: string;
+    route_plan?: string;
   };
 
   const initialState = (): Payload => {
@@ -256,7 +298,8 @@
       unit_tag: [],
       custom_tag: [],
       status: true,
-      content: '',
+      audio: '',
+      route_plan: '',
     }
   };
 
@@ -264,6 +307,22 @@
 
   const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm } = useValid(payload, ['id']);
   const { loading, data, post, errorMessage, error } = useApiWithAuth('profile/update');
+
+  const changeImage = (e) => {
+    if (e?.fileuri) payload.route_plan = e.fileuri;
+  };
+
+  const modal_img = ref(false);
+
+  const imgVal = ref('');
+  const imgEmptyVal = ref('');
+
+  const toImage = (item: any, img: string) => {
+    imgVal.value = item;
+    imgEmptyVal.value = img;
+
+    modal_img.value = true;
+  };
 
   const submit = async () => {
     const isFormCorrect = await v$.value.$validate();

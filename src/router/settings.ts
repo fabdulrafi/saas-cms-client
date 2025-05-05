@@ -91,6 +91,21 @@ export const useRouterSettings = () => [
   },
 
 
+  // unit settings emergency
+  {
+    path: '/settings/unit-setting/emergency',
+    name: 'emergency',
+    component: () => import(/* webpackChunkName: "settings/unit-setting/emergency" */ '@/views/settings/unit_setting/emergency/index.vue'),
+    meta: { requiresAuth: true, title: 'Emergency' }
+  },
+  {
+    path: '/settings/unit-setting/emergency/add',
+    name: 'emergency add',
+    component: () => import(/* webpackChunkName: "settings/unit-setting/emergency/add" */ '@/views/settings/unit_setting/emergency/add/index.vue'),
+    meta: { requiresAuth: true, title: 'Emergency Add' }
+  },
+
+
   // unit settings casting
   {
     path: '/settings/unit-setting/casting',

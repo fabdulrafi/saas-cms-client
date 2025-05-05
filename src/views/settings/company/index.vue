@@ -159,7 +159,7 @@
               mapTypeId="hybrid"
               :mapTypeControl="true"
               :streetViewControl="true"
-              :style="`height: 260px;`">
+              :style="`height: 500px;`">
               <MarkerCluster>
                 <Marker 
                   :options="{ 

@@ -19,8 +19,8 @@
       </div>
     </div>
     
-    <div class="panel p-0 mt-[24px] shadow-sm sm:h-[calc(100vh-227px)] sm:overflow-auto relative">
-      <div class="p-5">
+    <div class="panel p-0 mt-[24px] shadow-none rounded-xl sm:overflow-auto relative">
+      <div class="p-5 sm:h-[calc(100vh-333px)]">
         <div class="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-6 xs:gap-2">
           <div class="text-sm font-semibold">
             Title
@@ -179,7 +179,7 @@
         </div>
       </div>
       
-      <div class="sm:absolute sm:bottom-0 w-full p-5 xs:pt-0">
+      <div class="w-full p-5 xs:pt-0">
         <div class="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-6 sm:mt-6">
           <div class="col-span-5 grid grid-cols-subgrid">
             <div class="col-start-2 col-span-3">
