@@ -17,7 +17,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'login',
-    component: Login ,
+    component: Login,
     meta: { requiresAuth: false, title: 'Login' }
   },
   {
@@ -173,12 +173,15 @@ const initRoutes = (to, from, next, authenticating) => {
 };
 
 router.beforeEach((to, from, next) => {
+  const token = window.localStorage.getItem(AUTH_KEY);
   const { authenticating, menu } = useAuth();
+
+  console.log('authenticating', token);
 
   if ( !menu?.value ) {
     setTimeout(() => {
       initRoutes(to, from, next, authenticating);
-    }, 1000);
+    }, token ? 500 : 0);
 
     return;
   }

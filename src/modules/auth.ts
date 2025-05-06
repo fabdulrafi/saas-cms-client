@@ -112,15 +112,13 @@ export const useAuth = () => {
   };
 
   const logout = async (): Promise<void> => {
-    const { loading, error, data, post } = useApiWithAuth('client/logout');
+    // const { loading, error, data, post } = useApiWithAuth('client/logout');
 
-    await post();
+    // await post();
 
     window.localStorage.removeItem(AUTH_KEY);
 
     window.localStorage.removeItem(AUTH_LOCK);
-
-    state.user = undefined;
 
     router.push({ name: "login" });
 
