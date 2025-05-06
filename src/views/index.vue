@@ -37,7 +37,7 @@
                 alt="" />
             </div>
 
-            <div class="h-[calc(100vh-277px)] flex justify-center items-center">
+            <div class="h-[685px] flex justify-center items-center">
               <div class="w-full px-36">
                 <div class="text-2xl font-semibold">
                   Get started now
@@ -223,7 +223,7 @@
       }, 5000);
 
       const { v$, swalAlert } = useValid(payload);
-      const { loading, data, post, errorMessage } = useApi("auth/login");
+      const { loading, data, post, errorMessage } = useApi("login");
 
       const submit = async () => {
         const isFormCorrect = await v$.value.$validate();
@@ -234,17 +234,17 @@
 
         post(payload).then(() => {
           // callback api
-          let obj = data.value;
+          let obj = data.value.data;
 
           setUser({
-            id: obj.data?.id,
-            name: obj.data?.name,
-            email: obj.data?.email,
-            mobilephone: obj.data?.mobilephone,
-            image_url: obj.data?.image_url,
-            role_id: obj.data?.role_id,
-            type: obj.data?.type ?? '',
-            access_token: obj.token
+            id: obj?.user?.id,
+            name: obj?.user?.name,
+            email: obj?.user?.email,
+            mobile_number: obj?.user?.mobile_number,
+            image_url: obj?.user?.image_url,
+            role_id: obj?.user?.role_id,
+            company_id: obj?.user?.company_id,
+            access_token: obj?.token
           }, payload.rememberMe);
 
           const { rows, icons } = useMenu();

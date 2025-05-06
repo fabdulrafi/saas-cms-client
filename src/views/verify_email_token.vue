@@ -47,31 +47,11 @@
                 </div>
 
                 <div class="text-2xl font-semibold mt-4">
-                  Reset password link sent
+                  You are verifying your email
                 </div>
 
                 <div class="text-gray-400 mt-0.5">
-                  A reset password link has been sent to your email address <span class="text-black dark:text-gray-400">{{ maskedEmail }}</span>, please check your inbox or spam to reset your password.
-                </div>
-
-                <div class="text-gray-400 mt-6">
-                  Didn’t get a forgot password link? 
-
-                  <span v-if="!loading && !cooldown"
-                    @click="submit"
-                    class="text-primary font-semibold cursor-pointer">
-                    Resend Forgot Password
-                  </span>
-
-                  <span v-else-if="loading"
-                    class="animate-pulse text-primary font-semibold">
-                    Resending . . .
-                  </span>
-
-                  <span v-else
-                    class="text-gray-400">
-                    Please wait <span class="text-primary font-semibold">{{ countdown }}s</span> to resend forgot password
-                  </span>
+                  You are verifying your email account, please wait a moment. Once successful, you will be redirected to the login page, thank you.
                 </div>
 
                 <Error :messages="errorMessage" />
@@ -133,90 +113,30 @@
   }, 5000);
 
   interface Payload {
-    email: string;
+    secret_code: string;
   };
 
   const initialState = (): Payload => {
     return {
-      email: router.currentRoute.value.query.email as string || '',
+      secret_code: router.currentRoute.value.params.token as string || '',
     }
   };
 
   const payload = reactive<Payload>(initialState());
 
   const { v$, swalAlert } = useValid(payload);
-  const { loading, data, post, errorMessage } = useApi("forgot-password");
+  const { loading,  data, post, errorMessage } = useApi("registration/verify");
 
-  const maskedEmail = computed(() => {
-    const email = router.currentRoute.value.query.email as string;
-
-    if (!email || !email.includes('@')) return '';
-
-    const [username, domain] = email.split('@');
-    if (username.length <= 2) {
-      return '*@' + domain;
-    }
-
-    return (
-      username[0] +
-      '*'.repeat(username.length - 2) +
-      username[username.length - 1] +
-      '@' +
-      domain
-    );
-  });
-
-  const cooldown = ref(false);
-  const countdown = ref(60);
-  let interval: ReturnType<typeof setInterval>;
-
-  const COOLDOWN_DURATION = 60;
-  const STORAGE_KEY = 'resend_verification_timestamp';
-
-  const startCooldown = (seconds: number) => {
-    cooldown.value = true;
-    countdown.value = seconds;
-
-    interval = setInterval(() => {
-      countdown.value--;
-      if (countdown.value <= 0) {
-        clearInterval(interval);
-        cooldown.value = false;
-        localStorage.removeItem(STORAGE_KEY);
-      }
-    }, 1000);
-  };
-
-  const submit = async () => {
-    const isFormCorrect = await v$.value.$validate();
-
-    if (!isFormCorrect) return;
-
-    loading.value = true;
-
+  const submit = () => {
     post(payload).then(() => {
       // callback api
-      swalAlert('A verify account link has been sent to your email address');
+      swalAlert('Verification successful, please login to your account');
 
-      const now = Math.floor(Date.now() / 1000); // seconds
-      localStorage.setItem(STORAGE_KEY, now.toString());
-
-      startCooldown(COOLDOWN_DURATION);
+      router.push('/');
     });
   };
 
   onMounted(() => {
-    const savedTimestamp = localStorage.getItem(STORAGE_KEY);
-
-    if (savedTimestamp) {
-      const now = Math.floor(Date.now() / 1000);
-      const elapsed = now - parseInt(savedTimestamp);
-      const remaining = COOLDOWN_DURATION - elapsed;
-      if (remaining > 0) {
-        startCooldown(remaining);
-      } else {
-        localStorage.removeItem(STORAGE_KEY);
-      }
-    }
+    submit();
   });
 </script>

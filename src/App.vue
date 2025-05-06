@@ -38,7 +38,7 @@
   });
 
   // lock screen after 5 minutes of inactivity
-  const { cursorStatus } = useCursorDetection(1000 * 60 * 10); // 10 minutes
+  const { cursorStatus } = useCursorDetection(1000 * 60 * 30); // 30 minutes
 
   watch(cursorStatus, (newStatus) => {
     if (

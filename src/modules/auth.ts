@@ -11,11 +11,10 @@ interface User {
   id: string;
   name: string;
   email: string;
-  mobilephone: string;
+  mobile_number: string;
   image_url?: string;
   role_id?: string;
-  role_title?: string;
-  type?: string;
+  company_id?: string;
   [ AUTH_TOKEN ]: string;
 }
 
@@ -62,7 +61,7 @@ watch(rows, (newRows) => {
 });
 
 const getUser = () => {
-  const { loading, error, data, get } = useApiWithAuth('profile/detail');
+  const { loading, error, data, get } = useApiWithAuth('client/profile');
 
   state.authenticating = true;
 
@@ -81,11 +80,10 @@ const getUser = () => {
         id: obj.data.id,
         name: obj.data.name,
         email: obj.data.email,
-        mobilephone: obj.data.mobilephone,
+        mobile_number: obj.data.mobile_number,
         image_url: obj.data?.image_url,
         role_id: obj.data.role_id,
-        role_title: obj.data.role_title,
-        type: obj.data.type,
+        company_id: obj.data.company_id,
         access_token: token ?? ''
       };
     };
@@ -113,10 +111,16 @@ export const useAuth = () => {
     state.icon = icons
   };
 
-  const logout = (): Promise<void> => {
+  const logout = async (): Promise<void> => {
+    const { loading, error, data, post } = useApiWithAuth('client/logout');
+
+    await post();
+
     window.localStorage.removeItem(AUTH_KEY);
 
     window.localStorage.removeItem(AUTH_LOCK);
+
+    state.user = undefined;
 
     router.push({ name: "login" });
 

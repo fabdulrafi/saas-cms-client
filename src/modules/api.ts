@@ -15,7 +15,7 @@ export const useApi = (endpoint: string, access_token?: string, type = 'json') =
   const api = axios.create({
     baseURL: type === 'json' ? import.meta.env.VITE_API_URL : import.meta.env.VITE_API_CDN,
     headers: {
-      Token: access_token ? access_token : undefined,
+      Authorization: access_token ? `Bearer ${access_token}` : undefined,
       Accept: 'application/json',
       'Content-Type': type === 'json' ? 'application/json' : 'multipart/form-data'
     }

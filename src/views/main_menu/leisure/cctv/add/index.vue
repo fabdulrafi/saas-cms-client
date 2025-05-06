@@ -339,7 +339,7 @@
   const copy = async (msg) => {
     if (msg) {
       await toClipboard(msg);
-      swalAlert('Berhasil mengkopi data');
+      swalAlert('Successfully copy data to clipboard', 'success');
     }
   };
 

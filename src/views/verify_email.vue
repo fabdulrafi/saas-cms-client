@@ -37,7 +37,7 @@
                 alt="" />
             </div>
 
-            <div class="h-[calc(100vh-277px)] flex justify-center items-center">
+            <div class="h-[685px] flex justify-center items-center">
               <div class="w-full px-36">
                 <div class="bg-primary p-4 rounded-full w-[70px] h-[70px] border-4 border-[#CCD8FF]">
                   <img
@@ -51,12 +51,30 @@
                 </div>
 
                 <div class="text-gray-400 mt-0.5">
-                  A verify account link has been sent to your email address <span class="text-black dark:text-gray-400">f*****i@gamil.com</span>, please check your inbox or spam to verify your account.
+                  A verify account link has been sent to your email address <span class="text-black dark:text-gray-400">{{ maskedEmail }}</span>, please check your inbox or spam to verify your account.
                 </div>
 
                 <div class="text-gray-400 mt-6">
-                  Didn’t get a verification link? <span class="text-primary font-semibold cursor-pointer">Resend Verification</span>
+                  Didn’t get a verification link? 
+
+                  <span v-if="!loading && !cooldown"
+                    @click="submit"
+                    class="text-primary font-semibold cursor-pointer">
+                    Resend Verification
+                  </span>
+
+                  <span v-else-if="loading"
+                    class="animate-pulse text-primary font-semibold">
+                    Resending . . .
+                  </span>
+
+                  <span v-else
+                    class="text-gray-400">
+                    Please wait <span class="text-primary font-semibold">{{ countdown }}s</span> to resend verification
+                  </span>
                 </div>
+
+                <Error :messages="errorMessage" />
               </div>
             </div>
 
@@ -70,13 +88,15 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
   import {
     defineComponent,
     reactive,
     toRefs,
     watch,
-    ref
+    ref,
+    computed,
+    onMounted
   } from "vue";
 
   import { useMeta } from '@/composables/use-meta';
@@ -86,115 +106,117 @@
   import { useAppStore } from '@/stores/index';
   import { useValid } from "@/modules/valid";
 
-  import IconMail from '@/components/icon/icon-mail.vue';
-  import IconLockDots from '@/components/icon/icon-lock-dots.vue';
-  import IconEye from '@/components/icon/icon-eye.vue';
-  import IconEyeHide from "@/components/icon/icon-eye-hide.vue";
-
-  import BtnPublic from '@/components/basic/button/BtnPublic.vue';
   import Error from '@/components/basic/Error.vue';
 
-  import { useMenu, useFirstCheckedLink } from '@/composables/use-menu';
+  const store = useAppStore();
+  const { setUser, setMenu } = useAuth();
+  const router = useRouter();
+  const show = ref(false);
+
+  useMeta({ title: router.currentRoute.value.meta.title });
+
+  const contents = [
+    'We help you to grow & manage your roof company in ONE application.',
+    'You can manage your team, customers, and projects all in one place.',
+    'Our application is designed to be user-friendly and easy to navigate.',
+    'We offer a variety of features to help you manage your business.',
+  ];
+
+  const selected_contents = ref(0);
+
+  setInterval(() => {
+    if (selected_contents.value === contents.length - 1) {
+      selected_contents.value = 0;
+    } else {
+      selected_contents.value++;
+    }
+  }, 5000);
 
   interface Payload {
     email: string;
-    password: string;
-    rememberMe: boolean;
   };
 
-  export default defineComponent({
-    components: {
-      IconMail,
-      IconLockDots,
-      IconEye,
-      IconEyeHide,
-      BtnPublic,
-      Error
-    },
+  const initialState = (): Payload => {
+    return {
+      email: router.currentRoute.value.query.email as string || '',
+    }
+  };
 
-    setup() {
-      const store = useAppStore();
-      const { setUser, setMenu } = useAuth();
-      const router = useRouter();
-      const show = ref(false);
+  const payload = reactive<Payload>(initialState());
 
-      useMeta({ title: router.currentRoute.value.meta.title });
+  const { v$, swalAlert } = useValid(payload);
+  const { loading, data, post, errorMessage } = useApi("registration/resend-email");
 
-      const payload = reactive<Payload>({
-        email: '',
-        password: '',
-        rememberMe: true
-      });
+  const maskedEmail = computed(() => {
+    const email = router.currentRoute.value.query.email as string;
 
-      const contents = [
-        'We help you to grow & manage your roof company in ONE application.',
-        'You can manage your team, customers, and projects all in one place.',
-        'Our application is designed to be user-friendly and easy to navigate.',
-        'We offer a variety of features to help you manage your business.',
-      ];
+    if (!email || !email.includes('@')) return '';
 
-      const selected_contents = ref(0);
+    const [username, domain] = email.split('@');
+    if (username.length <= 2) {
+      return '*@' + domain;
+    }
 
-      setInterval(() => {
-        if (selected_contents.value === contents.length - 1) {
-          selected_contents.value = 0;
-        } else {
-          selected_contents.value++;
-        }
-      }, 5000);
+    return (
+      username[0] +
+      '*'.repeat(username.length - 2) +
+      username[username.length - 1] +
+      '@' +
+      domain
+    );
+  });
 
-      const { v$, swalAlert } = useValid(payload);
-      const { loading, data, post, errorMessage } = useApi("auth/login");
+  const cooldown = ref(false);
+  const countdown = ref(60);
+  let interval: ReturnType<typeof setInterval>;
 
-      const submit = async () => {
-        const isFormCorrect = await v$.value.$validate();
+  const COOLDOWN_DURATION = 60;
+  const STORAGE_KEY = 'resend_verification_timestamp';
 
-        if (!isFormCorrect) return;
+  const startCooldown = (seconds: number) => {
+    cooldown.value = true;
+    countdown.value = seconds;
 
-        loading.value = true;
+    interval = setInterval(() => {
+      countdown.value--;
+      if (countdown.value <= 0) {
+        clearInterval(interval);
+        cooldown.value = false;
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    }, 1000);
+  };
 
-        post(payload).then(() => {
-          // callback api
-          let obj = data.value;
+  const submit = async () => {
+    const isFormCorrect = await v$.value.$validate();
 
-          setUser({
-            id: obj.data?.id,
-            name: obj.data?.name,
-            email: obj.data?.email,
-            mobilephone: obj.data?.mobilephone,
-            image_url: obj.data?.image_url,
-            role_id: obj.data?.role_id,
-            type: obj.data?.type ?? '',
-            access_token: obj.token
-          }, payload.rememberMe);
+    if (!isFormCorrect) return;
 
-          const { rows, icons } = useMenu();
+    loading.value = true;
 
-          watch(rows, (newRows) => {
-            setMenu(newRows, icons);
-            
-            swalAlert('Welcome to Smartiv');
+    post(payload).then(() => {
+      // callback api
+      swalAlert('A verify account link has been sent to your email address');
 
-            if (router?.currentRoute?.value.query?.redirect) {
-              router.push(router?.currentRoute?.value.query?.redirect.toString());
-            } else {
-              router.push(useFirstCheckedLink().value);
-            }
-          });
-        });
-      };
+      const now = Math.floor(Date.now() / 1000); // seconds
+      localStorage.setItem(STORAGE_KEY, now.toString());
 
-      return {
-        show,
-        v$,
-        loading,
-        submit,
-        errorMessage,
-        store,
-        ...toRefs(payload),
-        contents,
-        selected_contents
-      };
+      startCooldown(COOLDOWN_DURATION);
+    });
+  };
+
+  onMounted(() => {
+    const savedTimestamp = localStorage.getItem(STORAGE_KEY);
+
+    if (savedTimestamp) {
+      const now = Math.floor(Date.now() / 1000);
+      const elapsed = now - parseInt(savedTimestamp);
+      const remaining = COOLDOWN_DURATION - elapsed;
+      if (remaining > 0) {
+        startCooldown(remaining);
+      } else {
+        localStorage.removeItem(STORAGE_KEY);
+      }
     }
   });
 </script>

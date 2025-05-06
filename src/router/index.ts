@@ -27,9 +27,15 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: false, title: 'Register' }
   },
   {
-    path: '/verify-email/:token',
+    path: '/verify-email',
     name: 'verify email',
     component: () => import(/* webpackChunkName: "verify-email" */ '@/views/verify_email.vue'),
+    meta: { requiresAuth: false, title: 'Verify Email' }
+  },
+  {
+    path: '/verify-email/:token',
+    name: 'verify email token',
+    component: () => import(/* webpackChunkName: "verify-email/:token" */ '@/views/verify_email_token.vue'),
     meta: { requiresAuth: false, title: 'Verify Email' }
   },
   {
@@ -45,15 +51,15 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: false, title: 'Reset Link' }
   },
   {
-    path: '/reset-password',
-    name: 'reset password',
-    component: () => import(/* webpackChunkName: "reset-password" */ '@/views/reset_password.vue'),
+    path: '/reset-password/:token',
+    name: 'reset password token',
+    component: () => import(/* webpackChunkName: "reset-password/:token" */ '@/views/reset_password.vue'),
     meta: { requiresAuth: false, title: 'Reset Password' }
   },
   {
-    path: '/new-password',
-    name: 'new password',
-    component: () => import(/* webpackChunkName: "new-password" */ '@/views/new_password.vue'),
+    path: '/new-password/:token',
+    name: 'new password token',
+    component: () => import(/* webpackChunkName: "new-password/:token" */ '@/views/new_password.vue'),
     meta: { requiresAuth: false, title: 'New Password' }
   },
   {

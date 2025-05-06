@@ -687,48 +687,48 @@
   });
 
   const getSummary = () => {
-    const { loading, data, error, get } = useApiWithAuth("dashboard/summary");
+    // const { loading, data, error, get } = useApiWithAuth("dashboard/summary");
 
-    get();
+    // get();
         
-    watch([ loading ], () => {
+    // watch([ loading ], () => {
       
-      total_data.value = data.value?.data;
+    //   total_data.value = data.value?.data;
 
-    });
+    // });
   };
 
   const isLoadingOptionsNotifs: any = ref(false);
   const rows_options_notifs: any = ref([]);
 
   const getNotifs = (status) => {
-    isLoadingOptionsNotifs.value = status;
+    // isLoadingOptionsNotifs.value = status;
 
-    const { loading, data, error, get } = useApiWithAuth("notification/data");
+    // const { loading, data, error, get } = useApiWithAuth("notification/data");
 
-    get({ limit: 10000, is_read_bool: false });
+    // get({ limit: 10000, is_read_bool: false });
         
-    watch([ loading ], () => {
+    // watch([ loading ], () => {
       
-      isLoadingOptionsNotifs.value = loading.value;
+    //   isLoadingOptionsNotifs.value = loading.value;
 
-      rows_options_notifs.value = data.value?.data;
+    //   rows_options_notifs.value = data.value?.data;
 
-    });
+    // });
   };
 
   const toRead = (id: string) => {
-    const { loading, data, error, get } = useApiWithAuth("notification/detail");
+    // const { loading, data, error, get } = useApiWithAuth("notification/detail");
 
-    get({ id: id });
+    // get({ id: id });
         
-    watch([ loading ], () => {
+    // watch([ loading ], () => {
       
-      console.log(data.value?.data)
+    //   console.log(data.value?.data)
 
-      getNotifs(false);
+    //   getNotifs(false);
 
-    });
+    // });
   };
 
   onMounted(() => {

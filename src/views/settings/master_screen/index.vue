@@ -605,7 +605,7 @@
         // callback api
         modal.value = false;
 
-        swalAlert('Berhasil menyimpan data');
+        swalAlert('Successfully saved data', 'success');
 
         getList();
       });
@@ -614,7 +614,7 @@
         // callback api
         modal.value = false;
 
-        swalAlert('Berhasil menyimpan data');
+        swalAlert('Successfully saved data', 'success');
 
         getList();
       });

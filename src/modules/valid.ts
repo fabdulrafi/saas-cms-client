@@ -18,10 +18,10 @@ export const useValid = (payload: any, field: any = []) => {
       state.push({
         [key]: {
           required: helpers.withMessage(`${key.replace(/_/g, ' ')} cannot be empty`, required),
-          ...(key === 'email' && {
+          ...(key.includes('email') && {
             email: helpers.withMessage('invalid email address', email)
           }),
-          ...(key === 'mobilephone' && {
+          ...(key.includes('mobile') && {
             minLength: helpers.withMessage(
               ({
                 $pending,
@@ -41,7 +41,7 @@ export const useValid = (payload: any, field: any = []) => {
               maxLength(13)
             )
           }),
-          ...(key === 'password' && {
+          ...(key.includes('password') && {
             minLength: helpers.withMessage(
               ({
                 $pending,
@@ -49,21 +49,7 @@ export const useValid = (payload: any, field: any = []) => {
                 $params,
                 $model
               }) => `password must be at least ${$params.min} characters long`,
-              minLength(4)
-            )
-          }),
-          ...(key === 'confirm_password' && {
-            sameAs: helpers.withMessage(`${key.replace(/_/g, ' ')} must be the same as the password`, sameAs(payload.password))
-          }),
-          ...(key === 'nik' && {
-            minLength: helpers.withMessage(
-              ({
-                $pending,
-                $invalid,
-                $params,
-                $model
-              }) => `nik must be at least ${$params.min} characters long`,
-              minLength(16)
+              minLength(8)
             ),
             maxLength: helpers.withMessage(
               ({
@@ -71,10 +57,13 @@ export const useValid = (payload: any, field: any = []) => {
                 $invalid,
                 $params,
                 $model
-              }) => `NIK must have a maximum length of ${$params.max} characters`,
+              }) => `password must be at least ${$params.max} characters long`,
               maxLength(16)
             )
-          })
+          }),
+          ...(key.includes('confirm') && {
+            sameAs: helpers.withMessage(`${key.replace(/_/g, ' ')} must be the same as the password`, sameAs(payload.new_password))
+          }),
         }
       });
     });

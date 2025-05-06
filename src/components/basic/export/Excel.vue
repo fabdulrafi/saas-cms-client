@@ -62,12 +62,12 @@
       document.body.appendChild(link);
       link.click();
 
-      swalAlert('Berhasil export data', 'success');
+      swalAlert('Successfully export data', 'success');
     })
     .catch((error) => {
       console.log(error);
 
-      swalAlert('Berhasil export data', 'error');
+      swalAlert('Failed export data', 'error');
     })
     .finally(() => isLoading.value = false);
   };

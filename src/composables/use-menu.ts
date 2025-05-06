@@ -1,6 +1,6 @@
 import { ref, watch, toRaw } from 'vue';
 import { useApiWithAuth } from '@/modules/api';
-import { useAuth } from '@/modules/auth';
+import { useAuth, AUTH_KEY } from '@/modules/auth';
 
 import IconMenu from '@/components/icon/icon-menu.vue';
 import IconXCircle from '@/components/icon/icon-x-circle.vue';
@@ -571,19 +571,26 @@ export const useArraymenus = (actived: boolean = false) => {
 };
 
 export const useMenu = () => {
+  const token = window.localStorage.getItem(AUTH_KEY);
+
   const rows = ref<any[]>([]);
 
-  const { loading, error, data, get } = useApiWithAuth('profile/detail-role');
+  const { loading, error, data, get } = useApiWithAuth('client/profile');
 
-  get();
+  if (token) {
 
-  watch([data, loading], () => {
-    if (!loading.value && data.value?.data?.role_menu_json_array) {
-      // rows.value = data.value.data.role_menu_json_array;
+    get();
+
+    watch([data, loading], () => {
+      // if (!loading.value && data.value?.data?.role_menu_json_array) {
+      //   rows.value = data.value.data.role_menu_json_array;
+      // }
 
       rows.value = useArraymenus(true).arrays.value;
-    }
-  });
+
+    });
+
+  }
 
   return { rows, icons }
 };
@@ -631,21 +638,21 @@ const findFirstCheckedLink = (menu: MenuItem[]): string => {
     if (item.children && item.children.length > 0) {
       const childLink = findFirstCheckedLink(item.children);
 
-      if (childLink !== '/main-menu/dashboard') {
+      if (childLink !== '/main-menu') {
         return childLink;
       }
     }
   }
 
-  return '/main-menu/dashboard';
+  return '/main-menu';
 };
 
 export const useFirstCheckedLink = () => {
   const { menu } = useAuth();
-  const first = ref('/main-menu/dashboard');
+  const first = ref('/main-menu');
 
   if (menu?.value) {
-    first.value = findFirstCheckedLink(menu?.value);
+    first.value = findFirstCheckedLink(toRaw(menu?.value));
   }
 
   return first;
