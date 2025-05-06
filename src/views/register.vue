@@ -37,7 +37,7 @@
                 alt="" />
             </div>
 
-            <div class="h-[685px] flex justify-center items-center">
+            <div class="h-[685px] overflow-auto flex justify-center items-center">
               <div class="w-full px-36">
                 <div class="text-2xl font-semibold">
                   Register account
@@ -70,47 +70,49 @@
                     </div>
                   </div>
 
-                  <div>
-                    <label class="dark:text-white-dark">Company Name</label>
-
-                    <div class="relative text-white-dark modal_placeholder">
-                      <input
-                        v-model="payload.company_name"
-
-                        type="text"
-                        placeholder="Enter your company name"
-                        class="form-input ps-10 placeholder:text-white-dark" />
-
-                      <span class="absolute start-4 top-1/2 -translate-y-1/2">
-                        <icon-menu-dashboard :fill="true" />
-                      </span>
+                  <div class="flex-1 grid grid-cols-2 gap-6">
+                    <div>
+                      <label class="dark:text-white-dark">Company Name</label>
+  
+                      <div class="relative text-white-dark modal_placeholder">
+                        <input
+                          v-model="payload.company_name"
+  
+                          type="text"
+                          placeholder="Enter your company name"
+                          class="form-input ps-10 placeholder:text-white-dark" />
+  
+                        <span class="absolute start-4 top-1/2 -translate-y-1/2">
+                          <icon-menu-dashboard :fill="true" />
+                        </span>
+                      </div>
+  
+                      <div v-if="v$.company_name.$error"
+                        class="validator">
+                        {{ v$.company_name.$errors[0].$message }}
+                      </div>
                     </div>
-
-                    <div v-if="v$.company_name.$error"
-                      class="validator">
-                      {{ v$.company_name.$errors[0].$message }}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label class="dark:text-white-dark">Email</label>
-
-                    <div class="relative text-white-dark modal_placeholder">
-                      <input
-                        v-model="payload.email"
-
-                        type="email"
-                        placeholder="Enter your email"
-                        class="form-input ps-10 placeholder:text-white-dark" />
-
-                      <span class="absolute start-4 top-1/2 -translate-y-1/2">
-                        <icon-mail :fill="true" />
-                      </span>
-                    </div>
-
-                    <div v-if="v$.email.$error"
-                      class="validator">
-                      {{ v$.email.$errors[0].$message }}
+  
+                    <div>
+                      <label class="dark:text-white-dark">Email</label>
+  
+                      <div class="relative text-white-dark modal_placeholder">
+                        <input
+                          v-model="payload.email"
+  
+                          type="email"
+                          placeholder="Enter your email"
+                          class="form-input ps-10 placeholder:text-white-dark" />
+  
+                        <span class="absolute start-4 top-1/2 -translate-y-1/2">
+                          <icon-mail :fill="true" />
+                        </span>
+                      </div>
+  
+                      <div v-if="v$.email.$error"
+                        class="validator">
+                        {{ v$.email.$errors[0].$message }}
+                      </div>
                     </div>
                   </div>
 
