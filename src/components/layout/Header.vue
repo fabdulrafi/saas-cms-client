@@ -109,7 +109,7 @@
                         @click="doTranslation(item), close()"
 
                         type="button"
-                        class="w-full hover:text-primary"
+                        class="w-full text-gray-400 hover:text-primary"
                         :class="{ 'text-primary': languages.code === item.code }">
                         <img
                           class="w-5 h-5 object-cover rounded-full"

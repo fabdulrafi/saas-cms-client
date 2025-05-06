@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div class="flex items-center whitespace-nowrap">
+    <!-- <div class="flex items-center whitespace-nowrap">
       <h5
         class="font-semibold capitalize text-lg dark:text-white-light">
-        Hi, <span class="font-bold">John Doe</span> welcome to Smartiv
+        Hi, <span class="font-bold">{{ auth?.user?.value?.name }}</span> welcome to Smartiv
       </h5>
-    </div>
+    </div> -->
 
-    <div class="mt-[24px]">
+    <div class="">
       <div class="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-6 mb-6">
         <div class="panel p-4 pb-3 shadow-none rounded-xl overflow-hidden h-[150px]">
           <div class="flex items-center space-x-3">
@@ -568,8 +568,9 @@
   import moment, { months } from "moment";
   import appFormat from "@/app-format";
 
-  const router = useRouter();
+  const auth = useAuth();
   const store = useAppStore();
+  const router = useRouter();
 
   useMeta({ title: router.currentRoute.value.meta.title });
 
