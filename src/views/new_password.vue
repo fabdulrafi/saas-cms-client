@@ -137,7 +137,6 @@
                     </div>
                   </div>
 
-
                   <BtnPublic :loadings="loading" margins="!mt-8" texts="Confirm"/>  
                 </form>
                 
