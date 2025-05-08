@@ -80,7 +80,7 @@
               const ctx = canvas.getContext('2d')
               if (!ctx) return resolve(null)
               ctx.drawImage(img, 0, 0)
-              canvas.toBlob((blob) => resolve(blob), 'image/webp', 1.0)
+              canvas.toBlob((blob) => resolve(blob), 'image/webp', 0.5)
             }
             img.src = e.target?.result as string
           }
