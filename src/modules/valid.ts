@@ -1,12 +1,16 @@
 import { computed, ref, toRaw } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { minLength, maxLength, required, email, sameAs, helpers } from '@vuelidate/validators';
+
 import Swal from 'sweetalert2';
 import moment from 'moment'
 
 import { useApiWithAuth } from "@/modules/api";
 import { useAuth } from '@/modules/auth';
 import { useRouter } from 'vue-router';
+
+import axios from 'axios';
+import { AUTH_KEY } from '@/modules/auth';
 
 export const useValid = (payload: any, field: any = []) => {
   const rules = computed(() => {
@@ -525,6 +529,51 @@ export const useValid = (payload: any, field: any = []) => {
     }
   };
 
+  const deleteFile = async (url) => {
+    const toast: any = Swal.mixin({
+      toast: true,
+      position: 'top',
+      showConfirmButton: true,
+      confirmButtonText: 'Yes, I am sure',
+      confirmButtonColor: '#2A4896',
+      showCancelButton: true,
+      cancelButtonText: 'Close',
+      cancelButtonColor: "#E7515A",
+      timer: 6000,
+      customClass: { container: 'toast' },
+    });
+
+    const result = await toast.fire({
+      icon: 'warning',
+      title: 'Are you sure you want to delete this file?',
+      padding: '10px 20px',
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_CDN}upload-remove`,
+          { url },
+          {
+            headers: {
+              Authorization: `Bearer ${window.localStorage.getItem(AUTH_KEY)}`
+            }
+          }
+        );
+
+        return response.data;
+      } catch (error) {
+        console.log(error);
+
+        swalAlert('Failed delete file', 'error');
+        
+        return null;
+      }
+    } else {
+      return null;
+    }
+  };
+
   return {
     v$,
     swalAlert,
@@ -541,7 +590,8 @@ export const useValid = (payload: any, field: any = []) => {
     checkExistTab,
     updateOrAddFields,
     getStartEndDateIMonth,
-    detectFileType
+    detectFileType,
+    deleteFile,
   };
 };
 

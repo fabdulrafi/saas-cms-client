@@ -382,7 +382,7 @@
                     alt="" />
   
                   <button
-                    @click="payload.logo_url = ''"
+                    @click="toDeleteFile(payload.logo_url)"
   
                     type="button"
                     class="btn btn-danger w-5 h-5 p-0 rounded-md absolute top-[-8px] right-[-8px]">
@@ -414,7 +414,7 @@
                     href="https://www.iloveimg.com/resize-image/resize-svg"
                     target="_blank"
                     class="text-primary">
-                    klik disini
+                    click here
                   </a>
                 </li>
     
@@ -425,7 +425,7 @@
                     href="https://www.iloveimg.com/crop-image"
                     target="_blank"
                     class="text-primary">
-                    klik disini
+                    click here
                   </a>
                 </li>
     
@@ -436,7 +436,7 @@
                     href="https://www.iloveimg.com/remove-background"
                     target="_blank"
                     class="text-primary">
-                    klik disini
+                    click here
                   </a>
                 </li>
     
@@ -657,7 +657,7 @@
 
   const payload = reactive<Payload>(initialState());
 
-  const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm } = useValid(payload, [
+  const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm, deleteFile } = useValid(payload, [
     'city', 'postal_code', 'latitude', 'longitude', 'phone_number', 'timezone', 'flag', 'code'
   ]);
   const { loading, data, post, put, errorMessage, error } = useApiWithAuth('client/settings');
@@ -745,14 +745,25 @@
         payload.phone_number_view = item?.phone_number?.split(item_country?.calling_code)[1] || '';
 
         center.value = { 
-          lat: item.latitude ? item.latitude : 1.3853020989245008, 
-          lng: item.longitude ? item.longitude : 103.83474516858092 
+          lat: Number(item?.latitude) || 1.3853020989245008, 
+          lng: Number(item?.longitude) || 103.83474516858092 
         };
 
       };
 
       isLoading.value = false;
 
+    });
+  };
+
+  const toDeleteFile = (url: string) => {
+    deleteFile(url)
+    .then((res) => {
+      if (res) {
+        payload.logo_url = '';
+
+        swalAlert('Successfully delete file', 'success');
+      }
     });
   };
 
