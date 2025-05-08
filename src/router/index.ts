@@ -1,3 +1,4 @@
+import { toRaw } from 'vue';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { useAppStore } from '@/stores/index';
 import appSetting from '@/app-setting';
@@ -176,9 +177,7 @@ router.beforeEach((to, from, next) => {
   const token = window.localStorage.getItem(AUTH_KEY);
   const { authenticating, menu } = useAuth();
 
-  console.log('authenticating', token);
-
-  if ( !menu?.value ) {
+  if ( !toRaw(menu?.value) ) {
     setTimeout(() => {
       initRoutes(to, from, next, authenticating);
     }, token ? 500 : 0);

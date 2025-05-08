@@ -27,7 +27,7 @@
       ref="inputFile"
       type="file"
 
-      accept="image/png, image/gif, image/jpg, image/jpeg"
+      accept="image/png, image/jpg, image/jpeg"
 
       class="hidden" />
   </div>
@@ -68,38 +68,60 @@
         inputFile.value.click();
       };
 
-      const onFileChanged = ($event: Event) => {
+      const convertToWebP = (file: File): Promise<Blob | null> => {
+        return new Promise((resolve) => {
+          const reader = new FileReader()
+          reader.onload = (e) => {
+            const img = new Image()
+            img.onload = () => {
+              const canvas = document.createElement('canvas')
+              canvas.width = img.width
+              canvas.height = img.height
+              const ctx = canvas.getContext('2d')
+              if (!ctx) return resolve(null)
+              ctx.drawImage(img, 0, 0)
+              canvas.toBlob((blob) => resolve(blob), 'image/webp', 1.0)
+            }
+            img.src = e.target?.result as string
+          }
+          reader.readAsDataURL(file)
+        })
+      };
+
+      const onFileChanged = async ($event: Event) => {
         const target = $event.target as HTMLInputElement;
 
         if (target && target.files) {
           file.value = target.files[0];
 
-          if (file.value.type !== 'image/jpg' && file.value.type !== 'image/jpeg' && file.value.type !== 'image/png' && file.value.type !== 'image/gif' && file.value.type !== 'image/svg') {
-            swalAlert('Image type .jpg/.jpeg/.png/.gif/.svg', 'error');
+          if (file.value.type !== 'image/jpg' && file.value.type !== 'image/jpeg' && file.value.type !== 'image/png') {
+            swalAlert('Image type .jpg/.jpeg/.png', 'error');
           }
 
-          // 5 Mb => 5242880, 10 Mb => 10485760, 20 => 20971520
           else if (file.value.size > 10485760) {
             swalAlert('Maximum file 10 Mb', 'error');
           }
 
           else {
             if (file.value) {
-              formData.append('image', file.value as any);
-              formData.append('key', 'image');
+              const convertedWebP = await convertToWebP(file.value)
 
-              save();
+              if (convertedWebP) {
+                await uploadToServer(convertedWebP)
+              }
             }
           }
         }
       };
 
-      const save = () => {
+      const uploadToServer = async (blob: Blob) => {
+        formData.append('file', blob, 'image.webp');
+
         isLoading.value = true;
 
         const xhr = new XMLHttpRequest();
 
-        xhr.open('POST', `${import.meta.env.VITE_API_CDN}image.php`, true);
+        xhr.open('POST', `${import.meta.env.VITE_API_CDN}upload`, true);
         xhr.setRequestHeader('Authorization', `Bearer ${token}`);
 
         xhr.upload.onprogress = (event) => {
@@ -111,9 +133,9 @@
         xhr.onload = () => {
           if (xhr.status === 200) {
             let data = JSON.parse(xhr.response);
-
+            
             if (data.status === 200) {
-              emit('input', data?.data);
+              emit('input', data?.results?.data);
             } else {
               swalAlert(data?.message, 'error');
             }

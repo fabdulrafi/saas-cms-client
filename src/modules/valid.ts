@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue';
+import { computed, ref, toRaw } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { minLength, maxLength, required, email, sameAs, helpers } from '@vuelidate/validators';
 import Swal from 'sweetalert2';
@@ -398,7 +398,7 @@ export const useValid = (payload: any, field: any = []) => {
     };
 
     if (menu?.value) {
-      valid.value = isValidAct(menu.value);
+      valid.value = isValidAct(toRaw(menu.value));
     }
 
     return valid.value;
@@ -431,7 +431,7 @@ export const useValid = (payload: any, field: any = []) => {
     };
 
     if (menu?.value) {
-      tabs.value = isValidTab(menu.value);
+      tabs.value = isValidTab(toRaw(menu.value));
     }
 
     return tabs.value;

@@ -1,10 +1,9 @@
 <template>
   <div>
     <div class="flex items-center whitespace-nowrap">
-      <h5
-        class="font-semibold capitalize text-lg dark:text-white-light">
-        {{ router.currentRoute.value.name }}
-      </h5>
+      <div class="text-sm text-gray-400 font-semibold">
+        Settings / <span class="capitalize text-black dark:text-white-light">{{ router.currentRoute.value.name }}</span>
+      </div>
 
       <div
         class="flex items-center space-x-3 ltr:ml-auto rtl:mr-auto">
@@ -13,130 +12,215 @@
     </div>
     
     <div class="panel p- mt-[24px] shadow-none rounded-xl">
-      <div class="">
-        <div class="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-6 xs:gap-2">
-          <div class="text-sm font-semibold">
+      <div class="flex-1 grid grid-cols-1 gap-6">
+        <div>
+          <div class="text-lg font-semibold dark:text-white-light">
+            Settings Default
+          </div>
+
+          <div class="text-sm text-gray-400 font-semibold">
+            Setting new company
+          </div>
+        </div>
+
+        <div>
+          <label class="text-sm font-semibold">
             Company Name
 
             <span class="text-danger">*</span>
-          </div>
+          </label>
   
-          <div class="col-span-4 xs:col-span-5 xs:mb-4">
-            <input
-              v-model="payload.company_name"
+          <input
+            v-model="payload.corporate_name"
 
-              type="text"
-              placeholder="Ex: Smartiv.corp"
-              class="form-input" />
+            type="text"
+            placeholder="Ex: Smartiv.corp"
+            class="form-input" />
 
-            <div v-if="v$.company_name.$error"
-              class="validator">
-              {{ v$.company_name.$errors[0].$message }}
-            </div>
+          <div v-if="v$.corporate_name.$error"
+            class="validator">
+            {{ v$.corporate_name.$errors[0].$message }}
           </div>
+        </div>
 
-          <div class="text-sm font-semibold">
+        <div>
+          <label class="text-sm font-semibold">
             Address
 
             <span class="text-danger">*</span>
+          </label>
+
+          <textarea
+            v-model="payload.address"
+
+            placeholder="Write address here . . ."
+            class="form-textarea min-h-[100px]">
+          </textarea>
+
+          <div v-if="v$.address.$error"
+            class="validator">
+            {{ v$.address.$errors[0].$message }}
           </div>
+        </div>
+
+        <div class="flex-1 grid grid-cols-2 gap-6">
+          <div>
+            <label class="text-sm font-semibold">
+              Email
   
-          <div class="col-span-4 xs:col-span-5 xs:mb-4">
-            <textarea
-              v-model="payload.address"
-
-              placeholder="Write address here . . ."
-              class="form-textarea min-h-[100px]">
-            </textarea>
-
-            <div v-if="v$.address.$error"
-              class="validator">
-              {{ v$.address.$errors[0].$message }}
-            </div>
-          </div>
-
-          <div class="text-sm font-semibold">
-            Email
-
-            <span class="text-danger">*</span>
-          </div>
-  
-          <div class="col-span-4 xs:col-span-5 xs:mb-4">
+              <span class="text-danger">*</span>
+            </label>
+    
             <input
-              v-model="payload.email"
+              v-model="payload.billing_email"
 
               type="email"
               placeholder="Ex: company@mail.com"
               class="form-input" />
 
-            <div v-if="v$.email.$error"
+            <div v-if="v$.billing_email.$error"
               class="validator">
-              {{ v$.email.$errors[0].$message }}
+              {{ v$.billing_email.$errors[0].$message }}
             </div>
           </div>
 
-          <div class="text-sm font-semibold">
-            Phone
-
-            <span class="text-danger">*</span>
-          </div>
+          <div v-if="!isLoading">
+            <label class="text-sm font-semibold">
+              Phone Number
   
-          <div class="col-span-4 xs:col-span-5 xs:mb-4">
-            <Maska 
-              v-model="payload.phone"
+              <span class="text-danger">*</span>
+            </label>
+    
+            <div class="flex">
+              <div class="dropdown">
+                <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-start' : 'bottom-end'" offsetDistance="0">
+                  <div 
+                    class="bg-[#eee] flex justify-center items-center space-x-2 rounded-none py-2.5 px-6 font-semibold border border-[#e0e6ed] dark:border-[#17263c] dark:bg-[#1b2e4b] ltr:rounded-l-xl rtl:rounded-r-xl cursor-pointer">
+                    <img
+                      :src="payload.flag"
+                      alt=""
+                      class="w-5 h-5 rounded-full" />
 
-              :types="true"
-              masks="####-####-####"
-              placeholders="Ex: 1999-####-####" />
+                    <span class="text-white-dark">
+                      ({{ payload.code }})
+                    </span>
+                  </div>
 
-            <div v-if="v$.phone.$error"
+                  <template #content="{ close }">
+                    <ul @click="close()" class="whitespace-nowrap !rounded-xl overflow-auto h-[200px] w-[50px]">
+                      <li v-for="(item, index) in countryCallingCodes" :key="index"
+                        @click="payload.country = item?.country; payload.flag = item.flag; payload.code = item?.calling_code; payload.currency = item?.currency;">
+                        <a href="javascript:;"
+                          class="flex items-center space-x-2 p-2 hover:bg-[#eee] dark:hover:bg-[#1b2e4b]">
+                          <img
+                            :src="item.flag"
+                            alt=""
+                            class="w-5 h-5 rounded-full" />
+                          
+                          <span class="text-white-dark">
+                            ({{ item?.calling_code }})
+                          </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </template>
+                </Popper>
+              </div>
+              
+              <div class="relative text-white-dark modal_placeholder !w-full">
+                <Maska
+                  v-model="payload.phone_number_view"
+
+                  :types="true"
+                  masks="####-####-####"
+                  placeholders="Enter your phone number"
+                  class="form-input placeholder:text-white-dark ltr:rounded-l-none rtl:rounded-r-none" />
+              </div>
+            </div>
+
+            <div v-if="v$.phone_number_view.$error"
               class="validator">
-              {{ v$.phone.$errors[0].$message }}
+              {{ v$.phone_number_view.$errors[0].$message }}
             </div>
           </div>
+        </div>
 
-          <div class="text-sm font-semibold">
-            Password Screen
+        <div>
+          <label class="text-sm font-semibold">
+            Pin Screen
 
             <span class="text-danger">*</span>
-          </div>
-  
-          <div class="col-span-4 xs:col-span-5 xs:mb-4">
-            <div class="relative text-white-dark">
+          </label>
+
+          <div class="flex">
+            <div class="relative text-white-dark modal_placeholder !w-full">
               <input
-                v-model="payload.password_screen"
+                v-model="payload.pin_screen"
 
                 :type="!show ? 'password' : 'text'"
-                placeholder="Ex: ********"
-                class="form-input" />
+                placeholder="Ex: 12345678"
+                class="form-input placeholder:text-white-dark ltr:rounded-r-none rtl:rounded-l-none flex-1 ltr:rounded-l-xl rtl:rounded-r-xl" />
 
               <span
                 @click="show = !show"
 
                 class="absolute end-4 top-1/2 -translate-y-1/2 cursor-pointer">
-                <icon-eye :class="{ 'text-primary': show }" />
+                <IconEyeHide v-if="!show" />
+
+                <IconEye v-else />
               </span>
             </div>
 
-            <div v-if="v$.password_screen.$error"
-              class="validator">
-              {{ v$.password_screen.$errors[0].$message }}
+            <div
+              @click="payload.pin_screen = generate"
+
+              class="bg-[#eee] flex justify-center items-center rounded-none px-3 font-semibold border border-[#e0e6ed] dark:border-[#17263c] dark:bg-[#1b2e4b] cursor-pointer">
+              <Icon-refresh />
+            </div>
+
+            <div
+              @click="copy(payload.pin_screen)"
+
+              class="bg-[#eee] flex justify-center items-center ltr:rounded-r-xl rtl:rounded-l-xl px-3 font-semibold border ltr:border-l-0 rtl:border-r-0 border-[#e0e6ed] dark:border-[#17263c] dark:bg-[#1b2e4b] cursor-pointer">
+              <Icon-copy />
             </div>
           </div>
 
-          <div class="text-sm font-semibold">
-            Country
-
-            <span class="text-danger">*</span>
+          <div v-if="v$.pin_screen.$error"
+            class="validator">
+            {{ v$.pin_screen.$errors[0].$message }}
           </div>
-  
-          <div class="col-span-4 xs:col-span-5 xs:mb-4">
-            <input
+        </div>
+      </div>
+    </div>
+
+    <div class="panel p- my-6 shadow-none rounded-xl">
+      <div class="flex-1 grid grid-cols-1 gap-6">
+        <div>
+          <div class="text-lg font-semibold dark:text-white-light">
+            Location
+          </div>
+
+          <div class="text-sm text-gray-400 font-semibold">
+            Setting location for company
+          </div>
+        </div>
+
+        <div class="flex-1 grid grid-cols-2 gap-6">
+          <div>
+            <label class="text-sm font-semibold">
+              Country
+    
+              <span class="text-danger">*</span>
+            </label>
+            
+            <SingleSelect
               v-model="payload.country"
 
-              type="text"
-              placeholder="Ex: United State"
-              class="form-input" />
+              :options="countryCallingCodes.map((item) => ({ id: item.country, name: item.country }))"
+
+              placeholders="Contoh: Singapore"
+              opens="bottom" />
 
             <div v-if="v$.country.$error"
               class="validator">
@@ -144,172 +228,240 @@
             </div>
           </div>
 
-          <div class="text-sm font-semibold">
-            Location
+          <div>
+            <label class="text-sm font-semibold">
+              Currency
+    
+              <span class="text-danger">*</span>
+            </label>
+            
+            <SingleSelect
+              v-model="payload.currency"
 
-            <span class="text-danger">*</span>
+              :options="countryCallingCodes.map((item) => ({ id: item.currency, name: item.currency }))"
+
+              placeholders="Contoh: SGD"
+              opens="bottom" />
+
+            <div v-if="v$.currency.$error"
+              class="validator">
+              {{ v$.currency.$errors[0].$message }}
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-xl overflow-hidden">
+          <GoogleMap 
+            class="gmap"
+            api-key="AIzaSyDZjAMqmqMFwnx0yDVkqNAD3sI4S_c91Ps"
+            :center="center"
+            :zoom="15"
+            mapTypeId="hybrid"
+            :mapTypeControl="true"
+            :streetViewControl="true"
+            :style="`height: 500px;`">
+            <MarkerCluster>
+              <Marker 
+                :options="{ 
+                  position: {
+                    lat: payload.latitude, 
+                    lng: payload.longitude
+                  }, 
+                  icon: '/assets/images/marker_network.svg',
+                  label: {
+                    text: payload.corporate_name,
+                    color: 'white',
+                    fontSize: '12px',
+                    className: 'map-marker-label-red'
+                  },
+                  draggable: true
+                }"
+                @dragend="onMarkerDragEnd">
+              </Marker>
+            </MarkerCluster>
+          </GoogleMap>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel p- my-6 shadow-none rounded-xl">
+      <div class="flex-1 grid grid-cols-1 gap-6">
+        <div>
+          <div class="text-lg font-semibold dark:text-white-light">
+            Display Settings
           </div>
 
-          <div class="col-span-4 xs:col-span-5 xs:mb-4 rounded-xl overflow-hidden">
-            <GoogleMap 
-              class="gmap"
-              api-key="AIzaSyDZjAMqmqMFwnx0yDVkqNAD3sI4S_c91Ps"
-              :center="center"
-              :zoom="15"
-              mapTypeId="hybrid"
-              :mapTypeControl="true"
-              :streetViewControl="true"
-              :style="`height: 500px;`">
-              <MarkerCluster>
-                <Marker 
-                  :options="{ 
-                    position: {
-                      lat: -7.782709199856285, lng: 110.36706497116414
-                    }, 
-                    icon: '/assets/images/marker_network.svg',
-                    label: {
-                      text: payload.company_name,
-                      color: 'white',
-                      fontSize: '12px',
-                      className: 'map-marker-label-red'
-                    }
-                  }">
-                </Marker>
-              </MarkerCluster>
-            </GoogleMap>
+          <div class="text-sm text-gray-400 font-semibold">
+            Customize your visual experience
           </div>
+        </div>
 
-          <div class="col-span-5">
-            <div class="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-6 xs:gap-2">
-              <div class="text-sm font-semibold">
-                Base Color
+        <div class="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div>
+            <label class="text-sm font-semibold">
+              Base Color
 
-                <span class="text-danger">*</span>
-              </div>
+              <span class="text-danger">*</span>
+            </label>
 
-              <div class="col-span-4 xs:mb-4">
-                <div class="flex-1 grid grid-cols-1 sm:grid-cols-8 gap-6 xs:gap-2">
-                  <div class="col-span-2 xs:mb-4">
-                    <div>
-                      <div
-                        @click="modal = true; typeColor = 'base';"
-    
-                        class="flex items-center justify-start h-[40px] w-full rounded-xl border border-[#e0e6ed] dark:border-[#1b2e4b] bg-[#e0e6ed] dark:bg-[#121e33] cursor-pointer overflow-hidden">
-                        <div
-                          :style="`background: ${payload.color_base}`"
-                          class="h-[40px] w-[40px]">
-                        </div>
-    
-                        <div class="mx-auto">
-                          {{ payload.color_base }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+            <div>
+              <div
+                @click="modal = true; typeColor = 'base';"
 
-                  <div class="text-sm font-semibold">
-                    Text Color
-    
-                    <span class="text-danger">*</span>
-                  </div>
-    
-                  <div class="col-span-2 xs:mb-4">
-                    <div>
-                      <div
-                        @click="modal = true ; typeColor = 'text';"
-    
-                        class="flex items-center justify-start h-[40px] w-full rounded-xl border border-[#e0e6ed] dark:border-[#1b2e4b] bg-[#e0e6ed] dark:bg-[#121e33] cursor-pointer overflow-hidden">
-                        <div
-                          :style="`background: ${payload.color_text}`"
-                          class="h-[40px] w-[40px]">
-                        </div>
-    
-                        <div class="mx-auto">
-                          {{ payload.color_text }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-    
-                  <div class="text-sm font-semibold">
-                    Active Color
-    
-                    <span class="text-danger">*</span>
-                  </div>
+                class="flex items-center justify-start h-[40px] w-full rounded-xl border border-[#e0e6ed] dark:border-[#1b2e4b] bg-[#e0e6ed] dark:bg-[#121e33] cursor-pointer overflow-hidden">
+                <div
+                  :style="`background: ${payload.base_color}`"
+                  class="h-[40px] w-[40px]">
+                </div>
 
-                  <div class="col-span-2">
-                    <div>
-                      <div
-                        @click="modal = true; typeColor = 'active';"
-    
-                        class="flex items-center justify-start h-[40px] w-full rounded-xl border border-[#e0e6ed] dark:border-[#1b2e4b] bg-[#e0e6ed] dark:bg-[#121e33] cursor-pointer overflow-hidden">
-                        <div
-                          :style="`background: ${payload.color_active}`"
-                          class="h-[40px] w-[40px]">
-                        </div>
-    
-                        <div class="mx-auto">
-                          {{ payload.color_active }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div class="mx-auto">
+                  {{ payload.base_color }}
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="text-sm font-semibold">
-            Logo
+          <div>
+            <label class="text-sm font-semibold">
+              Text Color
 
-            <span class="text-danger">*</span>
+              <span class="text-danger">*</span>
+            </label>
+
+            <div
+              @click="modal = true ; typeColor = 'text';"
+
+              class="flex items-center justify-start h-[40px] w-full rounded-xl border border-[#e0e6ed] dark:border-[#1b2e4b] bg-[#e0e6ed] dark:bg-[#121e33] cursor-pointer overflow-hidden">
+              <div
+                :style="`background: ${payload.text_color}`"
+                class="h-[40px] w-[40px]">
+              </div>
+
+              <div class="mx-auto">
+                {{ payload.text_color }}
+              </div>
+            </div>
           </div>
+
+          <div>
+            <label class="text-sm font-semibold">
+              Active Color
+
+              <span class="text-danger">*</span>
+            </label>
+
+            <div
+              @click="modal = true; typeColor = 'active';"
+
+              class="flex items-center justify-start h-[40px] w-full rounded-xl border border-[#e0e6ed] dark:border-[#1b2e4b] bg-[#e0e6ed] dark:bg-[#121e33] cursor-pointer overflow-hidden">
+              <div
+                :style="`background: ${payload.active_color}`"
+                class="h-[40px] w-[40px]">
+              </div>
+
+              <div class="mx-auto">
+                {{ payload.active_color }}
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="text-sm font-semibold">
+              Logo
   
-          <div class="col-span-4 xs:col-span-5">
-            <div class="relative h-[175px] w-[175px] rounded-xl">
-              <div v-if="payload.image_url"
-                class="relative">
-                <img
-                  class="h-[175px] w-[175px] object-contain rounded-xl border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b]"
-                  :src="payload.image_url"
-                  alt="" />
+              <span class="text-danger">*</span>
+            </label>
   
-                <button
-                  @click="payload.image_url = ''"
+            <div>
+              <div class="relative h-[200px] w-[300px] rounded-xl">
+                <div v-if="payload.logo_url"
+                  class="relative">
+                  <img
+                    class="h-[200px] w-[300px] object-contain rounded-xl border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b]"
+                    :src="payload.logo_url"
+                    alt="" />
   
-                  type="button"
-                  class="btn btn-danger w-5 h-5 p-0 rounded-md absolute top-[-8px] right-[-8px]">
-                  <icon-trash-lines class="w-3.5 h-3.5" />
-                </button>
+                  <button
+                    @click="payload.logo_url = ''"
+  
+                    type="button"
+                    class="btn btn-danger w-5 h-5 p-0 rounded-md absolute top-[-8px] right-[-8px]">
+                    <icon-trash-lines class="w-3.5 h-3.5" />
+                  </button>
+                </div>
+  
+                <uploadImage v-else
+                  @input="changeImage"
+                  class="h-[200px] w-[300px]" />
               </div>
   
-              <uploadImage v-else
-                @input="changeImage"
-                class="h-[175px] w-[175px]" />
+              <div v-if="v$.logo_url.$error"
+                class="validator">
+                {{ v$.logo_url.$errors[0].$message }}
+              </div>
             </div>
+  
+            <div class="text-xs text-gray-400 font-semibold mt-2 w-[300px]"> 
+              <ul class="text-xs text-gray-400 !font-thin leading-relaxed">
+                <li>
+                  *Your image must be a .jpg/.jpeg/.png
+                </li>
 
-            <div v-if="v$.image_url.$error"
-              class="validator">
-              {{ v$.image_url.$errors[0].$message }}
+                <li>
+                  *Reduce image size
+    
+                  <a
+                    href="https://www.iloveimg.com/resize-image/resize-svg"
+                    target="_blank"
+                    class="text-primary">
+                    klik disini
+                  </a>
+                </li>
+    
+                <li>
+                  *Cropping or cutting images
+    
+                  <a
+                    href="https://www.iloveimg.com/crop-image"
+                    target="_blank"
+                    class="text-primary">
+                    klik disini
+                  </a>
+                </li>
+    
+                <li>
+                  *Remove image background
+    
+                  <a
+                    href="https://www.iloveimg.com/remove-background"
+                    target="_blank"
+                    class="text-primary">
+                    klik disini
+                  </a>
+                </li>
+    
+                <li>
+                  *Maximum image file is 10 Mb
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
-      
-      <div class="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-6 mt-6">
-        <div class="col-span-5 grid grid-cols-subgrid">
-          <div class="col-start-2 col-span-3">
-            <Error :messages="errorMessage" margins="m-0 w-[50%]" />
-          </div>
+    </div>
 
-          <div class="flex justify-end">
-            <BtnPrivate
-              @click="submit"
+    <div class="flex justify-between w-full">
+      <div class="w-full">
+        <Error :messages="errorMessage" margins="m-0 w-[50%]" />
+      </div>
 
-              colors="bg-primary"
-              shadows="shadow-primary/50" />
-          </div>
-        </div>
+      <div class="flex justify-end">
+        <BtnPrivate
+          @click="submit"
+
+          :loadings="loading"
+          colors="bg-primary"
+          shadows="shadow-primary/50" />
       </div>
     </div>
 
@@ -410,11 +562,15 @@
   import { useAppStore } from '@/stores/index';
   import { useRouter } from 'vue-router';
   import { useValid } from "@/modules/valid";
+  import { useCountry } from "@/composables/use-country";
+  import { usePassword } from '@/modules/password';
 
   import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogOverlay, TabGroup, TabList, Tab } from '@headlessui/vue';
+  import SingleSelect from '@/components/basic/select/Single.vue';
 
   import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
   import IconEye from '@/components/icon/icon-eye.vue';
+  import IconEyeHide from "@/components/icon/icon-eye-hide.vue";
 
   import uploadImage from '@/components/upload/Image.vue';
   import Maska from "@/components/basic/input/Maska.vue";
@@ -427,8 +583,20 @@
   import { ColorPicker } from "vue3-colorpicker";
   import "vue3-colorpicker/style.css";
 
+  import IconRefresh from "@/components/icon/icon-refresh.vue";
+  import IconCopy from '@/components/icon/icon-copy.vue';
+  import useClipboard from 'vue-clipboard3';
+
   const router = useRouter();
   const store = useAppStore();
+  const { generate } = usePassword();
+  const { toClipboard } = useClipboard();
+  const {
+    currentCountry,
+    currentCallingCode,
+    currentFlag,
+    countryCallingCodes
+  } = useCountry();
 
   useMeta({ title: router.currentRoute.value.meta.title });
 
@@ -437,55 +605,85 @@
   const typeColor = ref('');
   const inputColor = ref('');
 
-  const center = ref({ lat: -7.782709199856285, lng: 110.36706497116414 });
+  const center = ref({ lat: 1.3853020989245008, lng: 103.83474516858092 });
 
   interface Payload {
-    id?: string;
-    company_name?: string;
+    corporate_name?: string;
+    phone_number?: string;
+    billing_email?: string;
     address?: string;
-    email?: string;
-    phone?: string;
-    password_screen?: string;
     country?: string;
-    location?: string;
-    color_base?: string;
-    color_text?: string;
-    color_active?: string;
-    image_url?: string;
+    city?: string;
+    postal_code?: string;
+    latitude?: any;
+    longitude?: any;
+    pin_screen?: string;
+    currency?: string;
+    base_color?: string;
+    active_color?: string;
+    text_color?: string;
+    timezone?: string;
+    logo_url?: string;
+
+    flag: any;
+    code: any;
+    phone_number_view: any;
   };
 
   const initialState = (): Payload => {
     return {
-      id: undefined,
-      company_name: '',
+      corporate_name: '',
+      phone_number: '',
+      billing_email: '',
       address: '',
-      email: '',
-      phone: '',
-      password_screen: '',
       country: '',
-      location: '',
-      color_base: '#2A4896',
-      color_text: '#FFFFFF',
-      color_active: '#F6E103',
-      image_url: '',
+      city: '',
+      postal_code: '',
+      latitude: 1.3853020989245008,
+      longitude: 103.83474516858092,
+      pin_screen: '',
+      currency: '',
+      base_color: '',
+      active_color: '',
+      text_color: '',
+      timezone: '',
+      logo_url: '',
+
+      flag: '',
+      code: '',
+      phone_number_view: '',
     }
   };
 
   const payload = reactive<Payload>(initialState());
 
-  const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm } = useValid(payload, ['id']);
-  const { loading, data, post, errorMessage, error } = useApiWithAuth('profile/update');
+  const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm } = useValid(payload, [
+    'city', 'postal_code', 'latitude', 'longitude', 'phone_number', 'timezone', 'flag', 'code'
+  ]);
+  const { loading, data, post, put, errorMessage, error } = useApiWithAuth('client/settings');
 
-  const changeImage = (e) => {
-    if (e?.fileuri) payload.image_url = e.fileuri;
+  const copy = async (msg) => {
+    if (msg) {
+      await toClipboard(msg);
+      swalAlert('Successfully copy data to clipboard', 'success');
+    }
   };
 
   const setColorPicker = () => {
-    if (typeColor.value === 'base') payload.color_base = inputColor.value;
-    if (typeColor.value === 'text') payload.color_text = inputColor.value;
-    if (typeColor.value === 'active') payload.color_active = inputColor.value;
+    if (typeColor.value === 'base') payload.base_color = inputColor.value;
+    if (typeColor.value === 'text') payload.text_color = inputColor.value;
+    if (typeColor.value === 'active') payload.active_color = inputColor.value;
 
     modal.value = false;
+  };
+
+  const onMarkerDragEnd = (event) => {
+    payload.latitude = event.latLng.lat();
+    payload.longitude = event.latLng.lng();
+  };
+
+  const changeImage = (e) => {
+    if (e?.fileuri) payload.logo_url = e.fileuri;
   };
 
   const submit = async () => {
@@ -494,5 +692,71 @@
     if (!isFormCorrect) return;
 
     loading.value = true;
+
+    payload.phone_number = `${payload.code}${payload.phone_number_view}`;
+
+    payload.latitude = String(payload.latitude);
+    payload.longitude = String(payload.longitude);
+
+    put(payload).then(() => {
+      // callback api
+      swalAlert('Update company success', 'success');
+      
+      getDetailCompany();
+    });
   };
+
+  const isLoading = ref(false);
+
+  const getDetailCompany = async () => {
+    isLoading.value = true;
+
+    const { loading, error, data, get } = useApiWithAuth('client/settings');
+
+    get();
+
+    watch([ loading ], () => {
+
+      if (data.value) {
+
+        let item = data?.value?.data;
+
+        let item_country = countryCallingCodes.find((i) => i.country === item.country);
+
+        payload.corporate_name = item?.corporate_name;
+        payload.phone_number = item?.phone_number;
+        payload.billing_email = item?.billing_email;
+        payload.address = item?.address;
+        payload.country = item?.country || 'Singapore';
+        payload.city = item?.city;
+        payload.postal_code = item?.postal_code;
+        payload.latitude = Number(item?.latitude) || 1.3853020989245008;
+        payload.longitude = Number(item?.longitude) || 103.83474516858092;
+        payload.pin_screen = !item?.pin_screen ? generate.value : item?.pin_screen;
+        payload.currency = item?.currency;
+        payload.base_color = item?.base_color || '#2A4896';
+        payload.active_color = item?.active_color || '#F6E103';
+        payload.text_color = item?.text_color || '#FFFFFF';
+        payload.timezone = item?.timezone;
+        payload.logo_url = item?.logo_url;
+
+        payload.flag = item_country?.flag || 'https://cdn.ipwhois.io/flags/sg.svg';
+        payload.code = item_country?.calling_code || '+65';
+        payload.phone_number_view = item?.phone_number?.split(item_country?.calling_code)[1] || '';
+
+        center.value = { 
+          lat: item.latitude ? item.latitude : 1.3853020989245008, 
+          lng: item.longitude ? item.longitude : 103.83474516858092 
+        };
+
+      };
+
+      isLoading.value = false;
+
+    });
+  };
+
+  onMounted(() => {
+    getDetailCompany();
+  });
 </script>

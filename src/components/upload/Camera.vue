@@ -145,7 +145,7 @@
               .then(res => res.blob())
               .then(blob => {
                 let formData = new FormData();
-                let file = new File([blob], 'twc.jpg');
+                let file = new File([blob], 'image.jpg');
                 formData.append('file', file as any);
 
                 isLoading.value = true;

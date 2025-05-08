@@ -312,7 +312,7 @@
     currentCallingCode,
     currentFlag,
     countryCallingCodes
-  } = useCountry()
+  } = useCountry();
 
   useMeta({ title: router.currentRoute.value.meta.title });
 
