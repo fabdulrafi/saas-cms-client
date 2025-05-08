@@ -180,7 +180,7 @@ router.beforeEach((to, from, next) => {
   if ( !toRaw(menu?.value) ) {
     setTimeout(() => {
       initRoutes(to, from, next, authenticating);
-    }, token ? 500 : 0);
+    }, token ? 800 : 0);
 
     return;
   }

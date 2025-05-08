@@ -68,7 +68,42 @@
         inputFile.value.click();
       };
 
-      const convertToWebP = (file: File): Promise<Blob | null> => {
+      const getSimulatedDuration = (file: File): number => {
+        const sizeMB = file.size / (1024 * 1024);
+
+        if (sizeMB < 0.5) return 300;
+        if (sizeMB < 1) return 500;
+        if (sizeMB < 3) return 700;
+        if (sizeMB < 5) return 1000;
+        if (sizeMB < 8) return 1300;
+
+        return 1600;
+      };
+
+      const simulateProgress = (duration: number, stepCallback: (value: number) => void): Promise<void> => {
+        return new Promise((resolve) => {
+          const steps = 20;
+          let current = 0;
+          const interval = duration / steps;
+
+          const timer = setInterval(() => {
+            current++;
+            const progress = Math.min((current / steps) * 50, 50); // cap at 50%
+            stepCallback(progress);
+            if (current >= steps) {
+              clearInterval(timer);
+              resolve();
+            }
+          }, interval);
+        });
+      };
+
+      const convertToWebP = async (file: File): Promise<Blob | null> => {
+        const duration = getSimulatedDuration(file);
+        await simulateProgress(duration, (progress) => {
+          onProgress.value = Math.round(progress); // simulate 0–50%
+        });
+
         return new Promise((resolve) => {
           const reader = new FileReader()
           reader.onload = (e) => {
@@ -80,7 +115,7 @@
               const ctx = canvas.getContext('2d')
               if (!ctx) return resolve(null)
               ctx.drawImage(img, 0, 0)
-              canvas.toBlob((blob) => resolve(blob), 'image/webp', 0.5)
+              canvas.toBlob((blob) => resolve(blob), 'image/webp', 0.5) // convert to 50%
             }
             img.src = e.target?.result as string
           }
@@ -104,6 +139,8 @@
 
           else {
             if (file.value) {
+              onProgress.value = 0;
+              
               const convertedWebP = await convertToWebP(file.value)
 
               if (convertedWebP) {
@@ -126,7 +163,8 @@
 
         xhr.upload.onprogress = (event) => {
           if (event.lengthComputable) {
-            onProgress.value = Math.round((event.loaded / event.total) * 100);
+            const realProgress = event.loaded / event.total;
+            onProgress.value = 50 + Math.round(realProgress * 50); // from 50% to 100%
           }
         };
 
