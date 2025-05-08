@@ -401,7 +401,7 @@
               </div>
             </div>
   
-            <div class="text-xs text-gray-400 font-semibold mt-2 w-[300px]"> 
+            <div class="text-xs text-gray-400 font-semibold mt-4 w-[300px]"> 
               <ul class="text-xs text-gray-400 !font-thin leading-relaxed">
                 <li>
                   *Your image must be a .jpg/.jpeg/.png
