@@ -411,6 +411,78 @@
         </TabGroup>
       </div>
     </div>
+
+    <!-- modal success -->
+    <TransitionRoot
+      appear
+      :show="modal_success"
+      as="template">
+      <Dialog
+        as="div"
+        class="relative z-[51]">
+        <TransitionChild
+          as="template"
+          enter="duration-300 ease-out"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="duration-200 ease-in"
+          leave-from="opacity-100"
+          leave-to="opacity-0">
+          <DialogOverlay class="fixed inset-0 bg-[black]/60" />
+        </TransitionChild>
+
+        <div
+          class="fixed inset-0 overflow-y-auto">
+          <div
+            class="flex min-h-full items-center justify-center px-4 py-8">
+            <TransitionChild
+              as="template"
+              enter="duration-300 ease-out"
+              enter-from="opacity-0 scale-95"
+              enter-to="opacity-100 scale-100"
+              leave="duration-200 ease-in"
+              leave-from="opacity-100 scale-100"
+              leave-to="opacity-0 scale-95">
+              <DialogPanel class="panel border-0 p-0 rounded-xl overflow-hidden w-full max-w-md text-black dark:text-white-dark">
+                <form>
+                  <div class="p-8">
+                    <img
+                      src="/assets/figma/icon_check.svg"
+                      alt=""
+                      class="w-24 h-24 mx-auto" />
+
+                    <div class="text-center text-lg font-bold mt-6">
+                      Password Change Successful
+                    </div>
+
+                    <div class="text-center text-sm text-gray-600 font-thin mt-2 mb-6">
+                      Keep your account login, click <span class="text-black font-bold">Stay Login</span>. 
+                      If you want to logout of your account on another device, click <span class="text-black font-bold">Logout</span>.
+                    </div>
+
+                    <div class="flex justify-center items-center space-x-4">
+                      <BtnPrivate
+                        @click="modal_success = false"
+
+                        :types="false"
+                        texts="Stay Login"/>
+
+                      <BtnPrivate
+                        @click="logout"
+
+                        :types="false"
+                        colors="bg-danger"
+                        shadows="shadow-danger/50"
+                        texts="Logout"/>
+                    </div>
+                  </div>
+                </form>
+              </DialogPanel>
+            </TransitionChild>
+          </div>
+        </div>
+      </Dialog>
+    </TransitionRoot>
   </div>
 </template>
 
@@ -422,7 +494,7 @@
   import { useApiWithAuth } from "@/modules/api";
   import { useRouter } from 'vue-router';
 
-  import { TabGroup, TabList, Tab } from '@headlessui/vue';
+  import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogOverlay, TabGroup, TabList, Tab } from '@headlessui/vue';
 
   import IconMail from '@/components/icon/icon-mail.vue';
   import IconPhone from '@/components/icon/icon-phone.vue';
@@ -449,7 +521,7 @@
 
   import Maska from '@/components/basic/input/Maska.vue';
 
-  const { user, getUser } = useAuth();
+  const { user, getUser, logout } = useAuth();
   const store = useAppStore();
   const router = useRouter();
   const show_current = ref(false);
@@ -585,6 +657,8 @@
   };
 
 
+  const modal_success = ref(false);
+
   const {
     v$: v$Password,
   } = useValid(payload, [
@@ -662,7 +736,7 @@
 
       req_passwords.value.forEach(rule => (rule.status = false));
 
-      swalAlert('Successfully update your password', 'success');
+      modal_success.value = true;
     });
   };
 

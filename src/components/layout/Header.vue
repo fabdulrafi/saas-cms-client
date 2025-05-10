@@ -363,7 +363,7 @@
                       class="text-danger !py-3">
                       <icon-logout class="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 rotate-90 shrink-0" />
 
-                      Sign Out
+                      Logout
                     </router-link>
                   </li>
                 </ul>
