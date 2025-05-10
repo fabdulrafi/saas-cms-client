@@ -140,7 +140,6 @@
                   <BtnPublic :loadings="loading" margins="!mt-8" texts="Confirm"/>  
                 </form>
                 
-
                 <Error :messages="errorMessage" />
               </div>
             </div>

@@ -24,7 +24,7 @@
           readonly
 
           type="text"
-          placeholder="Belum ada file yang dipilih"
+          placeholder="No files selected yet"
           class="form-input ltr:rounded-l-none rtl:rounded-r-none" />
 
         <button v-if="outputFile"

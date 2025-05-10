@@ -6,6 +6,7 @@ import { useMenu } from '@/composables/use-menu';
 export const AUTH_KEY = 'smartiv_token';
 export const AUTH_TOKEN = 'access_token';
 export const AUTH_LOCK = 'smartiv_lock';
+export const AUTH_EMAIL = 'smartiv_email';
 
 interface User {
   id: string;
@@ -15,6 +16,7 @@ interface User {
   image_url?: string;
   role_id?: string;
   company_id?: string;
+  company?: any
   [ AUTH_TOKEN ]: string;
 }
 
@@ -84,6 +86,7 @@ const getUser = () => {
         image_url: obj.data?.image_url,
         role_id: obj.data.role_id,
         company_id: obj.data.company_id,
+        company: obj.data.company,
         access_token: token ?? ''
       };
     };
@@ -100,6 +103,8 @@ export const useAuth = () => {
   const setUser = (payload: User, remember: boolean): void => {
     if ( remember ) {
       window.localStorage.setItem(AUTH_KEY, payload[ AUTH_TOKEN ]);
+
+      window.localStorage.setItem(AUTH_EMAIL, payload[ 'email' ]);
     }
 
     state.user = payload;

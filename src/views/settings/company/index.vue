@@ -133,7 +133,7 @@
 
                   :types="true"
                   masks="####-####-####"
-                  placeholders="Enter your phone number"
+                  placeholders="Ex: 234-5678-1234"
                   class="form-input placeholder:text-white-dark ltr:rounded-l-none rtl:rounded-r-none" />
               </div>
             </div>

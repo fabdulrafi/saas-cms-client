@@ -7,9 +7,21 @@
       class="panel !rounded-xl bg-[#e0e6ed] dark:bg-[#121e32] h-full w-full flex items-center justify-center shadow-none cursor-pointer">
       <IconLoader v-if="isLoading && !onProgress"
         class="animate-[spin_2s_linear_infinite] h-auto w-6 inline-block align-middle shrink-0" />
+        
+        
+      <div v-if="!isLoading && !onProgress"
+        class="text-center">
+        <img 
+          src="/assets/figma/upload.svg"
+          class="h-auto w-8 inline-block align-middle shrink-0 rounded-full" />
 
-      <IconCamera v-if="!isLoading && !onProgress"
-        class="h-auto w-10 text-primary dark:text-white-dark" />
+        <div class="text-sm text-gray-500 dark:text-white-dark mt-2">
+          Upload Image
+        </div>
+      </div>
+
+      <!-- <IconCamera v-if="!isLoading && !onProgress"
+        class="h-auto w-10 text-primary dark:text-white-dark" /> -->
 
       <div v-if="onProgress"
         class="w-full h-4 bg-[#ebedf2] dark:bg-dark/40 rounded-full">

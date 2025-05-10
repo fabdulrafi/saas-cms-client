@@ -244,6 +244,7 @@
             image_url: obj?.user?.image_url,
             role_id: obj?.user?.role_id,
             company_id: obj?.user?.company_id,
+            company: obj?.user?.company,
             access_token: obj?.token
           }, payload.rememberMe);
 

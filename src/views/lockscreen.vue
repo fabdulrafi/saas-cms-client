@@ -118,7 +118,7 @@
   import { useMeta } from '@/composables/use-meta';
   import { useRouter } from 'vue-router';
   import { useApi } from "@/modules/api";
-  import { useAuth, AUTH_LOCK } from "@/modules/auth";
+  import { useAuth, AUTH_LOCK, AUTH_EMAIL } from "@/modules/auth";
   import { useAppStore } from '@/stores/index';
   import { useValid } from "@/modules/valid";
 
@@ -155,7 +155,7 @@
       useMeta({ title: router.currentRoute.value.meta.title });
 
       const payload = reactive<Payload>({
-        email: user?.value?.email.toString() ?? '',
+        email: user?.value?.email.toString() ?? window.localStorage.getItem(AUTH_EMAIL)?.toString() ?? '',
         password: '',
         rememberMe: true
       });
@@ -199,6 +199,7 @@
             image_url: obj?.user?.image_url,
             role_id: obj?.user?.role_id,
             company_id: obj?.user?.company_id,
+            company: obj?.user?.company,
             access_token: obj?.token
           }, payload.rememberMe);
 

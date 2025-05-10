@@ -31,12 +31,12 @@
   defineProps({
     messages: {
       type: String,
-      default: 'Data tidak ditemukan'
+      default: 'Data not found'
     },
 
     descriptions: {
       type: String,
-      default: 'Data yang anda cari tidak ditemukan atau belum tersedia.'
+      default: 'The data you are looking for was not found or is not yet available.'
     },
 
     margins: {
