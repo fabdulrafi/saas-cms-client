@@ -375,7 +375,7 @@
       payload.country = newVal || 'Singapore';
       payload.flag = currentFlag.value || 'https://cdn.ipwhois.io/flags/sg.svg';
       payload.code = currentCallingCode.value || '+65';
-      payload.password = generate.value;
+      // payload.password = generate.value;
     }
   });
 

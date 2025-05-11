@@ -388,7 +388,7 @@
                       </div>
 
                       <span 
-                        :class="item.status ? 'text-black' : 'text-gray-400'"
+                        :class="item.status ? 'text-black dark:text-white-light' : 'text-gray-400'"
                         class="ml-1">
                         {{ item.title }}
                       </span>

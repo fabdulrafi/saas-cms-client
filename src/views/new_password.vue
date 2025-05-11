@@ -129,7 +129,7 @@
                         </div>
   
                         <span 
-                          :class="item.status ? 'text-black' : 'text-gray-400'"
+                          :class="item.status ? 'text-black dark:text-white-light' : 'text-gray-400'"
                           class="ml-1">
                           {{ item.title }}
                         </span>
@@ -272,8 +272,8 @@
   };
 
   onMounted(() => {
-    payload.new_password = generate.value;
+    // payload.new_password = generate.value;
 
-    validatePassword(payload.new_password);
+    // validatePassword(payload.new_password);
   });
 </script>

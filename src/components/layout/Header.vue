@@ -303,7 +303,7 @@
               </button>
 
               <template #content="{ close }">
-                <ul class="text-dark dark:text-white-dark !py-0 w-[230px] font-semibold dark:text-white-light/90">
+                <ul class="text-dark dark:text-white-dark !py-0 w-[230px] font-semibold dark:text-white-light/90 !rounded-xl">
                   <li>
                     <div class="flex items-center px-4 py-4">
                       <div class="flex-none">

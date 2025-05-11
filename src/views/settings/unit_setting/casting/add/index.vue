@@ -195,18 +195,29 @@
   
           <div class="col-span-4 xs:mb-4">
             <div class="flex">
-              <input
-                v-model="payload.password"
-
-                type="text"
-                placeholder="Ex: ********"
-                class="form-input ltr:rounded-r-none rtl:rounded-l-none flex-1 ltr:rounded-l-md rtl:rounded-r-md" />
+              <div class="relative text-white-dark modal_placeholder !w-full">
+                <input
+                  v-model="payload.password"
+  
+                  :type="!show ? 'password' : 'text'"
+                  placeholder="Ex: Wd2iQ,#)"
+                  class="form-input ltr:rounded-r-none rtl:rounded-l-none flex-1" />
+  
+                <span
+                  @click="show = !show"
+  
+                  class="absolute end-4 top-1/2 -translate-y-1/2 cursor-pointer">
+                  <IconEyeHide v-if="!show" />
+  
+                  <IconEye v-else />
+                </span>
+              </div>
 
               <div
                 @click="payload.password = generate"
 
                 class="bg-[#eee] flex justify-center items-center rounded-none px-3 font-semibold border border-[#e0e6ed] dark:border-[#17263c] dark:bg-[#1b2e4b] cursor-pointer">
-                <IconPencilPaper />
+                <Icon-refresh />
               </div>
 
               <div
@@ -263,6 +274,11 @@
 
   import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
   import IconArrowBackward from "@/components/icon/icon-arrow-backward.vue";
+  import IconEye from '@/components/icon/icon-eye.vue';
+  import IconEyeHide from "@/components/icon/icon-eye-hide.vue";
+  import IconX from '@/components/icon/icon-x.vue';
+  import IconChecks from '@/components/icon/icon-checks.vue';
+  import IconRefresh from "@/components/icon/icon-refresh.vue";
 
   import uploadImage from '@/components/upload/Image.vue';
 
@@ -278,6 +294,8 @@
   const store = useAppStore();
 
   useMeta({ title: router.currentRoute.value.meta.title });
+
+  const show = ref(false);
 
   const rows_options_types: any = ref([
     {
@@ -332,7 +350,7 @@
   const { generate } = usePassword();
 
   onMounted(() => {
-    payload.password = generate.value;
+    // payload.password = generate.value;
   });
 
   const { toClipboard } = useClipboard();
