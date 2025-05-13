@@ -532,8 +532,8 @@ export const useArraymenus = (actived: boolean = false) => {
         },
         {
           name: 'Media',
-          icon: 'master_data_gray',
-          icon_active: 'master_data_white',
+          icon: 'media_gray',
+          icon_active: 'media_white',
           link: '/settings/media',
           checked: actived,
           children: [],
