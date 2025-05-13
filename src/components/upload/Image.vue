@@ -12,7 +12,7 @@
       <div v-if="!isLoading && !onProgress"
         class="text-center">
         <img 
-          src="/assets/figma/upload.svg"
+          src="/assets/figma/icon_upload.svg"
           class="h-auto w-8 inline-block align-middle shrink-0 rounded-full" />
 
         <div class="text-sm text-gray-500 dark:text-white-dark mt-2">

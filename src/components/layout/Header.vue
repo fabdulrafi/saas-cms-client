@@ -5,11 +5,6 @@
         <div class="horizontal-logo flex lg:hidden justify-between items-center ltr:mr-2 rtl:ml-2">
           <router-link
             to="/">
-            <!-- <img
-              class="h-auto w-full max-w-28 ltr:-ml-1 rtl:-mr-1 inline"
-              :src="`/assets/images/${store.theme === 'light' ? 'logo_full' : 'logo_full_white'}.png`"
-              alt="" /> -->
-
             <img 
               class="h-auto w-full max-w-32 ltr:-ml-1 rtl:-mr-1 inline"
               src="/assets/images/logo_full.png"
@@ -25,7 +20,7 @@
         </div>
 
         <div
-          class="sm:flex-1 ltr:sm:ml-0 ltr:ml-auto sm:rtl:mr-0 rtl:mr-auto flex items-center space-x-1.5 lg:space-x-2 rtl:space-x-reverse dark:text-[#d0d2d6]">
+          class="sm:flex-1 ltr:sm:ml-0 ltr:ml-auto sm:rtl:mr-0 rtl:mr-auto flex items-center space-x-1.5 lg:space-x-3 rtl:space-x-reverse dark:text-[#d0d2d6]">
           <div class="sm:ltr:mr-auto sm:rtl:ml-auto">
             <div class="flex xs:hidden font-semibold capitalize text-lg dark:text-white-light">
               Hi {{ auth?.user?.value?.name }}!
@@ -62,31 +57,69 @@
             </button> -->
           </div>
 
+          <!-- emergency -->
+          <div class="dropdown shrink-0">
+            <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-end' : 'bottom-start'" offsetDistance="8">
+              <button
+                @click="getNotifs(true)"
+
+                type="button"
+                class="flex items-center space-x-2 p-2 px-3 rounded-xl bg-[#FAECEC] dark:bg-dark/40 hover:bg-[#C82B2B]/15 dark:hover:bg-dark/60"
+                style="position: relative; top: 0px;">
+                <span class="text-xs font-bold text-[#C82B2B]">
+                  Emergency
+                </span>
+
+                <img 
+                  class="h-4 w-4"
+                  src="/assets/figma/icon_emergency.svg"
+                  alt="" />
+              </button>
+            </Popper>
+          </div>
+
+          <!-- announcement -->
+          <div class="dropdown shrink-0">
+            <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-end' : 'bottom-start'" offsetDistance="8">
+              <button
+                @click="getNotifs(true)"
+
+                type="button"
+                class="relative flex items-center space-x-2 p-2 px-3 pr-[38px] rounded-xl bg-[#2A48961F] dark:bg-dark/40 hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60"
+                style="position: relative; top: 0px;">
+                <img 
+                  class="h-4 w-4"
+                  src="/assets/figma/icon_announcement.svg"
+                  alt="" />
+
+                <span class="text-xs font-bold text-primary">
+                  Announcement
+                </span>
+
+                <span class="rounded-full bg-[#FFB020] text-black text-[8px] font-semibold w-5 h-5 flex items-center justify-center absolute right-2.5">
+                  12
+                </span>
+              </button>
+            </Popper>
+          </div>
+
           <!-- themes -->
           <div class="">
             <a
               href="javascript:;"
               v-show="store.theme === 'light'"
-              class="flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
+              class="flex items-center p-2 rounded-xl bg-[#2A48961F] dark:bg-dark/40 hover:text-primary hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60"
               @click="store.toggleTheme('dark')">
-              <icon-sun />
+              <icon-sun class="h-4 w-4" />
             </a>
 
             <a
               href="javascript:;"
               v-show="store.theme === 'dark'"
-              class="flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
+              class="flex items-center p-2 rounded-xl bg-[#2A48961F] dark:bg-dark/40 hover:text-primary hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60"
               @click="store.toggleTheme('light')">
-              <icon-moon />
+              <icon-moon class="h-4 w-4" />
             </a>
-
-            <!-- <a
-              href="javascript:;"
-              v-show="store.theme === 'system'"
-              class="flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
-              @click="store.toggleTheme('light')">
-              <icon-laptop />
-            </a> -->
           </div>
 
           <!-- languages -->
@@ -94,9 +127,12 @@
             <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-end' : 'bottom-start'" offsetDistance="8">
               <button
                 type="button"
-                class="block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
+                class="relative block p-2 rounded-xl bg-[#2A48961F] dark:bg-dark/40 hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60"
                 style="position: relative; top: 3px;">
-                <img :src="currentFlag" alt="flag" class="w-5 h-5 object-cover rounded-full" />
+                <img 
+                  :src="currentFlag" 
+                  alt="flag" 
+                  class="h-4 w-4 object-cover rounded-full" />
               </button>
 
               <template #content="{ close }">
@@ -132,9 +168,12 @@
             <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-start' : 'bottom-end'" offsetDistance="8">
               <button
                 type="button"
-                class="block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
+                class="relative block p-2 rounded-xl bg-[#2A48961F] dark:bg-dark/40 hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60"
                 style="position: relative; top: 3px;">
-                <icon-mail-dot />
+                <img 
+                  class="h-4 w-4"
+                  src="/assets/figma/icon_chat.svg"
+                  alt="" />
               </button>
 
               <template #content="{ close }">
@@ -206,11 +245,14 @@
                 @click="getNotifs(true)"
 
                 type="button"
-                class="relative block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
+                class="relative block p-2 rounded-xl bg-[#2A48961F] dark:bg-dark/40 hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60"
                 style="position: relative; top: 3px;">
-                <icon-bell-bing />
+                <img 
+                  class="h-4 w-4"
+                  src="/assets/figma/icon_bell.svg"
+                  alt="" />
 
-                <span class="flex absolute w-3 h-3 ltr:right-0 rtl:left-0 top-0">
+                <span class="flex absolute w-3 h-3 ltr:right-[-5px] rtl:left-[-5px] top-[1px]">
                   <span
                     class="animate-ping absolute ltr:-left-[3px] rtl:-right-[3px] -top-[3px] inline-flex h-full w-full rounded-full bg-success/50 opacity-75"></span>
                   <span class="relative inline-flex rounded-full w-[6px] h-[6px] bg-success"></span>
@@ -268,13 +310,13 @@
                     </template>
                   </template>
 
-                  <!-- <template v-if="rows_options_notifs.length">
+                  <template v-if="rows_options_notifs.length">
                     <li>
                       <div class="p-4">
                         <button class="btn btn-primary block w-full btn-small" @click="close()">Baca Semua Notifikasi</button>
                       </div>
                     </li>
-                  </template> -->
+                  </template>
 
                   <template v-if="!isLoadingOptionsNotifs && !rows_options_notifs.length">
                     <li>
@@ -292,12 +334,29 @@
             </Popper>
           </div>
 
+          <!-- setting -->
+          <div class="dropdown shrink-0">
+            <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-end' : 'bottom-start'" offsetDistance="8">
+              <button
+                @click="getNotifs(true)"
+
+                type="button"
+                class="relative block p-2 rounded-xl bg-[#2A48961F] dark:bg-dark/40 hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60"
+                style="position: relative; top: 3px;">
+                <img 
+                  class="h-4 w-4"
+                  src="/assets/figma/icon_setting.svg"
+                  alt="" />
+              </button>
+            </Popper>
+          </div>
+
           <!-- profile -->
           <div class="dropdown shrink-0">
             <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-end' : 'bottom-start'" offsetDistance="8" class="!block">
               <button type="button" class="relative group block">
                 <img
-                  class="w-9 h-9 rounded-full object-cover bg-gray-300 saturate-50 group-hover:saturate-100"
+                  class="w-10 h-10 rounded-xl object-cover bg-gray-300 saturate-50 group-hover:saturate-100"
                   :src="auth?.user?.value?.image_url ? auth?.user?.value?.image_url : '/assets/images/profile_default.png'"
                   alt=""/>
               </button>
