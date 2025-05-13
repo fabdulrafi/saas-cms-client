@@ -76,7 +76,7 @@
               {{ value[header.field] ? $format.date(value[header.field]) : '' }}
             </template>
 
-            <template v-if="header.format === 'tag'">
+            <template v-else-if="header.format === 'tag'">
               {{ value[header.field]?.name }}
             </template>
             
@@ -161,7 +161,7 @@
                     <div class="flex-1 grid grid-cols-1 gap-6">
                       <div class="modal_placeholder">
                         <label class="text-sm font-semibold">
-                          Name
+                          Unit Type Name
   
                           <span class="text-danger">*</span>
                         </label>
@@ -243,6 +243,7 @@
   import IconPencilPaper from '@/components/icon/icon-pencil-paper.vue';
 
   import BtnPrivate from "@/components/basic/button/BtnPrivate.vue";
+  import Error from '@/components/basic/Error.vue';
 
   const router = useRouter();
   const store = useAppStore();
@@ -265,7 +266,7 @@
   const cols =
     reactive([
       {
-        title: 'Name',
+        title: 'Unit Type Name',
         field: 'name',
         minWidth: '200px',
         freeze: false

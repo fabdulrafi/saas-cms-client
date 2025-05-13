@@ -93,7 +93,7 @@ export const useAppStore = defineStore('app', {
       this.isShowMainLoader = true;
       setTimeout(() => {
         this.isShowMainLoader = false;
-      }, 800);
+      }, 1000);
     }
   },
 

@@ -245,10 +245,7 @@
 
             <div class="flex justify-end">
               <BtnPrivate
-                @click="submit"
-
-                colors="bg-primary"
-                shadows="shadow-primary/50" />
+                @click="submit" />
             </div>
           </div>
         </div>

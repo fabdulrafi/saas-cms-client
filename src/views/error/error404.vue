@@ -28,7 +28,7 @@
 
         <router-link
           to="/"
-          class="btn btn-primary mx-auto !mt-7 w-max border-0 shadow-none">
+          class="btn btn-primary mx-auto !mt-7 w-max border border-primary rounded-xl shadow-none">
           Home Page
         </router-link>
       </div>

@@ -9,14 +9,7 @@
       <div
         class="flex items-center space-x-3 ltr:ml-auto rtl:mr-auto">
         <BtnPrivate
-          texts="Select"
-          colors="bg-dark"
-          shadows="shadow-dark/50"
-          :xs="true"
-          icons="check" />
-
-        <BtnPrivate
-          @click="payload.id = ''; modal = true;"
+          @click="payload.uuid = ''; modal = true;"
 
           texts="Add New"
           :xs="true" />
@@ -41,25 +34,7 @@
         </div>
 
         <div class="flex items-center space-x-10 ltr:ml-auto rtl:mr-auto">
-          <button
-            type="button" 
-            class="btn p-0 shadow-none border-none text-base font-semibold dark:text-white-light">
-            Unit
-  
-            <span class="badge font-bold rounded-full m-0 !px-[6px] bg-gray-100 text-black ltr:ml-2 rtl:mr-2">
-              390
-            </span>
-          </button>
-
-          <button
-            type="button" 
-            class="btn p-0 shadow-none border-none text-base font-semibold dark:text-white-light">
-            Active
-  
-            <span class="badge font-bold rounded-full m-0 !px-[6px] bg-gray-100 text-black ltr:ml-2 rtl:mr-2">
-              12
-            </span>
-          </button>
+          
         </div>
       </div>
 
@@ -101,26 +76,29 @@
               {{ value[header.field] ? $format.date(value[header.field]) : '' }}
             </template>
 
-            <template v-else-if="header.format === 'datetime'">
-              {{ value[header.field] ? $format.datetime(value[header.field]) : '' }}
+            <template v-else-if="header.format === 'tag'">
+              {{ value[header.field]?.name }}
             </template>
 
-            <template v-else-if="header.format === 'currency'">
-              {{ value[header.field] ? $format.currency(value[header.field]) : '' }}
+            <template v-else-if="header.format === 'type'">
+              {{ value[header.field]?.name }}
             </template>
 
-            <template v-if="header.format === 'desc'">
-              <span class="truncate">
-                {{ value[header.field].length > 50 ? `${value[header.field].slice(0, 50)}...` : value[header.field] }}
-              </span>
-            </template>
+            <template v-else-if="header.format === 'status'">
+              <div 
+                @click="toggleStatus(value)"
+                class="w-10 h-5 relative cursor-pointer">
+                <input
+                  :checked="value[header.field] === 'ACTIVE'"
+                  
+                  type="checkbox"
+                  class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
+                  :id="`custom_switch_checkbox${value.id}`" />
 
-            <template v-else-if="header.format === 'image'">
-              <div
-                class="panel bg-grey-light dark:bg-[#121e32] shadow-none w-[50px] !p-2 mx-auto">
-                <img
-                  class="h-5 w-full max-w-20 object-contain mx-auto"
-                  :src="value[header.field] ? value[header.field] : `/assets/images/profile_default.png`" alt="" />
+                <span
+                  :for="`custom_switch_checkbox${value.id}`"
+                  class="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-3 before:h-3 before:rounded-full peer-checked:before:left-6 peer-checked:bg-primary before:transition-all before:duration-300">
+                </span>
               </div>
             </template>
             
@@ -128,24 +106,23 @@
               <div
                 class="flex space-x-2">
                 <button
+                  @click="toUpdate(value)"
                   type="button"
-                  v-tippy="{ content: 'Edit', theme: 'dark' }"
-                  class="btn btn-dark w-7 h-7 p-0 rounded-md">
-                  <icon-pencil-paper class="w-3 h-3" />
+                  v-tippy="{ content: 'Edit', theme: 'primary' }"
+                  class="btn bg-[#2A48961F] dark:bg-dark/40 hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60 w-8 h-8 p-0 rounded-lg text-white shadow-none border-none">
+                  <div class="bg-primary rounded-full p-1">
+                    <icon-pencil-paper class="w-3 h-3" />
+                  </div>
                 </button>
 
                 <button
+                  @click="toDelete(value)"
                   type="button"
                   v-tippy="{ content: 'Delete', theme: 'danger' }"
-                  class="btn btn-danger w-7 h-7 p-0 rounded-md">
-                  <icon-trash-lines class="w-3 h-3" />
-                </button>
-
-                <button
-                  type="button"
-                  v-tippy="{ content: 'Detail', theme: 'primary' }"
-                  class="btn btn-primary w-7 h-7 p-0 rounded-md">
-                  <IconInfoCircle class="w-3 h-3" />
+                  class="btn bg-[#2A48961F] dark:bg-dark/40 hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60 w-8 h-8 p-0 rounded-lg text-white shadow-none border-none">
+                  <div class="bg-danger rounded-full p-1">
+                    <icon-trash-lines class="w-3 h-3" />
+                  </div>
                 </button>
               </div>
             </template>
@@ -185,7 +162,7 @@
               leave="duration-200 ease-in"
               leave-from="opacity-100 scale-100"
               leave-to="opacity-0 scale-95">
-              <DialogPanel class="panel border-0 p-0 rounded-xl overflow-hidden w-full max-w-3xl text-black dark:text-white-dark">
+              <DialogPanel class="panel border-0 p-0 rounded-xl overflow-hidden w-full max-w-xl text-black dark:text-white-dark">
                 <form @submit.prevent="submit">
                   <button
                     @click="modal = false"
@@ -197,61 +174,38 @@
 
                   <div
                     class="text-lg capitalize font-bold bg-[#F9FBFE] dark:bg-[#121c2c] ltr:pl-5 rtl:pr-5 py-3 ltr:pr-[50px] rtl:pl-[50px]">
-                    {{ router.currentRoute.value.name }} {{ payload.id ? 'Edit' : 'Add' }}
+                    {{ router.currentRoute.value.name }} {{ payload.uuid ? 'Edit' : 'Add' }}
                   </div>
 
                   <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
 
                   <div class="p-5 py-6">
-                    <div class="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-6 xs:gap-2">
-                      <div class="text-sm font-semibold">
-                        Title
-
-                        <span class="text-danger">*</span>
-                      </div>
-              
-                      <div class="col-span-4 xs:mb-4">
+                    <div class="flex-1 grid grid-cols-1 gap-6">
+                      <div class="modal_placeholder">
+                        <label class="text-sm font-semibold">
+                          Unit Name
+  
+                          <span class="text-danger">*</span>
+                        </label>
+                
                         <input
-                          v-model="payload.title"
+                          v-model="payload.name"
 
                           type="text"
                           placeholder="Ex: 301"
                           class="form-input" />
 
-                        <div v-if="v$.title.$error"
+                        <div v-if="v$.name.$error"
                           class="validator">
-                          {{ v$.title.$errors[0].$message }}
+                          {{ v$.name.$errors[0].$message }}
                         </div>
                       </div>
 
-                      <div class="text-sm font-semibold">
-                        Tag
-
-                        <span class="text-danger">*</span>
-                      </div>
-              
-                      <div class="col-span-4 xs:mb-4">
-                        <input
-                          v-model="payload.tag"
-
-                          disabled
-                          type="text"
-                          placeholder="Ex: #unit_301"
-                          class="form-input" />
-
-                        <div v-if="v$.tag.$error"
-                          class="validator">
-                          {{ v$.tag.$errors[0].$message }}
-                        </div>
-                      </div>
-
-                      <div class="text-sm font-semibold">
-                        Description
-
-                        <span class="text-danger">*</span>
-                      </div>
-
-                      <div class="col-span-4 xs:mb-4">
+                      <div class="modal_placeholder">
+                        <label class="text-sm font-semibold">
+                          Description
+                        </label>
+  
                         <textarea
                           v-model="payload.description"
 
@@ -259,95 +213,79 @@
 
                           class="form-textarea min-h-[100px]">
                         </textarea>
-
-                        <div v-if="v$.description.$error"
-                          class="validator">
-                          {{ v$.description.$errors[0].$message }}
-                        </div>
                       </div>
 
-                      <div class="text-sm font-semibold">
-                        Type
+                      <div class="modal_placeholder">
+                        <label class="text-sm font-semibold">
+                          Unit Type
+  
+                          <span class="text-danger">*</span>
+                        </label>
+  
+                        <div class="col-span-4 xs:mb-4">
+                          <div class="flex items-center gap-6 xs:gap-4">
+                            <div class="w-full">
+                              <SingleSelect
+                                v-model="payload.unit_type_uuid"
+  
+                                :loadings="isLoadingOptionsTypes"
+                                :options="rows_options_types"
+  
+                                placeholder="Ex: VVIP"
+                                opens="bottom"
+                                
+                                tracks="uuid"
+                                labels="name" />
+                  
+                              <div v-if="v$.unit_type_uuid.$error"
+                                class="validator">
+                                {{ v$.unit_type_uuid.$errors[0].$message }}
+                              </div>
+                            </div>
+  
+                            <div>
+                              <button
+                                @click="payload_type.uuid = ''; modal_type = true; modal = false;"
 
-                        <span class="text-danger">*</span>
-                      </div>
-
-                      <div class="col-span-4 xs:mb-4">
-                        <div class="flex items-center gap-6 xs:gap-4">
-                          <div class="w-full">
-                            <SingleSelect
-                              v-model="payload.type_tag"
-
-                              :options="rows_options_types"
-
-                              placeholder="Ex: VVIP"
-                              opens="bottom" />
-                
-                            <div v-if="v$.type_tag.$error"
-                              class="validator">
-                              {{ v$.type_tag.$errors[0].$message }}
+                                type="button"
+                                v-tippy="{ content: 'Add Type', theme: 'primary' }"
+                                class="btn btn-primary w-[38px] h-[38px] p-0 rounded-xl">
+                                <IconPlus class="w-5 h-5" />
+                              </button>
                             </div>
                           </div>
-
-                          <div>
-                            <button
-                              type="button"
-                              v-tippy="{ content: 'Add Type', theme: 'dark' }"
-                              class="btn btn-dark w-[38px] h-[38px] p-0 rounded-xl">
-                              <IconPlus class="w-5 h-5" />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="text-sm font-semibold">
-                        Type Tag
-
-                        <span class="text-danger">*</span>
-                      </div>
-
-                      <div class="col-span-4 xs:mb-4">
-                        <input
-                          v-model="payload.type_tag"
-
-                          disabled
-                          type="text"
-                          placeholder="Ex: #unittype_vvip"
-                          class="form-input" />
-
-                        <div v-if="v$.type_tag.$error"
-                          class="validator">
-                          {{ v$.type_tag.$errors[0].$message }}
                         </div>
                       </div>
                       
-                      <div class="text-sm font-semibold">
-                        Status
-
-                        <span class="text-danger">*</span>
-                      </div>
-
-                      <div class="col-span-4 xs:mb-4">
-                        <div class="flex items-center">
-                          <label class="w-12 h-6 relative mb-0">
-                            <input
-                              v-model="payload.status"
-                              
-                              type="checkbox"
-                              class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
-                              id="custom_switch_checkbox7" />
-
-                            <span
-                              for="custom_switch_checkbox7"
-                              class="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300">
-                            </span>
-                          </label>
-
-                          <div
-                            @click="payload.status = !payload.status"
-
-                            class="text-sm cursor-pointer ml-3">
-                            {{ payload.status ? 'Active' : 'Not Active' }}
+                      <div class="modal_placeholder">
+                        <label class="text-sm font-semibold">
+                          Status
+  
+                          <span class="text-danger">*</span>
+                        </label>
+  
+                        <div class="col-span-4 xs:mb-4">
+                          <div class="flex items-center">
+                            <label class="w-12 h-6 relative mb-0">
+                              <input
+                                v-model="payload.status_view"
+                                
+                                type="checkbox"
+                                class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
+                                id="custom_switch_checkbox7" />
+  
+                              <span
+                                for="custom_switch_checkbox7"
+                                class="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300">
+                              </span>
+                            </label>
+  
+                            <div
+                              @click="payload.status_view = !payload.status_view"
+  
+                              class="text-sm cursor-pointer ml-3">
+                              {{ payload.status_view ? 'ACTIVE' : 'INACTIVE' }}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -379,6 +317,118 @@
         </div>
       </Dialog>
     </TransitionRoot>
+
+    <!-- modal unit type -->
+    <TransitionRoot
+      appear
+      :show="modal_type"
+      as="template">
+      <Dialog
+        as="div"
+        class="relative z-[51]">
+        <TransitionChild
+          as="template"
+          enter="duration-300 ease-out"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="duration-200 ease-in"
+          leave-from="opacity-100"
+          leave-to="opacity-0">
+          <DialogOverlay class="fixed inset-0 bg-[black]/60" />
+        </TransitionChild>
+
+        <div
+          class="fixed inset-0 overflow-y-auto">
+          <div
+            class="flex min-h-full items-center justify-center px-4 py-8">
+            <TransitionChild
+              as="template"
+              enter="duration-300 ease-out"
+              enter-from="opacity-0 scale-95"
+              enter-to="opacity-100 scale-100"
+              leave="duration-200 ease-in"
+              leave-from="opacity-100 scale-100"
+              leave-to="opacity-0 scale-95">
+              <DialogPanel class="panel border-0 p-0 rounded-xl overflow-hidden w-full max-w-xl text-black dark:text-white-dark">
+                <form @submit.prevent="submit_type">
+                  <button
+                    @click="modal_type = false; modal = true;"
+
+                    type="button"
+                    class="absolute top-4 ltr:right-4 rtl:left-4 text-gray-400 hover:text-danger dark:hover:text-danger outline-none">
+                    <icon-x />
+                  </button>
+
+                  <div
+                    class="text-lg capitalize font-bold bg-[#F9FBFE] dark:bg-[#121c2c] ltr:pl-5 rtl:pr-5 py-3 ltr:pr-[50px] rtl:pl-[50px]">
+                    Unit Type {{ payload_type.uuid ? 'Edit' : 'Add' }}
+                  </div>
+
+                  <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
+
+                  <div class="p-5 py-6">
+                    <div class="flex-1 grid grid-cols-1 gap-6">
+                      <div class="modal_placeholder">
+                        <label class="text-sm font-semibold">
+                          Unit Type Name
+  
+                          <span class="text-danger">*</span>
+                        </label>
+                
+                        <input
+                          v-model="payload_type.name"
+
+                          type="text"
+                          placeholder="Ex: Luxury"
+                          class="form-input" />
+
+                        <div v-if="v$Type.name.$error"
+                          class="validator">
+                          {{ v$Type.name.$errors[0].$message }}
+                        </div>
+                      </div>
+
+                      <div class="modal_placeholder">
+                        <label class="text-sm font-semibold">
+                          Description
+                        </label>
+  
+                        <textarea
+                          v-model="payload_type.description"
+
+                          placeholder="Write a description here . . ."
+
+                          class="form-textarea min-h-[100px]">
+                        </textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
+
+                  <div class="p-5">
+                    <div class="flex justify-end items-center">
+                      <BtnPrivate 
+                        :loadings="tyLoading" />
+
+                      <button
+                        @click="modal_type = false; modal = true;"
+
+                        type="button"
+                        class="btn btn-outline-danger text-sm !font-semibold w-[80px] ltr:ml-4 rtl:mr-4 rounded-xl">
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </form>
+
+                <Error :messages="tyErrorMessage" margins="m-0" />
+              </DialogPanel>
+            </TransitionChild>
+          </div>
+        </div>
+      </Dialog>
+    </TransitionRoot>
   </div>
 </template>
 
@@ -398,9 +448,13 @@
   import SingleSelect from '@/components/basic/select/Single.vue';
 
   import IconSearch from '@/components/icon/icon-search.vue';
+  import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
+  import IconX from '@/components/icon/icon-x.vue';
+  import IconPencilPaper from '@/components/icon/icon-pencil-paper.vue';
   import IconPlus from '@/components/icon/icon-plus.vue';
 
   import BtnPrivate from "@/components/basic/button/BtnPrivate.vue";
+  import Error from '@/components/basic/Error.vue';
 
   const router = useRouter();
   const store = useAppStore();
@@ -416,11 +470,6 @@
     search: '',
     sort: '',
     order_by: '',
-
-    type: 'member',
-    status: 'approved',
-    active_bool: '',
-    deleted_bool: false
   });
 
   const rows: any = ref(null);
@@ -428,11 +477,16 @@
   const cols =
     reactive([
       {
-        title: 'Unit',
-        field: 'unit',
-        width: '120px',
-        minWidth: '120px',
-        maxWidth: '120px',
+        title: 'Unit Name',
+        field: 'name',
+        minWidth: '200px',
+        freeze: false
+      },
+      {
+        title: 'Tag',
+        field: 'tag',
+        minWidth: '200px',
+        format: 'tag',
         freeze: false
       },
       {
@@ -442,15 +496,28 @@
         freeze: false
       },
       {
-        title: 'Screen Paired',
-        field: 'screen_paired',
+        title: 'Unit Type',
+        field: 'unit_type',
         minWidth: '200px',
+        format: 'type',
         freeze: false
       },
       {
-        title: 'Type',
-        field: 'type',
-        minWidth: '200px',
+        title: 'Status',
+        field: 'status',
+        width: '120px',
+        minWidth: '120px',
+        maxWidth: '120px',
+        format: 'status',
+        freeze: false
+      },
+      {
+        title: 'Created At',
+        field: 'created_at',
+        width: '150px',
+        minWidth: '150px',
+        maxWidth: '150px',
+        format: 'date',
         freeze: false
       },
       {
@@ -460,14 +527,6 @@
         minWidth: '150px',
         maxWidth: '150px',
         format: 'date',
-        freeze: false
-      },
-      {
-        title: 'Status',
-        field: 'category',
-        width: '120px',
-        minWidth: '120px',
-        maxWidth: '120px',
         freeze: false
       },
       {
@@ -497,7 +556,7 @@
   const getList = () => {
     isLoading.value = true;
 
-    const { loading, data, error, get } = useApiWithAuth("user/data");
+    const { loading, data, error, get } = useApiWithAuth("client/unit");
 
     get(params);
 
@@ -539,53 +598,64 @@
   const rows_options_types: any = ref([]);
 
   interface Payload {
-    id?: string;
-    title?: string;
-    tag?: string;
+    uuid?: string;
+    unit_type_uuid?: string;
+
+    name?: string;
     description?: string;
-    type?: string;
-    type_tag?: string;
-    status?: boolean;
+    status?: string;
+
+    status_view?: boolean;
   };
 
   const initialState = (): Payload => {
     return {
-      id: undefined,
-      title: '',
-      tag: '',
+      uuid: undefined,
+      unit_type_uuid: undefined,
+
+      name: '',
       description: '',
-      type: '',
-      type_tag: '',
-      status: true
+      status: 'ACTIVE',
+
+      status_view: true,
     }
   };
 
   const payload = reactive<Payload>(initialState());
 
-  const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm, checkExistAct } = useValid(payload, ['id']);
-  const { loading, data, post, put, errorMessage, error } = useApiWithAuth('post');
+  const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm, checkExistAct } = useValid(payload, ['uuid', 'description']);
+  const { loading, data, post, put, errorMessage, error } = useApiWithAuth('client/unit');
 
   const getOptionsTypes = () => {
-    rows_options_types.value = [
-      { id: '#unittype_reguler', name: 'Reguler' },
-      { id: '#unittype_vip', name: 'VIP' },
-      { id: '#unittype_vvip', name: 'VVIP' },
-      { id: '#unittype_luxury', name: 'Luxury' },
-    ];
+    isLoadingOptionsTypes.value = true;
+
+    const { loading, data, error, get } = useApiWithAuth("client/unit-type");
+
+    get({ limit: 10000 });
+
+    watch([ loading ], () => {
+
+      isLoadingOptionsTypes.value = loading.value;
+
+      rows_options_types.value = data.value?.data;
+
+    });
   };
 
   watch(modal, (value) => {
     nextTick(() => {
-      if (!value) {
-        Object.assign(payload, initialState());
+      if (!modal_type.value) {
+        if (!value) {
+          Object.assign(payload, initialState());
 
-        v$.value.$reset();
+          v$.value.$reset();
 
-        error.value = '';
-      }
+          error.value = '';
+        }
 
-      else {
-        getOptionsTypes();
+        else {
+          getOptionsTypes();
+        }
       }
     });
   });
@@ -597,5 +667,158 @@
 
     loading.value = true;
 
+    payload.status = payload.status_view ? 'ACTIVE' : 'INACTIVE';
+
+    if (!payload.uuid) {
+      post(payload).then(() => {
+        // callback api
+        modal.value = false;
+
+        swalAlert('Successfully saved data', 'success');
+
+        getList();
+      });
+    } else {
+      put(payload).then(() => {
+        // callback api
+        modal.value = false;
+
+        swalAlert('Successfully saved data', 'success');
+
+        getList();
+      });
+    }
   };
+
+  const toUpdate = (item: any) => {
+    payload.uuid = item.uuid;
+    payload.unit_type_uuid = item.unit_type.uuid;
+
+    payload.name = item.name;
+    payload.description = item.description;
+    payload.status = item.status;
+
+    payload.status_view = item.status === 'ACTIVE' ? true : false;
+
+    modal.value = true;
+  };
+
+  const toDelete = (item: any) => {
+    swalAlertConfirm(`Are you sure you want to delete data ${item.name}?`, 'warning', 'client/unit', item.uuid)
+    .then((res) => {
+      if (res) {
+        swalAlert('Successfully delete data', 'success');
+
+        getList();
+      }
+    });
+  };
+
+  const toggleStatus = (item: any) => {
+    const current = rows.value.find((i: any) => i.id === item.id);
+
+    if (!current) return;
+
+    payload.status_view = current.status === 'ACTIVE' ? false : true;
+
+    payload.uuid = item.uuid;
+    payload.unit_type_uuid = item.unit_type.uuid;
+
+    payload.name = item.name;
+    payload.description = item.description;
+    payload.status = payload.status_view ? 'ACTIVE' : 'INACTIVE';
+    
+    swalAlertUpdate(`Are you sure you want to ${payload.status_view ? 'activate' : 'deactivate'} data ${item.name}?`, 'warning')
+    .then((res) => {
+      if (res) {
+        put(payload)
+          .then(() => {
+            // callback api
+            swalAlert('Successfully saved data');
+
+            getList();
+
+            Object.assign(payload, initialState());
+
+            v$.value.$reset();
+
+            error.value = '';
+          })
+          .catch(() => {
+            swalAlert('Failed saved data', 'error');
+          });
+      }
+
+      else {
+        
+      }
+    });
+  };
+
+
+  // ====================================== modal form unit type ====================================== //
+  const modal_type = ref(false);
+
+  interface PayloadType {
+    uuid?: string;
+    name?: string;
+    description?: string;
+  };
+
+  const initialStateType = (): PayloadType => {
+    return {
+      uuid: undefined,
+      name: '',
+      description: '',
+    }
+  };
+
+  const payload_type = reactive<PayloadType>(initialStateType());
+
+  const { v$: v$Type } = useValid(payload_type, ['uuid', 'description']);
+  const { 
+    loading: tyLoading, 
+    data: tyData, 
+    post: tyPost, 
+    errorMessage: tyErrorMessage, 
+    error: tyError } = useApiWithAuth('client/unit-type');
+
+  watch(modal_type, (value) => {
+    nextTick(() => {
+      if (!value) {
+        Object.assign(payload_type, initialStateType());
+
+        v$Type.value.$reset();
+
+        tyError.value = '';
+      }
+
+      else {
+        
+      }
+    });
+  });
+
+  const submit_type = async () => {
+    const isFormCorrect = await v$Type.value.$validate();
+
+    if (!isFormCorrect) return;
+
+    tyLoading.value = true;
+
+    tyPost(payload_type).then(() => {
+      // callback api
+      modal_type.value = false;
+
+      modal.value = true;
+
+      swalAlert('Successfully saved data', 'success');
+
+      getOptionsTypes();
+    });
+  };
+
+  onMounted(() => {
+    getList();
+  });
 </script>

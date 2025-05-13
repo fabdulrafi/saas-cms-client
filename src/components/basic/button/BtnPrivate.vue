@@ -4,7 +4,7 @@
     :class="`${margins} ${colors} ${shadows} ${!xs ? 'sm:min-w-[80px]' : 'xs:w-9 xs:h-9 xs:p-2'} rounded-${roundeds} ${fonts}`"
 
     :type="types ? 'submit' : 'button'"
-    class="btn text-white !font-semibold border-0">
+    class="btn text-white !font-semibold border border-primary">
     <icon-loader v-if="loadings"
       class="animate-[spin_2s_linear_infinite] inline-block align-middle ltr:mr-2 rtl:ml-2 shrink-0" />
 

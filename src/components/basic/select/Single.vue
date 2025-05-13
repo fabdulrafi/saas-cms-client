@@ -62,12 +62,13 @@
   }>();
 
   const selectedOption = computed(() =>
-    props.options.find(opt => opt.id === props.modelValue) || undefined
+    props.options.find(opt => opt[props.tracks as keyof Option] === props.modelValue) || undefined
   );
 
-  const handleUpdate = (newValue: { id: string; name: string } | undefined) => {
-    emit('update:modelValue', newValue ? newValue.id : undefined);
-
-    emit('change', newValue ? newValue.id : undefined);
+  const handleUpdate = (newValue: Option | undefined) => {
+    const value = newValue ? newValue[props.tracks as keyof Option] : undefined;
+    
+    emit('update:modelValue', value);
+    emit('change', value);
   };
 </script>

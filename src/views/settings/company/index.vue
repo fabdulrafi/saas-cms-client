@@ -459,9 +459,7 @@
         <BtnPrivate
           @click="submit"
 
-          :loadings="loading"
-          colors="bg-primary"
-          shadows="shadow-primary/50" />
+          :loadings="loading" />
       </div>
     </div>
 
