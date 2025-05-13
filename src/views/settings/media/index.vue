@@ -323,7 +323,7 @@
 
   const params: any = reactive({
     page: 1,
-    limit: 2,
+    limit: 24,
     search: '',
     sort: '',
     order_by: '',
