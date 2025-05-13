@@ -473,6 +473,7 @@
                         :types="false"
                         colors="bg-danger"
                         shadows="shadow-danger/50"
+                        borders="border-danger"
                         texts="Logout"/>
                     </div>
                   </div>

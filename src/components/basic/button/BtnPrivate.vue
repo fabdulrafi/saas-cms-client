@@ -1,10 +1,10 @@
 <template>
   <button
     :disabled="loadings || disableds"
-    :class="`${margins} ${colors} ${shadows} ${!xs ? 'sm:min-w-[80px]' : 'xs:w-9 xs:h-9 xs:p-2'} rounded-${roundeds} ${fonts}`"
+    :class="`${margins} ${colors} ${shadows} ${!xs ? 'sm:min-w-[80px]' : 'xs:w-9 xs:h-9 xs:p-2'} rounded-${roundeds} ${fonts} ${borders}`"
 
     :type="types ? 'submit' : 'button'"
-    class="btn text-white !font-semibold border border-primary">
+    class="btn text-white !font-semibold border">
     <icon-loader v-if="loadings"
       class="animate-[spin_2s_linear_infinite] inline-block align-middle ltr:mr-2 rtl:ml-2 shrink-0" />
 
@@ -79,6 +79,11 @@
     fonts: {
       type: String,
       default: 'text-sm'
+    },
+
+    borders: {
+      type: String,
+      default: 'border-primary'
     }
   });
 </script>
