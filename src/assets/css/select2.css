@@ -29,7 +29,7 @@
 .custom-multiselect .multiselect__single,
 .custom-multiselect .multiselect__placeholder,
 .custom-multiselect .multiselect__input {
-  @apply !mb-0 !pl-0 dark:bg-[#121e32];
+  @apply !mb-0 !pl-0 bg-[#F9FBFE] dark:bg-[#121e32];
 }
 
 .custom-multiselect .multiselect__option--highlight,
