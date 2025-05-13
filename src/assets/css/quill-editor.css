@@ -29,6 +29,7 @@
   border-color: #e0e6ed !important;
   padding: 8px;
   font-family: Nunito, sans-serif;
+  background: #F9FBFE;
 }
 
 .dark .ql-toolbar.ql-snow,
@@ -42,6 +43,7 @@
   border-width: 1px;
   border-top: 0px !important;
   border-color: #e0e6ed !important;
+  background: #F9FBFE;
 
   /* max-height: 500px;
   min-height: 500px; */

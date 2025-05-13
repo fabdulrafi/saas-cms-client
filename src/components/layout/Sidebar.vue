@@ -151,7 +151,7 @@
     
                                   :class="{ active: activeDropdownChild === item_sub_child.name }"
                                   type="button"
-                                  class="ltr:!pl-[20px] rtl:!pr-[20px] nav-link group w-full">
+                                  class="ltr:!pl-[18.5px] rtl:!pr-[18.5px] nav-link group w-full">
                                   <div class="flex items-center group pl-4">
                                     <!-- <component 
                                       :is="icons[item_sub_child.icon?.toString() ?? '']" 
@@ -174,7 +174,7 @@
                                         class="h-2.5 w-2.5 bg-[#E1F1FF] dark:bg-[#2f405c] rounded-full absolute"></div>
                                     </div>
     
-                                    <span class="ltr:pl-[22px] rtl:pr-[22px] text-gray-400 dark:text-[#506690] group-hover:text-primary">
+                                    <span class="ltr:pl-[20px] rtl:pr-[20px] text-gray-400 dark:text-[#506690] group-hover:text-primary">
                                       {{ item_sub_child.name }}
                                     </span>
                                   </div>
@@ -203,7 +203,7 @@
                                             class="group-hover:!text-primary shrink-0" /> -->
                                           
                                           <div 
-                                            class="absolute h-10 flex items-center justify-center pl-[12px]">
+                                            class="absolute h-10 flex items-center justify-center pl-[10.5px]">
                                             <div v-if="router?.currentRoute?.value?.fullPath.includes(item_sub_child_great.link?.toString() ?? '')"
                                               :class="{ 
                                                 '!border-[#E1F1FF]': router?.currentRoute?.value?.fullPath.includes(item_sub_child_great.link?.toString() ?? ''),
@@ -217,7 +217,9 @@
                                               class="h-2.5 w-2.5 bg-[#E1F1FF] dark:bg-[#2f405c] rounded-full absolute"></div>
                                           </div>
           
-                                          <span class="ltr:pl-[34px] rtl:pr-[34px]">
+                                          <span 
+                                            :class="{ 'hover:!bg-primary hover:!text-white text-white': router?.currentRoute?.value?.fullPath.includes(item_sub_child_great.link?.toString() ?? '') }"
+                                            class="ltr:pl-[31px] rtl:pr-[31px] text-gray-400">
                                             {{ item_sub_child_great.name }}
                                           </span>
                                         </div>
@@ -245,7 +247,7 @@
                                       class="group-hover:!text-primary shrink-0" /> -->
 
                                     <div 
-                                      class="absolute h-10 flex items-center justify-center pl-[12px]">
+                                      class="absolute h-10 flex items-center justify-center pl-[10.5px]">
                                       <div v-if="router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? '')"
                                         :class="{ 
                                           '!border-[#E1F1FF]': router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? ''),
@@ -260,8 +262,8 @@
                                     </div>
     
                                     <span 
-                                      :class="{ 'hover:!bg-primary hover:!text-white': router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? '') }"
-                                      class="ltr:pl-[34px] rtl:pr-[34px]">
+                                      :class="{ 'hover:!bg-primary hover:!text-white text-white': router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? '') }"
+                                      class="ltr:pl-[31px] rtl:pr-[31px] text-gray-400">
                                       {{ item_sub_child.name }}
                                     </span>
                                   </div>

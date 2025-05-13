@@ -17,7 +17,13 @@
 .custom-multiselect .multiselect--above .multiselect__content-wrapper {
   /* @apply bg-white dark:bg-[#1b2e4b] border-[rgb(224,230,237)] dark:border-[#253b5c] text-black !font-semibold; */
 
-  @apply w-full rounded-xl border border-[#e0e6ed] bg-white px-4 py-2.5 text-sm font-semibold text-black !outline-none focus:border-primary focus:ring-transparent dark:border-[#17263c] dark:bg-[#121e32] dark:text-white-dark dark:focus:border-primary;
+  @apply w-full rounded-xl border-[#e0e6ed] bg-[#F9FBFE] px-4 py-2.5 text-sm font-semibold text-black !outline-none focus:border-primary focus:ring-transparent dark:border-[#17263c] dark:bg-[#121e32] dark:text-white-dark dark:focus:border-primary;
+}
+
+/* custom rounded */
+.multiselect__content-wrapper,
+.multiselect--above .multiselect__content-wrapper {
+  @apply w-full rounded-xl !rounded-t-none border border-[#e0e6ed] bg-[#F9FBFE] px-4 py-2.5 text-sm font-semibold text-black !outline-none focus:border-primary focus:ring-transparent dark:border-[#17263c] dark:bg-[#121e32] dark:text-white-dark dark:focus:border-primary;
 }
 
 .custom-multiselect .multiselect__single,
@@ -29,7 +35,7 @@
 .custom-multiselect .multiselect__option--highlight,
 .custom-multiselect .multiselect__option--selected.multiselect__option--highlight,
 .custom-multiselect .multiselect__option.multiselect__option--selected {
-  @apply !bg-[#f1f1f1] dark:!bg-[#17263c] !text-inherit;
+  @apply !bg-[#F0F3FF] dark:!bg-[#17263c] !text-inherit rounded-xl;
 }
 
 .custom-multiselect .multiselect__option.multiselect__option--disabled {
@@ -80,7 +86,7 @@
 .custom-multiselect-table.multiselect .multiselect__tags,
 .custom-multiselect-table .multiselect__content-wrapper,
 .custom-multiselect-table .multiselect--above .multiselect__content-wrapper {
-  @apply w-full rounded-[4px] border border-[#e0e6ed] bg-white !px-3 !py-[5px] text-sm font-semibold text-black !outline-none focus:border-primary focus:ring-transparent dark:border-[#17263c] dark:bg-[#121e32] dark:text-white-dark dark:focus:border-primary;
+  @apply w-full rounded-[4px] border border-[#e0e6ed] bg-[#F9FBFE] !px-3 !py-[5px] text-sm font-semibold text-black !outline-none focus:border-primary focus:ring-transparent dark:border-[#17263c] dark:bg-[#121e32] dark:text-white-dark dark:focus:border-primary;
 
   min-width: 250px;
 }

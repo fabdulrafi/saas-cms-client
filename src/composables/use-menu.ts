@@ -379,32 +379,62 @@ export const useArraymenus = (actived: boolean = false) => {
           tabs: []
         },
         {
-          name: 'Master Unit',
+          name: 'Master Data',
           icon: 'master_data_gray',
           icon_active: 'master_data_white',
-          link: '/settings/master-unit',
+          link: '/settings/master-data',
           checked: actived,
-          children: [],
-          actions: [],
-          tabs: []
-        },
-        {
-          name: 'Master Screen',
-          icon: 'master_data_gray',
-          icon_active: 'master_data_white',
-          link: '/settings/master-screen',
-          checked: actived,
-          children: [],
-          actions: [],
-          tabs: []
-        },
-        {
-          name: 'Master Tag',
-          icon: 'master_data_gray',
-          icon_active: 'master_data_white',
-          link: '/settings/master-tag',
-          checked: actived,
-          children: [],
+          children: [
+            {
+              name: 'Master Unit',
+              icon: 'master_data_gray',
+              icon_active: 'master_data_white',
+              link: '/settings/master-data/master-unit',
+              checked: actived,
+              children: [
+                {
+                  name: 'Unit Type',
+                  icon: 'IconMinus',
+                  link: '/settings/master-data/master-unit/unit-type',
+                  checked: actived,
+                  children: [],
+                  actions: [],
+                  tabs: []
+                },
+                {
+                  name: 'Data Unit',
+                  icon: 'IconMinus',
+                  link: '/settings/master-data/master-unit/data-unit',
+                  checked: actived,
+                  children: [],
+                  actions: [],
+                  tabs: []
+                },
+              ],
+              actions: [],
+              tabs: []
+            },
+            {
+              name: 'Master Screen',
+              icon: 'master_data_gray',
+              icon_active: 'master_data_white',
+              link: '/settings/master-data/master-screen',
+              checked: actived,
+              children: [],
+              actions: [],
+              tabs: []
+            },
+            {
+              name: 'Master Tag',
+              icon: 'master_data_gray',
+              icon_active: 'master_data_white',
+              link: '/settings/master-data/master-tag',
+              checked: actived,
+              children: [],
+              actions: [],
+              tabs: []
+            },
+          ],
           actions: [],
           tabs: []
         },

@@ -11,22 +11,32 @@ export const useRouterSettings = () => [
     component: () => import(/* webpackChunkName: "settings/subscription" */ '@/views/settings/subscription/index.vue'),
     meta: { requiresAuth: true, title: 'Subscription' }
   },
+
+
   {
-    path: '/settings/master-unit',
-    name: 'master unit',
-    component: () => import(/* webpackChunkName: "settings/master-unit" */ '@/views/settings/master_unit/index.vue'),
-    meta: { requiresAuth: true, title: 'Master Unit' }
+    path: '/settings/master-data/master-unit/data-unit',
+    name: 'master data unit',
+    component: () => import(/* webpackChunkName: "settings/master-data/master-unit/data-unit" */ '@/views/settings/master_data/master_unit/data_unit/index.vue'),
+    meta: { requiresAuth: true, title: 'Master Data Unit' }
   },
   {
-    path: '/settings/master-screen',
+    path: '/settings/master-data/master-unit/unit-type',
+    name: 'master unit type',
+    component: () => import(/* webpackChunkName: "settings/master-data/master-unit/unit-type" */ '@/views/settings/master_data/master_unit/unit_type/index.vue'),
+    meta: { requiresAuth: true, title: 'Master Unit Type' }
+  },
+
+
+  {
+    path: '/settings/master-data/master-screen',
     name: 'master screen',
-    component: () => import(/* webpackChunkName: "settings/master-screen" */ '@/views/settings/master_screen/index.vue'),
+    component: () => import(/* webpackChunkName: "settings/master-data/master-screen" */ '@/views/settings/master_data/master_screen/index.vue'),
     meta: { requiresAuth: true, title: 'Master Screen' }
   },
   {
-    path: '/settings/master-tag',
+    path: '/settings/master-data/master-tag',
     name: 'master tag',
-    component: () => import(/* webpackChunkName: "settings/master-tag" */ '@/views/settings/master_tag/index.vue'),
+    component: () => import(/* webpackChunkName: "settings/master-data/master-tag" */ '@/views/settings/master_data/master_tag/index.vue'),
     meta: { requiresAuth: true, title: 'Master Tag' }
   },
 

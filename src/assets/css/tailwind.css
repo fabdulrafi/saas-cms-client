@@ -379,7 +379,7 @@
     .form-textarea,
     .form-select,
     .form-multiselect {
-        @apply w-full rounded-xl border border-[#e0e6ed] bg-white px-4 py-2.5 text-sm font-semibold text-black !outline-none focus:border-primary focus:ring-transparent dark:border-[#17263c] dark:bg-[#121e32] dark:text-white-dark dark:focus:border-primary;
+        @apply w-full rounded-xl border border-[#e0e6ed] bg-[#F9FBFE] px-4 py-2.5 text-sm font-semibold text-black !outline-none focus:border-primary focus:ring-transparent dark:border-[#17263c] dark:bg-[#121e32] dark:text-white-dark dark:focus:border-primary;
     }
 
     .form-input-lg,
@@ -780,7 +780,7 @@ body {
 
 /* skeleton */
 .bh-skeleton-box {
-    @apply dark:bg-[#1a2941];
+    @apply bg-[#F0F3FF] dark:bg-[#1a2941];
 }
 
 

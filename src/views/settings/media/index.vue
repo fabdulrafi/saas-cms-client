@@ -121,7 +121,7 @@
             :disabled="params.page < 2"
 
             type="button"
-            class="bg-[#e5e7eb]/75 rounded-md p-1 enabled:hover:bg-primary enabled:hover:text-white dark:bg-white-dark/20 enabled:dark:hover:bg-white-dark/30 ltr:mr-3 rtl:ml-3 disabled:opacity-60 disabled:cursor-not-allowed">
+            class="bg-white-light rounded-md p-1 enabled:hover:bg-primary enabled:hover:text-white dark:bg-white-dark/20 enabled:dark:hover:bg-white-dark/30 ltr:mr-3 rtl:ml-3 disabled:opacity-60 disabled:cursor-not-allowed">
             <IconCaretDown class="w-5 h-5 rtl:-rotate-90 rotate-90" />
           </button>
 
@@ -131,7 +131,7 @@
             :disabled="params.page >= paginationRows.total_page"
 
             type="button"
-            class="bg-[#e5e7eb]/75 rounded-md p-1 enabled:hover:bg-primary enabled:hover:text-white dark:bg-white-dark/20 enabled:dark:hover:bg-white-dark/30 disabled:opacity-60 disabled:cursor-not-allowed">
+            class="bg-white-light rounded-md p-1 enabled:hover:bg-primary enabled:hover:text-white dark:bg-white-dark/20 enabled:dark:hover:bg-white-dark/30 disabled:opacity-60 disabled:cursor-not-allowed">
             <IconCaretDown class="w-5 h-5 rtl:rotate-90 -rotate-90" />
           </button>
         </div>
@@ -180,7 +180,7 @@
                   </button>
   
                   <div
-                    class="text-lg capitalize font-bold bg-[#fbfbfb] dark:bg-[#121c2c] ltr:pl-5 rtl:pr-5 py-3 ltr:pr-[50px] rtl:pl-[50px]">
+                    class="text-lg capitalize font-bold bg-[#F9FBFE] dark:bg-[#121c2c] ltr:pl-5 rtl:pr-5 py-3 ltr:pr-[50px] rtl:pl-[50px]">
                     Upload Media
                   </div>
   
@@ -323,7 +323,7 @@
 
   const params: any = reactive({
     page: 1,
-    limit: 24,
+    limit: 2,
     search: '',
     sort: '',
     order_by: '',

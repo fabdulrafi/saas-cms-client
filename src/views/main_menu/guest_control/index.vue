@@ -19,7 +19,7 @@
     <div class="panel p-0 mt-[24px] shadow-none rounded-xl overflow-hidden">
       <div
         class="flex items-center justify-between p-4">
-        <div class="relative">
+        <div class="relative modal_placeholder">
           <input
             v-model="params.search"
             @input="filter"
@@ -28,7 +28,7 @@
             class="form-input ltr:pr-10 rtl:pl-10 peer sm:bg-transparent bg-gray-100 placeholder:tracking-widest"
             placeholder="Search . . ."/>
 
-          <button type="button" class="absolute w-9 h-9 inset-0 ltr:left-auto rtl:right-auto mx-1 appearance-none peer-focus:text-primary">
+          <button type="button" class="absolute w-9 h-9 inset-0 ltr:left-auto rtl:right-auto mx-1 my-0.5 appearance-none peer-focus:text-primary">
             <icon-search class="mx-auto" />
           </button>
         </div>
@@ -90,7 +90,7 @@
           :showFirstPage="true"
           :showLastPage="true"
 
-          noDataContent="Data tidak ditemukan"
+          noDataContent="Data not found"
 
           :stickyHeader="true"
           :stickyFirstColumn="false"

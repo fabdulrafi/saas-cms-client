@@ -145,7 +145,7 @@
   @apply hover:text-primary;
 }
 .bh-table-responsive table > thead > tr > th {
-  @apply bg-gray-100 dark:bg-[#1a2941];
+  @apply bg-[#F0F3FF] dark:bg-[#1a2941];
 }
 
 .bh-table-responsive table > tbody > tr > td {
@@ -153,7 +153,7 @@
 }
 
 .bh-table-responsive table > tfoot > tr > th {
-  @apply bg-gray-100 dark:!bg-[#1a2941];
+  @apply bg-[#F0F3FF] dark:!bg-[#1a2941];
 }
 
 

@@ -65,7 +65,9 @@ export const useApi = (endpoint: string, access_token?: string, type = 'json') =
 
     error.value = undefined;
 
-    return await api.put(endpoint, payload)
+    let url = payload?.uuid ? `${endpoint}/${payload?.uuid}` : endpoint;
+
+    return await api.put(url, payload)
       .then(res => {
         if (res.data?.status == 200) {
           data.value = res.data.results;

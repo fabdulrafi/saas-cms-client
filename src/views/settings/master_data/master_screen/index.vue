@@ -19,8 +19,6 @@
           @click="payload.id = ''; modal = true;"
 
           texts="Add New"
-          colors="bg-primary"
-          shadows="shadow-success/50"
           :xs="true" />
       </div>
     </div>
@@ -28,7 +26,7 @@
     <div class="panel p-0 mt-[24px] shadow-none rounded-xl overflow-hidden">
       <div
         class="flex items-center justify-between p-4">
-        <div class="relative">
+        <div class="relative modal_placeholder">
           <input
             v-model="params.search"
             @input="filter"
@@ -37,7 +35,7 @@
             class="form-input ltr:pr-10 rtl:pl-10 peer sm:bg-transparent bg-gray-100 placeholder:tracking-widest"
             placeholder="Search . . ."/>
 
-          <button type="button" class="absolute w-9 h-9 inset-0 ltr:left-auto rtl:right-auto mx-1 appearance-none peer-focus:text-primary">
+          <button type="button" class="absolute w-9 h-9 inset-0 ltr:left-auto rtl:right-auto mx-1 my-0.5 appearance-none peer-focus:text-primary">
             <icon-search class="mx-auto" />
           </button>
         </div>
@@ -89,7 +87,7 @@
           :showFirstPage="true"
           :showLastPage="true"
 
-          noDataContent="Data tidak ditemukan"
+          noDataContent="Data not found"
 
           :stickyHeader="true"
           :stickyFirstColumn="false"
@@ -198,7 +196,7 @@
                   </button>
 
                   <div
-                    class="text-lg capitalize font-bold bg-[#fbfbfb] dark:bg-[#121c2c] ltr:pl-5 rtl:pr-5 py-3 ltr:pr-[50px] rtl:pl-[50px]">
+                    class="text-lg capitalize font-bold bg-[#F9FBFE] dark:bg-[#121c2c] ltr:pl-5 rtl:pr-5 py-3 ltr:pr-[50px] rtl:pl-[50px]">
                     {{ router.currentRoute.value.name }} {{ payload.id ? 'Edit' : 'Add' }}
                   </div>
 
@@ -347,9 +345,7 @@
                   <div class="p-5">
                     <div class="flex justify-end items-center">
                       <BtnPrivate 
-                        :loadings="loading"
-                        colors="bg-primary"
-                        shadows="shadow-success/50" />
+                        :loadings="loading" />
 
                       <button
                         @click="modal = false"
@@ -600,24 +596,5 @@
 
     loading.value = true;
 
-    if (!payload.id) {
-      post(payload).then(() => {
-        // callback api
-        modal.value = false;
-
-        swalAlert('Successfully saved data', 'success');
-
-        getList();
-      });
-    } else {
-      put(payload).then(() => {
-        // callback api
-        modal.value = false;
-
-        swalAlert('Successfully saved data', 'success');
-
-        getList();
-      });
-    }
   };
 </script>
