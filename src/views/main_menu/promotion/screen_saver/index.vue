@@ -12,6 +12,7 @@
           texts="Select"
           colors="bg-dark"
           shadows="shadow-dark/50"
+          borders="border-dark"
           :xs="true"
           icons="check" />
 
