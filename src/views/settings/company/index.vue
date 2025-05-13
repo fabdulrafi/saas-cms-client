@@ -502,7 +502,7 @@
                     @click="modal = false; typeColor = '';"
   
                     type="button"
-                    class="absolute top-4 ltr:right-4 rtl:left-4 text-gray-400 hover:text-gray-800 dark:hover:text-gray-600 outline-none">
+                    class="absolute top-4 ltr:right-4 rtl:left-4 text-gray-400 hover:text-danger outline-none">
                     <icon-x />
                   </button>
   
@@ -571,6 +571,7 @@
   import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
   import IconEye from '@/components/icon/icon-eye.vue';
   import IconEyeHide from "@/components/icon/icon-eye-hide.vue";
+  import IconX from '@/components/icon/icon-x.vue';
 
   import uploadImage from '@/components/upload/Image.vue';
   import Maska from "@/components/basic/input/Maska.vue";

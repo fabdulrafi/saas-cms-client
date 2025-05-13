@@ -122,7 +122,7 @@ export const useValid = (payload: any, field: any = []) => {
     }
   };
 
-  const swalAlertConfirm = async (msg = '', type = 'success', url = '', id = '') => {
+  const swalAlertConfirm = async (msg = '', type = 'success', url = '', uuid = '') => {
     const toast: any = Swal.mixin({
       toast: true,
       position: 'top',
@@ -143,9 +143,9 @@ export const useValid = (payload: any, field: any = []) => {
     });
 
     if (result.isConfirmed) {
-      const { loading, data, post, errorMessage } = useApiWithAuth(url);
+      const { loading, data, del, errorMessage } = useApiWithAuth(`${url}/${uuid}`);
 
-      return post({ id: id })
+      return del()
         .then(() => {
           return data.value;
         })

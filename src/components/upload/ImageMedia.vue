@@ -167,7 +167,7 @@
 
         const xhr = new XMLHttpRequest();
 
-        xhr.open('POST', `${import.meta.env.VITE_API_CDN}upload`, true);
+        xhr.open('POST', `${import.meta.env.VITE_API_URL}client/storage-media/upload`, true);
         xhr.setRequestHeader('Authorization', `Bearer ${token}`);
 
         xhr.upload.onprogress = (event) => {

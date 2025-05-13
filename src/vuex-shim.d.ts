@@ -13,7 +13,8 @@ declare module "@vue/runtime-core" {
       decimal: typeof decimal,
       email: typeof email,
       phone: typeof phone,
-      age: typeof age
+      age: typeof age,
+      formatsize: typeof formatsize,
     };
   }
 }

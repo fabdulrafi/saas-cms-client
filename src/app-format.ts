@@ -71,5 +71,24 @@ export default {
     }
     
     return age
+  },
+
+  formatsize (value, decimal = 2) {
+    const formatter = new Intl.NumberFormat('id-ID', {
+      minimumFractionDigits: decimal,
+      maximumFractionDigits: decimal
+    });
+
+    if (value >= 1_000_000_000_000) {
+      return `${formatter.format(value / 1_000_000_000_000)} TB`
+    } else if (value >= 1_000_000_000) {
+      return `${formatter.format(value / 1_000_000_000)} GB`
+    } else if (value >= 1_000_000) {
+      return `${formatter.format(value / 1_000_000)} MB`
+    } else if (value >= 1_000) {
+      return `${formatter.format(value / 1_000)} KB`
+    } else {
+      return `${value} B`
+    }
   }
 };

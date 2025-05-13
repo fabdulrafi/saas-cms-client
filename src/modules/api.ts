@@ -30,9 +30,7 @@ export const useApi = (endpoint: string, access_token?: string, type = 'json') =
 
     error.value = undefined;
 
-    const urlApi = type == 'form-data' || !access_token ? endpoint : payload?.id && payload?.id != '' && payload?.id != undefined ? endpoint.split('|')[0] : endpoint.split('|')[1];
-
-    return await api.post(urlApi, payload)
+    return await api.post(endpoint, payload)
       .then(res => {
         if (res.data?.status == 200) {
           if (type === 'json') {
@@ -67,9 +65,7 @@ export const useApi = (endpoint: string, access_token?: string, type = 'json') =
 
     error.value = undefined;
 
-    let url = !payload?.id ? endpoint : `${endpoint}/${payload.id}`;
-
-    return await api.put(url, payload)
+    return await api.put(endpoint, payload)
       .then(res => {
         if (res.data?.status == 200) {
           data.value = res.data.results;

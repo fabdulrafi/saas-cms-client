@@ -119,4 +119,13 @@ export const useRouterSettings = () => [
     component: () => import(/* webpackChunkName: "settings/unit-setting/casting/add" */ '@/views/settings/unit_setting/casting/add/index.vue'),
     meta: { requiresAuth: true, title: 'Casting Add' }
   },
+
+
+  // media
+  {
+    path: '/settings/media',
+    name: 'media',
+    component: () => import(/* webpackChunkName: "settings/media" */ '@/views/settings/media/index.vue'),
+    meta: { requiresAuth: true, title: 'Media' }
+  },
 ]
