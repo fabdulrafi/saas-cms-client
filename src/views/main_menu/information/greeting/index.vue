@@ -258,7 +258,7 @@
   import IconGallery from '@/components/icon/icon-gallery.vue';
   import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
 
-  import uploadImage from '@/components/upload/Image.vue';
+  import uploadImage from '@/components/upload/ImageMedia.vue';
 
   import { quillEditor } from 'vue3-quill';
   import 'vue3-quill/lib/vue3-quill.css';
@@ -328,11 +328,11 @@
   const { loading, data, post, errorMessage, error } = useApiWithAuth('profile/update');
 
   const changeImage = (e) => {
-    if (e?.fileuri) payload.image_url = e.fileuri;
+    if (e?.url) payload.image_url = e.url;
   };
 
   const changeImagePhoto = (e) => {
-    if (e?.fileuri) payload.photo_image_url = e.fileuri;
+    if (e?.url) payload.photo_image_url = e.url;
   };
 
   const modal_img = ref(false);

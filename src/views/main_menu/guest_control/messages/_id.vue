@@ -484,7 +484,7 @@
   import IconMessage from '@/components/icon/icon-message.vue';
   import IconPaperclip from "@/components/icon/icon-paperclip.vue";
 
-  import uploadImage from '@/components/upload/Image.vue';
+  import uploadImage from '@/components/upload/ImageMedia.vue';
   import Maska from "@/components/basic/input/Maska.vue";
 
   import { quillEditor } from 'vue3-quill';

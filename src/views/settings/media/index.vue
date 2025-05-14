@@ -412,7 +412,6 @@
         getList();
       }, 1000);
     }
-
   };
 
   const toDelete = (item: any) => {

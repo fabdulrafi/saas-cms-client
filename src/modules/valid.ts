@@ -19,6 +19,28 @@ export const useValid = (payload: any, field: any = []) => {
     Object.keys(payload).forEach(key => {
       if (field.find(keys => keys === key)) return;
 
+      // ✅ pengecualian untuk qr_code_url
+      if (key === 'qr_code_url') {
+        state.push({
+          [key]: {
+            required: helpers.withMessage('QR Code URL is required', (val: string) => {
+              return !payload.qr || !!val;
+            }),
+            url: helpers.withMessage('Must be a valid URL', (val: string) => {
+              if (!payload.qr || !val) return true;
+              try {
+                new URL(val);
+                return true;
+              } catch (_) {
+                return false;
+              }
+            }),
+          }
+        });
+        return;
+      }
+
+      // default rule
       state.push({
         [key]: {
           required: helpers.withMessage(`${key.replace(/_/g, ' ')} cannot be empty`, required),

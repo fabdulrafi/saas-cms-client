@@ -378,7 +378,7 @@
                     <div v-for="(item, index) in req_passwords" :key="index"
                       class="flex items-center space-x-2 mt-2">
                       <div
-                        :class="item.status ? 'bg-primary' : 'bg-[#ACACAC]'"
+                        :class="item.status ? 'bg-primary' : 'bg-[#ACACAC] dark:bg-[#18263a]'"
                         class="w-4 h-4 rounded-full flex items-center justify-center">
                         <IconX v-if="!item.status"
                           class="text-white w-2.5 h-2.5" />
@@ -388,7 +388,7 @@
                       </div>
 
                       <span 
-                        :class="item.status ? 'text-black dark:text-white-light' : 'text-gray-400'"
+                        :class="item.status ? 'text-black dark:text-white-light' : 'text-gray-400 dark:text-gray-500'"
                         class="ml-1">
                         {{ item.title }}
                       </span>
@@ -511,7 +511,7 @@
   import { useCountry } from "@/composables/use-country";
   import { usePassword } from '@/modules/password';
 
-  import uploadImage from '@/components/upload/Image.vue';
+  import uploadImage from '@/components/upload/ImageMedia.vue';
 
   import BtnPrivate from "@/components/basic/button/BtnPrivate.vue";
   import Error from '@/components/basic/Error.vue';
@@ -597,18 +597,20 @@
   const { loading, data, put, errorMessage, error } = useApiWithAuth('client/profile');
 
   const changeImage = (e) => {
-    if (e?.fileuri) payload.image_url = e.fileuri;
+    if (e?.url) payload.image_url = e.url;
   };
 
   const toDeleteFile = (url: string) => {
-    deleteFile(url)
-    .then((res) => {
-      if (res) {
-        payload.image_url = '';
+    // deleteFile(url)
+    // .then((res) => {
+    //   if (res) {
+    //     payload.image_url = '';
 
-        swalAlert('Successfully delete file', 'success');
-      }
-    });
+    //     swalAlert('Successfully delete file', 'success');
+    //   }
+    // });
+
+    payload.image_url = '';
   };
 
   const submit_general = async () => {

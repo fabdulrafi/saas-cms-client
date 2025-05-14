@@ -160,7 +160,7 @@
                   <div class="p-5 py-6">
                     <div class="flex-1 grid grid-cols-1 gap-6">
                       <div class="modal_placeholder">
-                        <label class="text-sm font-semibold">
+                        <label class="text-sm font-thin">
                           Unit Type Name
   
                           <span class="text-danger">*</span>
@@ -180,7 +180,7 @@
                       </div>
 
                       <div class="modal_placeholder">
-                        <label class="text-sm font-semibold">
+                        <label class="text-sm font-thin">
                           Description
                         </label>
   

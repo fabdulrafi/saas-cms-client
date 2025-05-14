@@ -53,7 +53,7 @@
           <textarea
             v-model="payload.address"
 
-            placeholder="Write address here . . ."
+            placeholder="Write a address here . . ."
             class="form-textarea min-h-[100px]">
           </textarea>
 
@@ -571,7 +571,7 @@
   import IconEyeHide from "@/components/icon/icon-eye-hide.vue";
   import IconX from '@/components/icon/icon-x.vue';
 
-  import uploadImage from '@/components/upload/Image.vue';
+  import uploadImage from '@/components/upload/ImageMedia.vue';
   import Maska from "@/components/basic/input/Maska.vue";
 
   import BtnPrivate from "@/components/basic/button/BtnPrivate.vue";
@@ -682,7 +682,7 @@
   };
 
   const changeImage = (e) => {
-    if (e?.fileuri) payload.logo_url = e.fileuri;
+    if (e?.url) payload.logo_url = e.url;
   };
 
   const submit = async () => {
@@ -756,14 +756,16 @@
   };
 
   const toDeleteFile = (url: string) => {
-    deleteFile(url)
-    .then((res) => {
-      if (res) {
-        payload.logo_url = '';
+    // deleteFile(url)
+    // .then((res) => {
+    //   if (res) {
+    //     payload.logo_url = '';
 
-        swalAlert('Successfully delete file', 'success');
-      }
-    });
+    //     swalAlert('Successfully delete file', 'success');
+    //   }
+    // });
+
+    payload.logo_url = '';
   };
 
   onMounted(() => {

@@ -111,7 +111,7 @@
   import IconEye from '@/components/icon/icon-eye.vue';
   import IconArrowForward from '@/components/icon/icon-arrow-forward.vue';
 
-  import uploadImage from '@/components/upload/Image.vue';
+  import uploadImage from '@/components/upload/ImageMedia.vue';
   import Maska from "@/components/basic/input/Maska.vue";
 
   import BtnPrivate from "@/components/basic/button/BtnPrivate.vue";

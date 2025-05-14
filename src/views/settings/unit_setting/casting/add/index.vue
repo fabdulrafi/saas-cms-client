@@ -277,7 +277,7 @@
   import IconChecks from '@/components/icon/icon-checks.vue';
   import IconRefresh from "@/components/icon/icon-refresh.vue";
 
-  import uploadImage from '@/components/upload/Image.vue';
+  import uploadImage from '@/components/upload/ImageMedia.vue';
 
   import BtnPrivate from "@/components/basic/button/BtnPrivate.vue";
   import Error from '@/components/basic/Error.vue';

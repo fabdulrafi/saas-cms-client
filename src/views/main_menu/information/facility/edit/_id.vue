@@ -10,7 +10,9 @@
 
       <h5
         class="font-semibold capitalize text-lg dark:text-white-light">
-        {{ router.currentRoute.value.meta.title }}
+        <div class="text-sm text-gray-400 font-semibold">
+          Information / Facility / <span class="capitalize text-black dark:text-white-light">{{ router.currentRoute.value.meta.title }}</span>
+        </div>
       </h5>
 
       <div
@@ -18,170 +20,65 @@
         
       </div>
     </div>
-    
-    <div class="panel p-0 mt-[24px] shadow-none rounded-xl sm:overflow-auto relative">
-      <div class="p-5 sm:h-[calc(100vh-333px)]">
-        <div class="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-6 xs:gap-2">
-          <div class="text-sm font-semibold">
+
+    <div class="panel p- mt-[24px] shadow-none rounded-xl">
+      <div class="flex-1 grid grid-cols-1 gap-6">
+        <div>
+          <div class="text-lg font-semibold dark:text-white-light">
+            Detail Facility
+          </div>
+
+          <div class="text-sm text-gray-400 font-semibold">
+            Add and customize a new facility according to your preferences
+          </div>
+        </div>
+
+        <div>
+          <label class="text-sm font-semibold">
             Title
 
             <span class="text-danger">*</span>
-          </div>
+          </label>
   
-          <div class="col-span-4 xs:mb-4">
-            <input
-              v-model="payload.title"
+          <input
+            v-model="payload.title"
 
-              type="text"
-              placeholder="Ex: Luxury Room"
-              class="form-input" />
+            type="text"
+            placeholder="Ex: Promo Potrait TV Depan Lift"
+            class="form-input" />
 
-            <div v-if="v$.title.$error"
-              class="validator">
-              {{ v$.title.$errors[0].$message }}
-            </div>
+          <div v-if="v$.title.$error"
+            class="validator">
+            {{ v$.title.$errors[0].$message }}
           </div>
+        </div>
 
-          <div class="text-sm font-semibold">
+        <div>
+          <label class="text-sm font-semibold">
             Description
+          </label>
 
-            <span class="text-danger">*</span>
-          </div>
-  
-          <div class="col-span-4 xs:mb-4">
-            <textarea
-              v-model="payload.description"
+          <textarea
+            v-model="payload.description"
 
-              placeholder="Write a description here . . ."
+            placeholder="Write a description here . . ."
+            class="form-textarea min-h-[100px]">
+          </textarea>
+        </div>
 
-              class="form-textarea min-h-[100px]">
-            </textarea>
+        <div>
+          <div class="flex-1 grid grid-cols-1 sm:grid-cols-6 gap-20 xs:gap-6">
+            <div class="flex justify-between items-center">
+              <div class="text-sm font-semibold">
+                Status
 
-            <div v-if="v$.description.$error"
-              class="validator">
-              {{ v$.description.$errors[0].$message }}
-            </div>
-          </div>
-
-          <div class="text-sm font-semibold">
-            Category
-
-            <span class="text-danger">*</span>
-          </div>
-
-          <div class="col-span-4 xs:mb-4">
-            <div class="flex items-center gap-6 xs:gap-4">
-              <div class="w-full">
-                <SingleSelect
-                  v-model="payload.category"
-                  :options="[
-                    { id: 'VVIP', name: 'VVIP' },
-                    { id: 'VIP', name: 'VIP' },
-                    { id: 'Regular', name: 'Regular' }
-                  ]"
-                  placeholder="Ex: VVIP"
-                  opens="bottom" />
-    
-                <div v-if="v$.category.$error"
-                  class="validator">
-                  {{ v$.category.$errors[0].$message }}
-                </div>
+                <span class="text-danger">*</span>
               </div>
 
-              <div>
-                <button
-                  type="button"
-                  v-tippy="{ content: 'Add Category', theme: 'dark' }"
-                  class="btn btn-dark w-[38px] h-[38px] p-0 rounded-xl">
-                  <IconPlus class="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="text-sm font-semibold">
-            Status
-
-            <span class="text-danger">*</span>
-          </div>
-
-          <div class="col-span-4 xs:mb-4">
-            <div class="flex items-center">
-              <label class="w-12 h-6 relative mb-0">
-                <input
-                  v-model="payload.status"
-                  
-                  type="checkbox"
-                  class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
-                  id="custom_switch_checkbox7" />
-
-                <span
-                  for="custom_switch_checkbox7"
-                  class="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300">
-                </span>
-              </label>
-
-              <div
-                @click="payload.status = !payload.status"
-
-                class="text-sm cursor-pointer ml-3">
-                {{ payload.status ? 'Active' : 'Not Active' }}
-              </div>
-            </div>
-          </div>
-          
-          <div>
-            <div class="text-sm font-semibold mb-2 xs:mb-1">
-              Contents
-
-              <span class="text-danger">*</span>
-            </div>
-  
-            <div class="text-sm text-black/50 dark:text-white/50">
-              Your contents must be a JPEG up to 5 MB or Video up to 250 MB, and 1,920 px by 1,080 px a 16:9 ratio.
-            </div>
-          </div>
-
-          <div class="col-span-4 xs:mb-4">
-            <div class="p-4 font-semibold rounded-xl border border-[#e0e6ed] dark:border-[#17263c]">
-              <div class="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-6 xs:gap-4">
-                <div v-for="(item, index) in payload.attachment_json_array" :key="index"
-                  class="relative">
-                  <img
-                    @click="toImage(item, 'empty')"
-
-                    class="w-full h-[200px] object-contain rounded-xl border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] cursor-pointer"
-                    :src="item"
-                    alt="" />
-
-                  <button
-                    @click="payload.attachment_json_array?.splice(index, 1)"
-
-                    type="button"
-                    class="btn btn-danger w-5 h-5 p-0 rounded-md absolute top-[-8px] right-[-8px]">
-                    <icon-trash-lines class="w-3.5 h-3.5" />
-                  </button>
-                </div>
-
-                <uploadImage
-                  @input="changeImageArray"
-                  class="w-full h-[200px]" />
-              </div>
-            </div>
-          </div>
-
-          <div class="text-sm font-semibold">
-            QR Code
-
-            <span class="text-danger">*</span>
-          </div>
-
-          <div class="col-span-4">
-            <div class="flex-1 grid grid-cols-1 sm:grid-cols-8 gap-6 :xs:gap-2">
               <div class="flex items-center">
-                <label class="w-12 h-6 relative mb-0">
+                <div class="w-12 h-6 relative">
                   <input
-                    v-model="payload.qr"
+                    v-model="payload.status_view"
                     
                     type="checkbox"
                     class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
@@ -191,58 +88,139 @@
                     for="custom_switch_checkbox7"
                     class="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300">
                   </span>
-                </label>
-
-                <div
-                  @click="payload.qr = !payload.qr"
-
-                  class="text-sm cursor-pointer ml-3">
-                  {{ payload.qr ? 'Yes' : 'No' }}
-                </div>
-              </div>
-
-              <div v-if="payload.qr"
-                class="col-span-7">
-                <div class="flex-1 grid grid-cols-1 sm:grid-cols-8 gap-6 xs:gap-2">
-                  <div class="text-sm font-semibold flex justify-end xs:justify-start">
-                    QR Url
-    
-                    <span class="text-danger">*</span>
-                  </div>
-    
-                  <div class="col-span-7">
-                    <input
-                      v-model="payload.qr_value"
-
-                      type="text"
-                      placeholder="Ex: SMTV001"
-                      class="form-input" />
-
-                    <div v-if="v$.qr_value.$error"
-                      class="validator">
-                      {{ v$.qr_value.$errors[0].$message }}
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
+
+            <div class="flex justify-between items-center">
+              <div class="text-sm font-semibold">
+                QR Code
+
+                <span class="text-danger">*</span>
+              </div>
+
+              <div class="w-12 h-6 relative">
+                <input
+                  v-model="payload.qr"
+                  
+                  type="checkbox"
+                  class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
+                  id="custom_switch_checkbox7" />
+
+                <span
+                  for="custom_switch_checkbox7"
+                  class="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300">
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="payload.qr">
+          <div>
+            <label class="text-sm font-semibold">
+              QR Code Url
+  
+              <span class="text-danger">*</span>
+            </label>
+    
+            <input
+              v-model="payload.qr_code_url"
+  
+              type="text"
+              placeholder="Ex: Your link QR Code"
+              class="form-input" />
+
+            <div v-if="v$.qr_code_url.$error"
+              class="validator">
+              {{ v$.qr_code_url.$errors[0].$message }}
+            </div>
+          </div>
+  
+          <div class="text-sm text-gray-400 mt-4">
+            Your link will be auto generate from system.
           </div>
         </div>
       </div>
+    </div>
     
-      <div class="w-full p-5 xs:pt-0">
-        <div class="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-6 sm:mt-6">
-          <div class="col-span-5 grid grid-cols-subgrid">
-            <div class="col-start-2 col-span-3">
-              <Error :messages="errorMessage" margins="m-0 w-[50%]" />
-            </div>
+    <div class="panel p- my-6 shadow-none rounded-xl">
+      <div class="flex-1 grid grid-cols-1 gap-6">
+        <div>
+          <div class="text-lg font-semibold dark:text-white-light">
+            Media Information
+          </div>
 
-            <div class="flex justify-end">
-              <BtnPrivate
-                @click="submit" />
-            </div>
+          <div class="text-sm text-gray-400 font-semibold">
+            Media information of your facility
           </div>
         </div>
+
+        <div>
+          <label class="text-sm font-semibold">
+            Contents
+
+            <span class="text-danger">*</span>
+          </label>
+
+          <div class="flex-1 grid grid-cols-1 sm:grid-cols-4 gap-6">
+            <div v-for="(item, index) in payload.contents" :key="index"
+              class="relative">
+              <img
+                @click="toImage(item.url, 'empty')"
+
+                class="w-full h-[200px] object-contain rounded-xl border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] cursor-pointer"
+                :src="item.url"
+                alt="" />
+
+              <button
+                @click="payload.contents?.splice(index, 1)"
+
+                type="button"
+                class="btn btn-danger w-5 h-5 p-0 rounded-md absolute top-[-8px] right-[-8px]">
+                <icon-trash-lines class="w-3.5 h-3.5" />
+              </button>
+            </div>
+            
+            <takeOrMedia
+              v-model:contents="payload.contents"
+              class="w-full h-[200px]" />
+          </div>
+
+          <div v-if="v$.contents.$error"
+            class="validator">
+            {{ v$.contents.$errors[0].$message }}
+          </div>
+
+          <div class="text-sm bg-[#2A48961F] p-2 px-4 rounded-xl text-primary dark:text-gray-400 mt-6 flex items-center">
+            <img
+              class="w-4 h-4 inline-block mr-2"
+              src="/assets/figma/icon_information.svg"
+              alt="" />
+
+            Your contents must be a JPEG up to 5 MB or Video up to 250 MB, and 1,920 px by 1,080 px a 16:9 ratio.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-between w-full">
+      <div class="w-full">
+        <Error :messages="errorMessage" margins="m-0 w-[50%]" />
+      </div>
+
+      <div class="flex justify-end">
+        <BtnPrivate
+          @click="submit"
+
+          :loadings="loading" />
+
+        <router-link
+          to="/main-menu/information/facility"
+          type="button"
+          class="btn btn-outline-danger text-sm !font-semibold w-[80px] ltr:ml-4 rtl:mr-4 rounded-xl">
+          Close
+        </router-link>
       </div>
     </div>
 
@@ -267,15 +245,11 @@
   import { useValid } from "@/modules/valid";
 
   import VueEasyLightbox from 'vue-easy-lightbox';
-  import SingleSelect from '@/components/basic/select/Single.vue';
-  import MultiSelect from '@/components/basic/select/Multi.vue';
-  import Date from "@/components/basic/picker/Date.vue";
 
   import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
   import IconArrowBackward from "@/components/icon/icon-arrow-backward.vue";
-  import IconPlus from '@/components/icon/icon-plus.vue';
 
-  import uploadImage from '@/components/upload/Image.vue';
+  import takeOrMedia from '@/components/upload/TakeOrMedia.vue';
 
   import BtnPrivate from "@/components/basic/button/BtnPrivate.vue";
   import Error from '@/components/basic/Error.vue';
@@ -285,53 +259,38 @@
 
   useMeta({ title: router.currentRoute.value.meta.title });
 
-  const rows_options_types: any = ref([
-    {
-      id: 'slider',
-      name: 'Slider'
-    },
-    {
-      id: 'webview',
-      name: 'Webview'
-    },
-    {
-      id: 'tv',
-      name: 'TV'
-    }
-  ]);
-
   interface Payload {
-    id?: string;
+    uuid?: string;
+    type?: string;
     title?: string;
     description?: string;
-    category?: string;
-    status?: boolean;
-    attachment_json_array?: any[];
+    status?: string;
     qr?: boolean;
-    qr_value?: string;
+    qr_code_url?: string;
+    contents?: any[];
+
+    status_view?: boolean;
   };
 
   const initialState = (): Payload => {
     return {
-      id: undefined,
+      uuid: undefined,
+      type: 'FACILITY',
       title: '',
       description: '',
-      category: '',
-      status: true,
-      attachment_json_array: [],
+      status: 'ACTIVE',
       qr: false,
-      qr_value: ''
+      qr_code_url: '',
+      contents: [],
+
+      status_view: true,
     }
   };
 
   const payload = reactive<Payload>(initialState());
 
-  const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm } = useValid(payload, ['id']);
-  const { loading, data, post, errorMessage, error } = useApiWithAuth('profile/update');
-
-  const changeImageArray = (e) => {
-    if (e?.fileuri)  payload.attachment_json_array?.push(e.fileuri);
-  };
+  const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm } = useValid(payload, ['uuid', 'description']);
+  const { loading, data, put, errorMessage, error } = useApiWithAuth('client/information');
 
   const modal_img = ref(false);
 
@@ -345,11 +304,48 @@
     modal_img.value = true;
   };
 
+  watch(() => payload.qr, (val) => {
+    if (!val) payload.qr_code_url = '';
+  });
+
   const submit = async () => {
     const isFormCorrect = await v$.value.$validate();
 
     if (!isFormCorrect) return;
 
     loading.value = true;
+
+    payload.status = payload.status_view ? 'ACTIVE' : 'INACTIVE';
+
+    put(payload).then(() => {
+      // callback api
+      swalAlert('Successfully saved data', 'success');
+
+      router.push('/main-menu/information/facility');
+    });
   };
+
+  const getDetail = async () => {
+    const { loading, data, error, get } = useApiWithAuth(`client/information/${router.currentRoute.value.params.uuid}`);
+
+    get();
+
+    watch([ loading ], () => {
+      
+      let item = data.value?.data
+
+      payload.uuid = item.uuid;
+      payload.title = item.title;
+      payload.description = item.description;
+      payload.status_view = item.status === 'ACTIVE';
+      payload.qr = item.qr_code_url ? true : false;
+      payload.qr_code_url = item.qr_code_url;
+      payload.contents = item.contents;
+    });
+
+  };
+  
+  onMounted(() => {
+    getDetail();
+  });
 </script>

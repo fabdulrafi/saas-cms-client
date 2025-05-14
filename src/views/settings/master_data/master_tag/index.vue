@@ -168,7 +168,7 @@
                   <div class="p-5 py-6">
                     <div class="flex-1 grid grid-cols-1 gap-6">
                       <div class="modal_placeholder">
-                        <label class="text-sm font-semibold">
+                        <label class="text-sm font-thin">
                           Tag Name
   
                           <span class="text-danger">*</span>
@@ -204,7 +204,7 @@
                         <div v-for="(item, index) in req_tag" :key="index"
                           class="flex items-center space-x-2 mt-2 text-sm !font-thin">
                           <div
-                            :class="item.status ? 'bg-primary' : 'bg-[#ACACAC]'"
+                            :class="item.status ? 'bg-primary' : 'bg-[#ACACAC] dark:bg-[#18263a]'"
                             class="w-4 h-4 rounded-full flex items-center justify-center">
                             <IconX v-if="!item.status"
                               class="text-white w-2.5 h-2.5" />
@@ -214,7 +214,7 @@
                           </div>
 
                           <span 
-                            :class="item.status ? 'text-black dark:text-white-light' : 'text-gray-400'"
+                            :class="item.status ? 'text-black dark:text-white-light' : 'text-gray-400 dark:text-gray-500'"
                             class="ml-1">
                             {{ item.title }}
                           </span>

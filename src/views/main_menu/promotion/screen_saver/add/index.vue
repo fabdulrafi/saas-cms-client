@@ -358,7 +358,7 @@
   import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
   import IconArrowBackward from "@/components/icon/icon-arrow-backward.vue";
 
-  import uploadImage from '@/components/upload/Image.vue';
+  import uploadImage from '@/components/upload/ImageMedia.vue';
 
   import BtnPrivate from "@/components/basic/button/BtnPrivate.vue";
   import Error from '@/components/basic/Error.vue';
@@ -423,7 +423,7 @@
   const { loading, data, post, errorMessage, error } = useApiWithAuth('profile/update');
 
   const changeImageArray = (e) => {
-    if (e?.fileuri)  payload.attachment_json_array?.push(e.fileuri);
+    if (e?.url)  payload.attachment_json_array?.push(e.url);
   };
 
   const modal_img = ref(false);

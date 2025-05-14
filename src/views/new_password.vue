@@ -119,7 +119,7 @@
                       <div v-for="(item, index) in req_passwords" :key="index"
                         class="flex items-center space-x-2 mt-2">
                         <div
-                          :class="item.status ? 'bg-primary' : 'bg-[#ACACAC]'"
+                          :class="item.status ? 'bg-primary' : 'bg-[#ACACAC] dark:bg-[#18263a]'"
                           class="w-4 h-4 rounded-full flex items-center justify-center">
                           <IconX v-if="!item.status"
                             class="text-white w-2.5 h-2.5" />
@@ -129,7 +129,7 @@
                         </div>
   
                         <span 
-                          :class="item.status ? 'text-black dark:text-white-light' : 'text-gray-400'"
+                          :class="item.status ? 'text-black dark:text-white-light' : 'text-gray-400 dark:text-gray-500'"
                           class="ml-1">
                           {{ item.title }}
                         </span>

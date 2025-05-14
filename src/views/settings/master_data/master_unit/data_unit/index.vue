@@ -67,8 +67,7 @@
           :stickyHeader="true"
           :stickyFirstColumn="false"
 
-          :height="totalRows ? `calc(100vh - ${store.menu === 'horizontal' ? '433px' : '380px'})` : `calc(100vh - ${store.menu === 'horizontal' ? '358px' : '305px'})`"
-          skin="whitespace-nowrap">
+          :height="totalRows ? `calc(100vh - ${store.menu === 'horizontal' ? '436px' : '383px'})` : `calc(100vh - ${store.menu === 'horizontal' ? '361px' : '308px'})`">
           <template
             v-for="header in cols.filter((header) => header.hasOwnProperty('format'))"
             #[`${header.field}`]="{ value }">
@@ -182,7 +181,7 @@
                   <div class="p-5 py-6">
                     <div class="flex-1 grid grid-cols-1 gap-6">
                       <div class="modal_placeholder">
-                        <label class="text-sm font-semibold">
+                        <label class="text-sm font-thin">
                           Unit Name
   
                           <span class="text-danger">*</span>
@@ -202,7 +201,7 @@
                       </div>
 
                       <div class="modal_placeholder">
-                        <label class="text-sm font-semibold">
+                        <label class="text-sm font-thin">
                           Description
                         </label>
   
@@ -216,7 +215,7 @@
                       </div>
 
                       <div class="modal_placeholder">
-                        <label class="text-sm font-semibold">
+                        <label class="text-sm font-thin">
                           Unit Type
   
                           <span class="text-danger">*</span>
@@ -258,7 +257,7 @@
                       </div>
                       
                       <div class="modal_placeholder">
-                        <label class="text-sm font-semibold">
+                        <label class="text-sm font-thin">
                           Status
   
                           <span class="text-danger">*</span>
@@ -369,7 +368,7 @@
                   <div class="p-5 py-6">
                     <div class="flex-1 grid grid-cols-1 gap-6">
                       <div class="modal_placeholder">
-                        <label class="text-sm font-semibold">
+                        <label class="text-sm font-thin">
                           Unit Type Name
   
                           <span class="text-danger">*</span>
@@ -389,7 +388,7 @@
                       </div>
 
                       <div class="modal_placeholder">
-                        <label class="text-sm font-semibold">
+                        <label class="text-sm font-thin">
                           Description
                         </label>
   

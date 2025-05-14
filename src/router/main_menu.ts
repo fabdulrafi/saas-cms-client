@@ -6,13 +6,13 @@ export const useRouterMainMenu = () => [
     meta: { requiresAuth: true, title: 'Guest Control' }
   },
   {
-    path: '/main-menu/guest-control/messages/:id',
+    path: '/main-menu/guest-control/messages/:uuid',
     name: 'guest control messages',
     component: () => import(/* webpackChunkName: "main-menu/guest-control/messages" */ '@/views/main_menu/guest_control/messages/_id.vue'),
     meta: { requiresAuth: true, title: 'Guest Control Messages' }
   },
   {
-    path: '/main-menu/guest-control/request/:id',
+    path: '/main-menu/guest-control/request/:uuid',
     name: 'guest control request',
     component: () => import(/* webpackChunkName: "main-menu/guest-control/request" */ '@/views/main_menu/guest_control/request/_id.vue'),
     meta: { requiresAuth: true, title: 'Guest Control Request' }
@@ -73,9 +73,9 @@ export const useRouterMainMenu = () => [
     meta: { requiresAuth: true, title: 'Facility Add' }
   },
   {
-    path: '/main-menu/information/facility/edit/:id',
+    path: '/main-menu/information/facility/edit/:uuid',
     name: 'facility edit',
-    component: () => import(/* webpackChunkName: "main-menu/information/facility/edit/:id" */ '@/views/main_menu/information/facility/edit/_id.vue'),
+    component: () => import(/* webpackChunkName: "main-menu/information/facility/edit/:uuid" */ '@/views/main_menu/information/facility/edit/_id.vue'),
     meta: { requiresAuth: true, title: 'Facility Edit' }
   },
 

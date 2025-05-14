@@ -8,14 +8,6 @@
 
       <div
         class="flex items-center space-x-3 ltr:ml-auto rtl:mr-auto">
-        <BtnPrivate
-          texts="Select"
-          colors="bg-dark"
-          shadows="shadow-dark/50"
-          borders="border-dark"
-          :xs="true"
-          icons="check" />
-
         <router-link
           to="/main-menu/information/facility/add">
           <BtnPrivate
@@ -43,25 +35,7 @@
         </div>
 
         <div class="flex items-center space-x-10 ltr:ml-auto rtl:mr-auto">
-          <button
-            type="button" 
-            class="btn p-0 shadow-none border-none text-base font-semibold dark:text-white-light">
-            Unit
-  
-            <span class="badge font-bold rounded-full m-0 !px-[6px] bg-gray-100 text-black ltr:ml-2 rtl:mr-2">
-              290
-            </span>
-          </button>
-
-          <button
-            type="button" 
-            class="btn p-0 shadow-none border-none text-base font-semibold dark:text-white-light">
-            Active
-  
-            <span class="badge font-bold rounded-full m-0 !px-[6px] bg-gray-100 text-black ltr:ml-2 rtl:mr-2">
-              12
-            </span>
-          </button>
+          
         </div>
       </div>
 
@@ -94,8 +68,7 @@
           :stickyHeader="true"
           :stickyFirstColumn="false"
 
-          :height="totalRows ? `calc(100vh - ${store.menu === 'horizontal' ? '433px' : '380px'})` : `calc(100vh - ${store.menu === 'horizontal' ? '358px' : '305px'})`"
-          skin="whitespace-nowrap">
+          :height="totalRows ? `calc(100vh - ${store.menu === 'horizontal' ? '436px' : '383px'})` : `calc(100vh - ${store.menu === 'horizontal' ? '361px' : '308px'})`">
           <template
             v-for="header in cols.filter((header) => header.hasOwnProperty('format'))"
             #[`${header.field}`]="{ value }">
@@ -103,12 +76,13 @@
               {{ value[header.field] ? $format.date(value[header.field]) : '' }}
             </template>
 
-            <template v-else-if="header.format === 'datetime'">
-              {{ value[header.field] ? $format.datetime(value[header.field]) : '' }}
-            </template>
-
-            <template v-else-if="header.format === 'currency'">
-              {{ value[header.field] ? $format.currency(value[header.field]) : '' }}
+            <template v-else-if="header.format === 'image'">
+              <div
+                class="panel bg-grey-light dark:bg-[#121e32] shadow-none w-[50px] !p-2 mx-auto">
+                <img
+                  class="h-5 w-full max-w-20 object-contain mx-auto"
+                  :src="value[header.field] ? value[header.field][0].url : `/assets/images/empty.png`" alt="" />
+              </div>
             </template>
 
             <template v-if="header.format === 'desc'">
@@ -117,37 +91,45 @@
               </span>
             </template>
 
-            <template v-else-if="header.format === 'image'">
-              <div
-                class="panel bg-grey-light dark:bg-[#121e32] shadow-none w-[50px] !p-2 mx-auto">
-                <img
-                  class="h-5 w-full max-w-20 object-contain mx-auto"
-                  :src="value[header.field] ? value[header.field] : `/assets/images/profile_default.png`" alt="" />
+            <template v-else-if="header.format === 'status'">
+              <div 
+                @click="toggleStatus(value)"
+                class="w-10 h-5 relative cursor-pointer">
+                <input
+                  :checked="value[header.field] === 'ACTIVE'"
+                  
+                  type="checkbox"
+                  class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
+                  :id="`custom_switch_checkbox${value.id}`" />
+
+                <span
+                  :for="`custom_switch_checkbox${value.id}`"
+                  class="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-3 before:h-3 before:rounded-full peer-checked:before:left-6 peer-checked:bg-primary before:transition-all before:duration-300">
+                </span>
               </div>
             </template>
             
             <template v-else-if="header.format === 'action'">
               <div
                 class="flex space-x-2">
-                <button
+                <router-link
+                  :to="`/main-menu/information/facility/edit/${value.uuid}`"
                   type="button"
-                  v-tippy="{ content: 'Edit', theme: 'dark' }"
-                  class="btn btn-dark w-7 h-7 p-0 rounded-md">
-                  <icon-pencil-paper class="w-3 h-3" />
-                </button>
+                  v-tippy="{ content: 'Edit', theme: 'primary' }"
+                  class="btn bg-[#2A48961F] dark:bg-dark/40 hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60 w-8 h-8 p-0 rounded-lg text-white shadow-none border-none">
+                  <div class="bg-primary rounded-full p-1">
+                    <icon-pencil-paper class="w-3 h-3" />
+                  </div>
+                </router-link>
 
                 <button
+                  @click="toDelete(value)"
                   type="button"
                   v-tippy="{ content: 'Delete', theme: 'danger' }"
-                  class="btn btn-danger w-7 h-7 p-0 rounded-md">
-                  <icon-trash-lines class="w-3 h-3" />
-                </button>
-
-                <button
-                  type="button"
-                  v-tippy="{ content: 'Detail', theme: 'primary' }"
-                  class="btn btn-primary w-7 h-7 p-0 rounded-md">
-                  <IconInfoCircle class="w-3 h-3" />
+                  class="btn bg-[#2A48961F] dark:bg-dark/40 hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60 w-8 h-8 p-0 rounded-lg text-white shadow-none border-none">
+                  <div class="bg-danger rounded-full p-1">
+                    <icon-trash-lines class="w-3 h-3" />
+                  </div>
                 </button>
               </div>
             </template>
@@ -172,6 +154,9 @@
   import Vue3Datatable from '@/components/datatable/custom-table.vue';
 
   import IconSearch from '@/components/icon/icon-search.vue';
+  import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
+  import IconPencilPaper from '@/components/icon/icon-pencil-paper.vue';
+  import IconInfoCircle from "@/components/icon/icon-info-circle.vue";
 
   import BtnPrivate from "@/components/basic/button/BtnPrivate.vue";
 
@@ -190,10 +175,7 @@
     sort: '',
     order_by: '',
 
-    type: 'member',
-    status: 'approved',
-    active_bool: '',
-    deleted_bool: false
+    type: 'FACILITY',
   });
 
   const rows: any = ref(null);
@@ -202,7 +184,7 @@
     reactive([
       {
         title: 'Image',
-        field: 'image',
+        field: 'contents_limit1',
         width: '100px',
         minWidth: '100px',
         maxWidth: '100px',
@@ -216,15 +198,28 @@
         freeze: false
       },
       {
-        title: 'Category',
-        field: 'category',
+        title: 'Description',
+        field: 'description',
         minWidth: '200px',
+        format: 'desc',
         freeze: false
       },
       {
-        title: 'Unit',
-        field: 'unit',
-        minWidth: '200px',
+        title: 'Status',
+        field: 'status',
+        width: '120px',
+        minWidth: '120px',
+        maxWidth: '120px',
+        format: 'status',
+        freeze: false
+      },
+      {
+        title: 'Created At',
+        field: 'created_at',
+        width: '150px',
+        minWidth: '150px',
+        maxWidth: '150px',
+        format: 'date',
         freeze: false
       },
       {
@@ -263,7 +258,7 @@
   const getList = () => {
     isLoading.value = true;
 
-    const { loading, data, error, get } = useApiWithAuth("user/data");
+    const { loading, data, error, get } = useApiWithAuth("client/information");
 
     get(params);
 
@@ -297,4 +292,69 @@
   };
 
   const { colFreezes } = useTable(cols);
+
+  const { swalAlert, swalAlertUpdate, swalAlertConfirm } = useValid({});
+  const { loading, data, post, put, errorMessage, error } = useApiWithAuth('client/information');
+
+  const toggleStatus = (item: any) => {
+    const { loading, data, error, get } = useApiWithAuth(`client/information/${item.uuid}`);
+
+    get(params);
+
+    watch([ loading ], () => {
+
+      const current = data.value?.data;
+
+      if (!current) return;
+
+      const payload: any = {
+        uuid: current.uuid,
+        type: current.type,
+        title: current.title,
+        description: current.description,
+        status: current.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE',
+        qr: current.qr,
+        qr_code_url: current.qr_code_url,
+        contents: current.contents,
+      };
+
+      payload.status_view = payload.status === 'ACTIVE' ? false : true;
+
+      swalAlertUpdate(`Are you sure you want to ${payload.status_view ? 'activate' : 'deactivate'} data ${current.title}?`, 'warning')
+      .then((res) => {
+        if (res) {
+          put(payload)
+            .then(() => {
+              // callback api
+              swalAlert('Successfully saved data');
+
+              getList();
+            })
+            .catch(() => {
+              swalAlert('Failed saved data', 'error');
+            });
+        }
+
+        else {
+          
+        }
+      });
+
+    });
+  };
+
+  const toDelete = (item: any) => {
+    swalAlertConfirm(`Are you sure you want to delete data ${item.title}?`, 'warning', 'client/information', item.uuid)
+    .then((res) => {
+      if (res) {
+        swalAlert('Successfully delete data', 'success');
+
+        getList();
+      }
+    });
+  };
+
+  onMounted(() => {
+    getList();
+  });
 </script>
