@@ -248,7 +248,7 @@
                             @click="toggleSelection(item.uuid)"
                             :class="[
                               'relative text-sm border border-dashed p-4 rounded-xl cursor-pointer',
-                              selectedItems.includes(item.uuid)
+                              selectedItems.has(item.uuid)
                                 ? 'border-primary ring-primary text-primary'
                                 : 'dark:border-[#1b2e4b] border-[#e0e6ed]'
                             ]">
@@ -256,7 +256,7 @@
                               {{ item.name }}
 
                               <IconChecks
-                                v-if="selectedItems.includes(item.uuid)"
+                                v-if="selectedItems.has(item.uuid)"
                                 class="w-4 h-4 text-primary dark:text-white" />
                             </div>
                           </div>
@@ -420,7 +420,8 @@
     is_custom: true
   });
 
-  const selectedItems = ref<string[]>([]);
+  const selectedItems = reactive(new Set<string>());
+  const allItemsCache = reactive<Map<string, any>>(new Map());
 
   let timer: any;
 
@@ -443,16 +444,17 @@
       isLoadingOptionsTags.value = loading.value;
 
       rows_options_tags.value = Array.isArray(data.value?.data)
-        ? data.value.data.map((item: any) => ({
-            uuid: item.uuid,
-            name: item.name,
-          }))
+        ? data.value.data.map((item: any) => {
+            allItemsCache.set(item.uuid, item);
+            return {
+              uuid: item.uuid,
+              name: item.name,
+            };
+          })
         : [];
       totalRows.value = data.value?.pagination?.total_data;
 
       paginationRows.value = data.value?.pagination;
-
-      selectedItems.value = payload.custom_tags.map((item: any) => item.uuid);
 
     });
   };
@@ -465,28 +467,28 @@
 
       else {
         getOptionsTags();
+
+        payload.custom_tags.forEach((item: any) => {
+          selectedItems.add(item.uuid);
+        });
       }
     });
   });
 
   const toggleSelection = (uuid: string) => {
-    const index = selectedItems.value.indexOf(uuid);
-    
-    if (index === -1) {
-      selectedItems.value.push(uuid);
+    if (selectedItems.has(uuid)) {
+      selectedItems.delete(uuid);
     } else {
-      selectedItems.value.splice(index, 1);
+      selectedItems.add(uuid);
     }
   };
 
   const toApply = () => {
-    const selectedMedia = rows_options_tags.value.filter((item: any) =>
-      selectedItems.value.includes(item.uuid)
-    );
-
+    const selectedMedia = Array.from(selectedItems).map((uuid) => allItemsCache.get(uuid)).filter(Boolean);
+    
     payload.custom_tags = selectedMedia;
 
-    selectedItems.value = [];
+    selectedItems.clear();
 
     modal.value = false;
   };

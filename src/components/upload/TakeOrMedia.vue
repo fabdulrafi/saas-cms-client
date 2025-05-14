@@ -78,7 +78,7 @@
                           @click="toggleSelection(item.uuid)"
                           :class="[
                             'relative rounded-xl border border-dashed overflow-hidden cursor-pointer',
-                            selectedItems.includes(item.uuid)
+                            selectedItems.has(item.uuid)
                               ? 'border-primary ring-primary'
                               : 'dark:border-[#1b2e4b] border-[#e0e6ed]'
                           ]">
@@ -91,7 +91,7 @@
                             {{ $format.formatsize(item.sizebytes) }}
 
                             <IconChecks
-                              v-if="selectedItems.includes(item.uuid)"
+                              v-if="selectedItems.has(item.uuid)"
                               class="w-4 h-4 text-primary" />
                           </div>
                         </div>
@@ -181,7 +181,8 @@
 
   const emit = defineEmits(['update:contents']);
 
-  const selectedItems = ref<string[]>([]);
+  const selectedItems = reactive(new Set<string>());
+  const allItemsCache = reactive<Map<string, any>>(new Map());
 
   const modal = ref(false);
 
@@ -220,20 +221,21 @@
       isLoading.value = loading.value;
 
       rows.value = Array.isArray(data.value?.data)
-        ? data.value.data.map((item: any) => ({
-            uuid: item.uuid,
-            filename: item.filename,
-            mime_type: item.mime_type,
-            extension: item.extension,
-            url: item.url,
-            sizebytes: item.sizebytes,
-          }))
+        ? data.value.data.map((item: any) => {
+            allItemsCache.set(item.uuid, item);
+            return {
+              uuid: item.uuid,
+              filename: item.filename,
+              mime_type: item.mime_type,
+              extension: item.extension,
+              url: item.url,
+              sizebytes: item.sizebytes,
+            };
+          })
         : [];
       totalRows.value = data.value?.pagination?.total_data;
 
       paginationRows.value = data.value?.pagination;
-
-      selectedItems.value = props.contents.map((item: any) => item.uuid);
 
     });
   };
@@ -247,29 +249,27 @@
       else {
         getList();
 
-        selectedItems.value = props.contents.map((item: any) => item.uuid);
+        props.contents.forEach((item: any) => {
+          selectedItems.add(item.uuid);
+        });
       }
     });
   });
 
   const toggleSelection = (uuid: string) => {
-    const index = selectedItems.value.indexOf(uuid);
-
-    if (index === -1) {
-      selectedItems.value.push(uuid);
+    if (selectedItems.has(uuid)) {
+      selectedItems.delete(uuid);
     } else {
-      selectedItems.value.splice(index, 1);
+      selectedItems.add(uuid);
     }
   };
 
   const toApply = () => {
-    const selectedMedia = rows.value.filter((item: any) =>
-      selectedItems.value.includes(item.uuid)
-    );
+    const selectedMedia = Array.from(selectedItems).map((uuid) => allItemsCache.get(uuid)).filter(Boolean);
 
     emit('update:contents', selectedMedia);
 
-    selectedItems.value = [];
+    selectedItems.clear();
 
     modal.value = false;
   };
