@@ -117,6 +117,44 @@ export const useRouterMainMenu = () => [
     meta: { requiresAuth: true, title: 'Nearby Edit' }
   },
 
+  {
+    path: '/main-menu/information/resto',
+    name: 'resto',
+    component: () => import(/* webpackChunkName: "main-menu/information/resto" */ '@/views/main_menu/information/resto/index.vue'),
+    meta: { requiresAuth: true, title: 'Resto' }
+  },
+  {
+    path: '/main-menu/information/resto/add',
+    name: 'resto add',
+    component: () => import(/* webpackChunkName: "main-menu/information/resto/add" */ '@/views/main_menu/information/resto/add/index.vue'),
+    meta: { requiresAuth: true, title: 'Resto Add' }
+  },
+  {
+    path: '/main-menu/information/resto/edit/:uuid',
+    name: 'resto edit',
+    component: () => import(/* webpackChunkName: "main-menu/information/resto/edit/:uuid" */ '@/views/main_menu/information/resto/edit/_id.vue'),
+    meta: { requiresAuth: true, title: 'Resto Edit' }
+  },
+
+  {
+    path: '/main-menu/information/service',
+    name: 'service',
+    component: () => import(/* webpackChunkName: "main-menu/information/service" */ '@/views/main_menu/information/service/index.vue'),
+    meta: { requiresAuth: true, title: 'Service' }
+  },
+  {
+    path: '/main-menu/information/service/add',
+    name: 'service add',
+    component: () => import(/* webpackChunkName: "main-menu/information/service/add" */ '@/views/main_menu/information/service/add/index.vue'),
+    meta: { requiresAuth: true, title: 'Service Add' }
+  },
+  {
+    path: '/main-menu/information/service/edit/:uuid',
+    name: 'service edit',
+    component: () => import(/* webpackChunkName: "main-menu/information/service/edit/:uuid" */ '@/views/main_menu/information/service/edit/_id.vue'),
+    meta: { requiresAuth: true, title: 'Service Edit' }
+  },
+
 
   {
     path: '/main-menu/information/greeting',
