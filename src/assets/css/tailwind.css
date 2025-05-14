@@ -857,3 +857,13 @@ body {
 .tagify .tagify__input::before {
     @apply !font-normal !text-sm !text-gray-500;
 }
+
+
+video {
+    @apply w-full h-auto;
+}
+
+
+.vc-colorpicker {
+    @apply !shadow-none !w-full;
+}

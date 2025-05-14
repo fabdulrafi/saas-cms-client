@@ -511,7 +511,7 @@
   
                   <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
   
-                  <div class="p-5 pb-6">
+                  <div class="p-">
                     <div class="flex-1 grid grid-cols-1 sm:grid-cols-1 gap-6">
                       <ColorPicker 
                         v-model:pureColor="inputColor"

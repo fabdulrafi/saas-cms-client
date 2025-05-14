@@ -165,6 +165,7 @@ const initRoutes = (to, from, next, authenticating) => {
     to.name !== 'nearby add' && to.name !== 'nearby edit' && 
     to.name !== 'resto add' && to.name !== 'resto edit' && 
     to.name !== 'service add' && to.name !== 'service edit' && 
+    to.name !== 'master screen edit' &&
     to.name !== 'direct notification add' && to.name !== 'wallpaper add' && to.name !== 'theme add' &&
     to.name !== 'cctv add' && to.name !== 'running text add' && to.name !== 'wifi add' &&
     to.name !== 'emergency add' && to.name !== 'casting add' &&

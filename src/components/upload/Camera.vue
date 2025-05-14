@@ -47,7 +47,7 @@
 
                   <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
 
-                  <div class="p-5 pb-6">
+                  <div class="p-5">
                     <video
                       ref="videoRef"
                       autoplay

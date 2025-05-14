@@ -43,6 +43,21 @@ export const useTable = (cols: any, freeze: any = []) => {
         .bh-table-responsive table > tfoot > tr > th:nth-child(${freeze[f].child}) {
           z-index: 2;
         }
+
+
+        .bh-table-responsive table > thead > tr > th:nth-child(${freeze[freeze.length - 1].child}),
+        .bh-table-responsive table > tbody > tr > td:nth-child(${freeze[freeze.length - 1].child}) {
+          position: sticky;
+          right: 0px;
+        }
+
+        .bh-table-responsive table > thead > tr > th:nth-child(${freeze[freeze.length - 1].child}) {
+          z-index: 2;
+        }
+
+        .bh-table-responsive table > tbody > tr > td:nth-child(${freeze[freeze.length - 1].child}) {
+          z-index: 1;
+        }
       `;
     }
 

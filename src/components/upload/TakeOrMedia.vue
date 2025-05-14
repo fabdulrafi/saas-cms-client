@@ -140,7 +140,7 @@
 
                       <div>
                         <BtnPrivate
-                          @click="modal = false"
+                          @click="toApply"
                           :types="false"
                           texts="Add to Contens" />
                       </div>
@@ -202,7 +202,7 @@
 
   const params: any = reactive({
     page: 1,
-    limit: 24,
+    limit: 23,
     search: '',
     sort: '',
     order_by: '',
@@ -226,7 +226,7 @@
             mime_type: item.mime_type,
             extension: item.extension,
             url: item.url,
-            sizebytes: item.sizebytes, // tambahkan jika kamu pakai `formatsize`
+            sizebytes: item.sizebytes,
           }))
         : [];
       totalRows.value = data.value?.pagination?.total_data;
@@ -241,13 +241,7 @@
   watch(modal, (value) => {
     nextTick(() => {
       if (!value) {
-        const selectedMedia = rows.value.filter((item: any) =>
-          selectedItems.value.includes(item.uuid)
-        );
-
-        emit('update:contents', selectedMedia);
-
-        selectedItems.value = [];
+        
       }
 
       else {
@@ -265,6 +259,18 @@
     } else {
       selectedItems.value.splice(index, 1);
     }
+  };
+
+  const toApply = () => {
+    const selectedMedia = rows.value.filter((item: any) =>
+      selectedItems.value.includes(item.uuid)
+    );
+
+    emit('update:contents', selectedMedia);
+
+    selectedItems.value = [];
+
+    modal.value = false;
   };
 
   const { swalAlert } = useValid({});

@@ -4,6 +4,9 @@ export default {
   date (value) {
     return moment(value).format('DD MMM, YYYY');
   },
+  dateslash (value) {
+    return moment(value).format('YYYY/MM/DD');
+  },
   time (value) {
     return moment(value).format('HH:mm');
   },

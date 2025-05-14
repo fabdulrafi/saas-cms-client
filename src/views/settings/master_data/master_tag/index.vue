@@ -78,7 +78,7 @@
 
             <template v-else-if="header.format === 'from'">
               <span
-                :class="value.is_unit ? 'bg-primary/15 text-primary' : value.is_unit_type ? 'bg-secondary/15 text-secondary' : value.is_signage ? 'bg-success/15 text-success' : 'bg-danger/15 text-danger'"
+                :class="value.is_unit ? 'bg-primary/15 text-primary' : value.is_unit_type ? 'bg-secondary/15 text-secondary' : value.is_signage ? 'bg-success/15 text-success' : 'bg-warning/15 text-warning'"
                 class="badge capitalize rounded-md">
                 {{ value.is_unit ? 'Unit' : value.is_unit_type ? 'Unit Type' : value.is_signage ? 'Signage' : 'Custom' }}
               </span>
@@ -165,7 +165,7 @@
 
                   <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
 
-                  <div class="p-5 py-6">
+                  <div class="p-5">
                     <div class="flex-1 grid grid-cols-1 gap-6">
                       <div class="modal_placeholder">
                         <label class="text-sm font-thin">

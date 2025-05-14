@@ -157,7 +157,7 @@
 
                   <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
 
-                  <div class="p-5 py-6">
+                  <div class="p-5">
                     <div class="flex-1 grid grid-cols-1 gap-6">
                       <div class="modal_placeholder">
                         <label class="text-sm font-thin">

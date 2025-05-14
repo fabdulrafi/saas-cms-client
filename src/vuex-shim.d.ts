@@ -1,10 +1,11 @@
 import { ComponentCustomProperties } from "vue";
-import { date, time, datetime, currency, numeric, email, phone } from '@/app-format';
+import { date, dateslash, time, datetime, daterange, currency, numeric, decimal, email, phone, age, formatsize } from '@/app-format';
 
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
     $format: {
       date: typeof date,
+      dateslash: typeof dateslash,
       time: typeof time,
       datetime: typeof datetime,
       daterange: typeof daterange,

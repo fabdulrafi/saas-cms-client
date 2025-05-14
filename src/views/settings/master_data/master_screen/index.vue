@@ -9,15 +9,7 @@
       <div
         class="flex items-center space-x-3 ltr:ml-auto rtl:mr-auto">
         <BtnPrivate
-          texts="Select"
-          colors="bg-dark"
-          shadows="shadow-dark/50"
-          borders="border-dark"
-          :xs="true"
-          icons="check" />
-
-        <BtnPrivate
-          @click="payload.id = ''; modal = true;"
+          @click="payload.uuid = ''; modal = true;"
 
           texts="Add New"
           :xs="true" />
@@ -42,25 +34,7 @@
         </div>
 
         <div class="flex items-center space-x-10 ltr:ml-auto rtl:mr-auto">
-          <button
-            type="button" 
-            class="btn p-0 shadow-none border-none text-base font-semibold dark:text-white-light">
-            Unit
-  
-            <span class="badge font-bold rounded-full m-0 !px-[6px] bg-gray-100 text-black ltr:ml-2 rtl:mr-2">
-              390
-            </span>
-          </button>
-
-          <button
-            type="button" 
-            class="btn p-0 shadow-none border-none text-base font-semibold dark:text-white-light">
-            Active
-  
-            <span class="badge font-bold rounded-full m-0 !px-[6px] bg-gray-100 text-black ltr:ml-2 rtl:mr-2">
-              12
-            </span>
-          </button>
+          
         </div>
       </div>
 
@@ -101,51 +75,62 @@
               {{ value[header.field] ? $format.date(value[header.field]) : '' }}
             </template>
 
-            <template v-else-if="header.format === 'datetime'">
-              {{ value[header.field] ? $format.datetime(value[header.field]) : '' }}
-            </template>
-
-            <template v-else-if="header.format === 'currency'">
-              {{ value[header.field] ? $format.currency(value[header.field]) : '' }}
-            </template>
-
-            <template v-if="header.format === 'desc'">
-              <span class="truncate">
-                {{ value[header.field].length > 50 ? `${value[header.field].slice(0, 50)}...` : value[header.field] }}
-              </span>
-            </template>
-
-            <template v-else-if="header.format === 'image'">
-              <div
-                class="panel bg-grey-light dark:bg-[#121e32] shadow-none w-[50px] !p-2 mx-auto">
+            <template v-else-if="header.format === 'status'">
+              <div class="flex items-center space-x-2.5">
                 <img
-                  class="h-5 w-full max-w-20 object-contain mx-auto"
-                  :src="value[header.field] ? value[header.field] : `/assets/images/profile_default.png`" alt="" />
+                  :src="`/assets/figma/${value[header.field] === 'ACTIVE' ? 'icon_online' : 'icon_offline'}.svg`"
+                  alt="Online"
+                  class="w-6 h-6" />
+
+                <div>
+                  <div class="text-xs mb-0.5">
+                    {{ $format.dateslash(value.last_seen_at) }} - {{ $format.time(value.last_seen_at) }}
+                  </div>
+
+                  <div class="text-xs text-gray-400">
+                    {{ value.up_time }} min {{ value[header.field] === 'ACTIVE' ? 'online' : 'offline' }}
+                  </div>
+                </div>
               </div>
+            </template>
+
+            <template v-else-if="header.format === 'ip'">
+              <div>
+                <div class="text-xs flex items-center mb-0.5">
+                  Public : {{ value.public_ip_address }}
+                </div>
+
+                <div class="text-xs flex items-center">
+                  Local : {{ value.local_ip_address }}
+                </div>
+              </div>
+            </template>
+
+            <template v-else-if="header.format === 'os'">
+              {{ value.os }} {{ value.os_version }}
             </template>
             
             <template v-else-if="header.format === 'action'">
               <div
                 class="flex space-x-2">
-                <button
+                <router-link
+                  :to="`/settings/master-data/master-screen/edit/${value.uuid}`"
                   type="button"
-                  v-tippy="{ content: 'Edit', theme: 'dark' }"
-                  class="btn btn-dark w-7 h-7 p-0 rounded-md">
-                  <icon-pencil-paper class="w-3 h-3" />
-                </button>
+                  v-tippy="{ content: 'Edit', theme: 'primary' }"
+                  class="btn bg-[#2A48961F] dark:bg-dark/40 hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60 w-8 h-8 p-0 rounded-lg text-white shadow-none border-none">
+                  <div class="bg-primary rounded-full p-1">
+                    <icon-pencil-paper class="w-3 h-3" />
+                  </div>
+                </router-link>
 
                 <button
+                  @click="toDelete(value)"
                   type="button"
                   v-tippy="{ content: 'Delete', theme: 'danger' }"
-                  class="btn btn-danger w-7 h-7 p-0 rounded-md">
-                  <icon-trash-lines class="w-3 h-3" />
-                </button>
-
-                <button
-                  type="button"
-                  v-tippy="{ content: 'Detail', theme: 'primary' }"
-                  class="btn btn-primary w-7 h-7 p-0 rounded-md">
-                  <IconInfoCircle class="w-3 h-3" />
+                  class="btn bg-[#2A48961F] dark:bg-dark/40 hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60 w-8 h-8 p-0 rounded-lg text-white shadow-none border-none">
+                  <div class="bg-danger rounded-full p-1">
+                    <icon-trash-lines class="w-3 h-3" />
+                  </div>
                 </button>
               </div>
             </template>
@@ -185,8 +170,8 @@
               leave="duration-200 ease-in"
               leave-from="opacity-100 scale-100"
               leave-to="opacity-0 scale-95">
-              <DialogPanel class="panel border-0 p-0 rounded-xl overflow-hidden w-full max-w-3xl text-black dark:text-white-dark">
-                <form @submit.prevent="submit">
+              <DialogPanel class="panel border-0 p-0 rounded-xl overflow-hidden w-full max-w-lg text-black dark:text-white-dark">
+                <form>
                   <button
                     @click="modal = false"
 
@@ -197,163 +182,69 @@
 
                   <div
                     class="text-lg capitalize font-bold bg-[#F9FBFE] dark:bg-[#121c2c] ltr:pl-5 rtl:pr-5 py-3 ltr:pr-[50px] rtl:pl-[50px]">
-                    {{ router.currentRoute.value.meta.title }} {{ payload.id ? 'Edit' : 'Add' }}
-                  </div>
-
-                  <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
-
-                  <div class="p-5 py-6">
-                    <div class="flex-1 grid grid-cols-1 sm:grid-cols-5 gap-6 xs:gap-2">
-                      <div class="text-sm font-semibold">
-                        Screen Name
-
-                        <span class="text-danger">*</span>
-                      </div>
-              
-                      <div class="col-span-4 xs:mb-4">
-                        <input
-                          v-model="payload.title"
-
-                          type="text"
-                          placeholder="Ex: Digital Signage Ball room"
-                          class="form-input" />
-
-                        <div v-if="v$.title.$error"
-                          class="validator">
-                          {{ v$.title.$errors[0].$message }}
-                        </div>
-                      </div>
-
-                      <div class="text-sm font-semibold">
-                        Type Screen
-
-                        <span class="text-danger">*</span>
-                      </div>
-              
-                      <div class="col-span-4 xs:mb-4">
-                        <SingleSelect
-                          v-model="payload.type"
-
-                          :options="[
-                            { id: 'unit', name: 'unit' },
-                            { id: 'signage', name: 'Signage' },
-                          ]"
-
-                          placeholder="Ex: Signage"
-                          opens="bottom" />
-
-                        <div v-if="v$.type.$error"
-                          class="validator">
-                          {{ v$.type.$errors[0].$message }}
-                        </div>
-                      </div>
-
-                      <div class="text-sm font-semibold">
-                        Information
-
-                        <span class="text-danger">*</span>
-                      </div>
-
-                      <div class="col-span-4 xs:mb-4">
-                        <input
-                          v-model="payload.information"
-
-                          type="text"
-                          placeholder="Ex: Tower 1 on 3rd floor"
-                          class="form-input" />
-
-                        <div v-if="v$.information.$error"
-                          class="validator">
-                          {{ v$.information.$errors[0].$message }}
-                        </div>
-                      </div>
-
-                      <div class="text-sm font-semibold">
-                        Signage Tags
-
-                        <span class="text-danger">*</span>
-                      </div>
-
-                      <div class="col-span-4 xs:mb-4">
-                        <MultiSelect
-                          v-model="payload.ds_tags"
-
-                          :options="rows_options_tags"
-
-                          placeholder="Ex: #working_space"
-                          opens="bottom" />
-            
-                        <div v-if="v$.ds_tags.$error"
-                          class="validator">
-                          {{ v$.ds_tags.$errors[0].$message }}
-                        </div>
-                      </div>
-
-                      <div class="text-sm font-semibold">
-                        Custom Tags
-
-                        <span class="text-danger">*</span>
-                      </div>
-
-                      <div class="col-span-4 xs:mb-4">
-                        <TagInput
-                          v-model="payload.cs_tags"
-
-                          placeholders="Ex: #floor1" />
-
-                        <div v-if="v$.cs_tags.$error"
-                          class="validator">
-                          {{ v$.cs_tags.$errors[0].$message }}
-                        </div>
-                      </div>
-                      
-                      <div class="text-sm font-semibold">
-                        Status
-
-                        <span class="text-danger">*</span>
-                      </div>
-
-                      <div class="col-span-4 xs:mb-4">
-                        <div class="flex items-center">
-                          <label class="w-12 h-6 relative mb-0">
-                            <input
-                              v-model="payload.status"
-                              
-                              type="checkbox"
-                              class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
-                              id="custom_switch_checkbox7" />
-
-                            <span
-                              for="custom_switch_checkbox7"
-                              class="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300">
-                            </span>
-                          </label>
-
-                          <div
-                            @click="payload.status = !payload.status"
-
-                            class="text-sm cursor-pointer ml-3">
-                            {{ payload.status ? 'Active' : 'Not Active' }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    {{ router.currentRoute.value.meta.title }} {{ payload.uuid ? 'Edit' : 'Add' }}
                   </div>
 
                   <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
 
                   <div class="p-5">
-                    <div class="flex justify-end items-center">
-                      <BtnPrivate 
-                        :loadings="loading" />
+                    <div class="flex-1 grid grid-cols-1 gap-6">
+                      <div>
+                        <div 
+                          id="reader" 
+                          class="h-[350px] xs:h-[335px] w-full rounded-xl overflow-hidden bg-[#e0e6ed] dark:bg-[#121e32]">
+                        </div>
+                      </div>
 
-                      <button
-                        @click="modal = false"
+                      <div> 
+                        <ol class="text-xs text-gray-400 !font-semibold leading-relaxed list-decimal list-inside">
+                          <li>
+                            Install the Smartiv App on the TV
 
-                        type="button"
-                        class="btn btn-outline-danger text-sm !font-semibold w-[80px] ltr:ml-4 rtl:mr-4 rounded-xl">
-                        Close
-                      </button>
+                            <ul class="!font-thin list-disc ml-[26px] my-1">
+                              <li>
+                                Turn on your Google TV or Android TV
+                              </li>
+                              <li>
+                                Open the Play Store and search for Smartiv Hospitality
+                              </li>
+                              <li>
+                                Download and install the app
+                              </li>
+                            </ul>
+                          </li>
+
+                          <li>
+                            Open the App
+
+                            <ul class="!font-thin list-disc ml-[26px] my-1">
+                              <li>
+                                Launch the Smartiv Hospitality app
+                              </li>
+                              <li>
+                                A QR code and a 6-digit code will appear on the screen
+                              </li>
+                            </ul>
+                          </li>
+              
+                          <li>
+                            Register the Screen
+
+                            <ul class="!font-thin list-disc ml-[26px] my-1">
+                              <li>
+                                Open your phone camera and scan the QR code on the TV
+                              </li>
+                              <li>
+                                This will open the registration page in your browser
+                              </li>
+                            </ul>
+                          </li>
+              
+                          <li>
+                            Fill in the required details and submit
+                          </li>
+                        </ol>
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -381,13 +272,17 @@
 
   import Vue3Datatable from '@/components/datatable/custom-table.vue';
   import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogOverlay, TabGroup, TabList, Tab } from '@headlessui/vue';
-  import SingleSelect from '@/components/basic/select/Single.vue';
-  import MultiSelect from '@/components/basic/select/Multi.vue';
-  import TagInput from '@/components/basic/input/TagInput.vue';
 
   import IconSearch from '@/components/icon/icon-search.vue';
+  import IconX from '@/components/icon/icon-x.vue';
+  import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
+  import IconPencilPaper from '@/components/icon/icon-pencil-paper.vue';
+  import IconInfoCircle from "@/components/icon/icon-info-circle.vue";
+
+  import { Html5Qrcode } from 'html5-qrcode';
 
   import BtnPrivate from "@/components/basic/button/BtnPrivate.vue";
+  import Error from '@/components/basic/Error.vue';
 
   const router = useRouter();
   const store = useAppStore();
@@ -403,11 +298,6 @@
     search: '',
     sort: '',
     order_by: '',
-
-    type: 'member',
-    status: 'approved',
-    active_bool: '',
-    deleted_bool: false
   });
 
   const rows: any = ref(null);
@@ -416,28 +306,30 @@
     reactive([
       {
         title: 'Screen',
-        field: 'screen',
+        field: 'name',
         minWidth: '200px',
         freeze: false
       },
       {
         title: 'MAC Address',
         field: 'mac_address',
-        minWidth: '200px',
+        minWidth: '175px',
         freeze: false
       },
       {
         title: 'Online / Offline',
-        field: 'online_offline',
+        field: 'status',
         minWidth: '200px',
+        format: 'status',
         freeze: false
       },
       {
-        title: 'Ip',
-        field: 'ip',
-        width: '120px',
-        minWidth: '120px',
-        maxWidth: '120px',
+        title: 'Ip Address',
+        field: 'local_ip_address',
+        width: '150px',
+        minWidth: '150px',
+        maxWidth: '150px',
+        format: 'ip',
         freeze: false
       },
       {
@@ -454,19 +346,44 @@
         width: '120px',
         minWidth: '120px',
         maxWidth: '120px',
+        format: 'os',
         freeze: false
       },
       {
         title: 'Version App',
-        field: 'version_app',
+        field: 'app_version',
+        width: '150px',
+        minWidth: '150px',
+        maxWidth: '150px',
+        freeze: false
+      },
+      {
+        title: 'Model',
+        field: 'model',
         width: '120px',
         minWidth: '120px',
         maxWidth: '120px',
         freeze: false
       },
       {
-        title: 'last At',
-        field: 'last_at',
+        title: 'Internet',
+        field: 'internet_speed',
+        width: '120px',
+        minWidth: '120px',
+        maxWidth: '120px',
+        freeze: false
+      },
+      {
+        title: 'Signal',
+        field: 'signal_strength',
+        width: '120px',
+        minWidth: '120px',
+        maxWidth: '120px',
+        freeze: false
+      },
+      {
+        title: 'Last At',
+        field: 'last_seen_at',
         minWidth: '150px',
         format: 'date',
         freeze: false
@@ -474,9 +391,9 @@
       {
         title: 'Action',
         field: 'id',
-        width: '120px',
-        minWidth: '120px',
-        maxWidth: '120px',
+        width: '80px',
+        minWidth: '80px',
+        maxWidth: '80px',
         headerClass: 'justify-center',
         cellClass: 'justify-center',
         format: 'action',
@@ -498,7 +415,7 @@
   const getList = () => {
     isLoading.value = true;
 
-    const { loading, data, error, get } = useApiWithAuth("user/data");
+    const { loading, data, error, get } = useApiWithAuth("client/screen");
 
     get(params);
 
@@ -536,41 +453,67 @@
   // ====================================== modal form ====================================== //
   const modal = ref(false);
 
-  const isLoadingOptionsTags: any = ref(false);
-  const rows_options_tags: any = ref([]);
-
   interface Payload {
-    id?: string;
-    title?: string;
-    type?: string;
-    information?: string;
-    ds_tags?: any;
-    cs_tags?: any;
-    status?: boolean;
+    uuid?: string;
+    code?: string;
   };
 
   const initialState = (): Payload => {
     return {
-      id: undefined,
-      title: '',
-      type: '',
-      information: '',
-      ds_tags: [],
-      cs_tags: [],
-      status: true
+      uuid: undefined,
+      code: '',
     }
   };
 
   const payload = reactive<Payload>(initialState());
 
-  const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm, checkExistAct } = useValid(payload, ['id']);
-  const { loading, data, post, put, errorMessage, error } = useApiWithAuth('post');
+  const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm, checkExistAct } = useValid(payload, ['uuid']);
+  const { loading, data, post, put, errorMessage, error } = useApiWithAuth('client/screen');
 
-  const getOptionsTags = () => {
-    rows_options_tags.value = [
-      { id: '#working_space', name: '#working_space' },
-      { id: '#meeting_room', name: '#meeting_room' },
-    ];
+  const scannedResult = ref<string | null>(null);
+  const isScanning = ref(false);
+  let html5Qrcode: Html5Qrcode | null = null;
+  
+  const startScan = () => {
+    if (html5Qrcode) {
+      html5Qrcode.start(
+        { facingMode: 'environment' },
+        {
+          fps: 10,
+          qrbox: { width: 250, height: 250 },
+        },
+        (decodedText: string) => {
+          scannedResult.value = decodedText;
+
+          payload.code = JSON.parse(scannedResult.value as string)?.code;
+
+          submit();
+        },
+        (errorMessage: string) => {
+          console.error(errorMessage);
+        }
+      ).then(() => {
+        isScanning.value = true;
+      }).catch((err) => {
+        console.error('Error starting QR code scanner:', err);
+      });
+    }
+  };
+
+  const stopScan = () => {
+    if (html5Qrcode) {
+      html5Qrcode.stop().then(() => {
+        console.log('QR code scanner stopped');
+        
+        isScanning.value = false;
+
+        scannedResult.value = null;
+
+        modal.value = false;
+      }).catch((err) => {
+        console.error('Error starting QR code scanner:', err);
+      });
+    }
   };
 
   watch(modal, (value) => {
@@ -581,10 +524,18 @@
         v$.value.$reset();
 
         error.value = '';
+
+        stopScan();
+
+        if (html5Qrcode) {
+          html5Qrcode.clear();
+        }
       }
 
       else {
-        getOptionsTags();
+        html5Qrcode = new Html5Qrcode('reader');
+
+        startScan();
       }
     });
   });
@@ -596,5 +547,34 @@
 
     loading.value = true;
 
+    post(payload);
+
+    watch([ loading ], () => {
+      swalAlert('Successfully saved data', 'success');
+
+      stopScan();
+
+      router.push({
+        name: 'master screen edit',
+        params: {
+          uuid: data.value?.data?.uuid
+        }
+      });
+    });
   };
+
+  const toDelete = (item: any) => {
+    swalAlertConfirm(`Are you sure you want to delete data ${item.name}?`, 'warning', 'client/screen', item.uuid)
+    .then((res) => {
+      if (res) {
+        swalAlert('Successfully delete data', 'success');
+
+        getList();
+      }
+    });
+  };
+
+  onMounted(() => {
+    getList();
+  });
 </script>

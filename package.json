@@ -23,6 +23,7 @@
     "@yaireo/tagify": "^4.33.2",
     "axios": "^1.7.2",
     "firebase": "^10.12.2",
+    "html5-qrcode": "^2.3.8",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "pinia": "^2.0.22",

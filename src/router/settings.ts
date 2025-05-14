@@ -34,6 +34,15 @@ export const useRouterSettings = () => [
     meta: { requiresAuth: true, title: 'Master Screen' }
   },
   {
+    path: '/settings/master-data/master-screen/edit/:uuid',
+    name: 'master screen edit',
+    component: () => import(/* webpackChunkName: "settings/master-data/master-screen/edit/:uuid" */ '@/views/settings/master_data/master_screen/edit/_id.vue'),
+    meta: { requiresAuth: true, title: 'Master Screen Edit' }
+  },
+
+
+
+  {
     path: '/settings/master-data/master-tag',
     name: 'master tag',
     component: () => import(/* webpackChunkName: "settings/master-data/master-tag" */ '@/views/settings/master_data/master_tag/index.vue'),

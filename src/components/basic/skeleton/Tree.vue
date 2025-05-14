@@ -2,7 +2,7 @@
   <div role="status" class="max-w-full animate-pulse">
     <div
       v-for="i in rows"
-      :class="{ 'mb-6': i < rows }">
+      :class="{ 'mb-6': i < rows - 1 }">
       <div
         class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 mb-4"
         :style="`width: ${widths}%;`">

@@ -178,7 +178,7 @@
 
                   <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
 
-                  <div class="p-5 py-6">
+                  <div class="p-5">
                     <div class="flex-1 grid grid-cols-1 gap-6">
                       <div class="modal_placeholder">
                         <label class="text-sm font-thin">
@@ -221,7 +221,7 @@
                           <span class="text-danger">*</span>
                         </label>
   
-                        <div class="col-span-4 xs:mb-4">
+                        <div>
                           <div class="flex items-center gap-6 xs:gap-4">
                             <div class="w-full">
                               <SingleSelect
@@ -256,34 +256,27 @@
                         </div>
                       </div>
                       
-                      <div class="modal_placeholder">
-                        <label class="text-sm font-thin">
+                      <div class="modal_placeholder flex items-center space-x-12">
+                        <div class="text-sm font-thin">
                           Status
   
                           <span class="text-danger">*</span>
-                        </label>
+                        </div>
   
-                        <div class="col-span-4 xs:mb-4">
+                        <div>
                           <div class="flex items-center">
-                            <label class="w-12 h-6 relative mb-0">
+                            <div class="w-12 h-6 relative">
                               <input
                                 v-model="payload.status_view"
                                 
                                 type="checkbox"
                                 class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
                                 id="custom_switch_checkbox7" />
-  
+
                               <span
                                 for="custom_switch_checkbox7"
                                 class="bg-[#ebedf2] dark:bg-dark block h-full rounded-full before:absolute before:left-1 before:bg-white dark:before:bg-white-dark dark:peer-checked:before:bg-white before:bottom-1 before:w-4 before:h-4 before:rounded-full peer-checked:before:left-7 peer-checked:bg-primary before:transition-all before:duration-300">
                               </span>
-                            </label>
-  
-                            <div
-                              @click="payload.status_view = !payload.status_view"
-  
-                              class="text-sm cursor-pointer ml-3">
-                              {{ payload.status_view ? 'ACTIVE' : 'INACTIVE' }}
                             </div>
                           </div>
                         </div>
@@ -365,7 +358,7 @@
 
                   <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
 
-                  <div class="p-5 py-6">
+                  <div class="p-5">
                     <div class="flex-1 grid grid-cols-1 gap-6">
                       <div class="modal_placeholder">
                         <label class="text-sm font-thin">
