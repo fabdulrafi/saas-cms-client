@@ -79,6 +79,44 @@ export const useRouterMainMenu = () => [
     meta: { requiresAuth: true, title: 'Facility Edit' }
   },
 
+  {
+    path: '/main-menu/information/about',
+    name: 'about',
+    component: () => import(/* webpackChunkName: "main-menu/information/about" */ '@/views/main_menu/information/about/index.vue'),
+    meta: { requiresAuth: true, title: 'About' }
+  },
+  {
+    path: '/main-menu/information/about/add',
+    name: 'about add',
+    component: () => import(/* webpackChunkName: "main-menu/information/about/add" */ '@/views/main_menu/information/about/add/index.vue'),
+    meta: { requiresAuth: true, title: 'About Add' }
+  },
+  {
+    path: '/main-menu/information/about/edit/:uuid',
+    name: 'about edit',
+    component: () => import(/* webpackChunkName: "main-menu/information/about/edit/:uuid" */ '@/views/main_menu/information/about/edit/_id.vue'),
+    meta: { requiresAuth: true, title: 'About Edit' }
+  },
+
+  {
+    path: '/main-menu/information/nearby',
+    name: 'nearby',
+    component: () => import(/* webpackChunkName: "main-menu/information/nearby" */ '@/views/main_menu/information/nearby/index.vue'),
+    meta: { requiresAuth: true, title: 'Nearby' }
+  },
+  {
+    path: '/main-menu/information/nearby/add',
+    name: 'nearby add',
+    component: () => import(/* webpackChunkName: "main-menu/information/nearby/add" */ '@/views/main_menu/information/nearby/add/index.vue'),
+    meta: { requiresAuth: true, title: 'Nearby Add' }
+  },
+  {
+    path: '/main-menu/information/nearby/edit/:uuid',
+    name: 'nearby edit',
+    component: () => import(/* webpackChunkName: "main-menu/information/nearby/edit/:uuid" */ '@/views/main_menu/information/nearby/edit/_id.vue'),
+    meta: { requiresAuth: true, title: 'Nearby Edit' }
+  },
+
 
   {
     path: '/main-menu/information/greeting',
