@@ -471,6 +471,7 @@
 
   const toggleSelection = (uuid: string) => {
     const index = selectedItems.value.indexOf(uuid);
+    
     if (index === -1) {
       selectedItems.value.push(uuid);
     } else {
