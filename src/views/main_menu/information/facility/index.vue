@@ -183,7 +183,7 @@
   const cols =
     reactive([
       {
-        title: 'Image',
+        title: 'Contents',
         field: 'contents_limit1',
         width: '100px',
         minWidth: '100px',
