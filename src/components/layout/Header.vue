@@ -136,7 +136,7 @@
               </button>
 
               <template #content="{ close }">
-                <ul class="!px-2 text-dark dark:text-white-dark font-semibold dark:text-white-light/90 w-[200px]">
+                <ul class="!px-2 text-dark dark:text-white-dark font-semibold dark:text-white-light/90 w-[200px] !rounded-xl">
                   <template
                     v-for="item in countries"
                     :key="item.code">
@@ -177,9 +177,9 @@
               </button>
 
               <template #content="{ close }">
-                <ul class="top-11 !py-0 text-dark dark:text-white-dark w-[300px] sm:w-[375px] text-xs">
+                <ul class="top-11 !py-0 text-dark dark:text-white-dark w-[300px] sm:w-[375px] text-xs !rounded-xl">
                   <li class="mb-5">
-                    <div class="overflow-hidden relative rounded-t-md !p-5 text-white">
+                    <div class="overflow-hidden relative rounded-t-xl !p-5 text-white">
                       <div
                         class="absolute h-full w-full bg-[url('/assets/images/menu-header.jpg')] bg-no-repeat bg-center bg-cover inset-0">
                       </div>
@@ -260,7 +260,7 @@
               </button>
 
               <template #content="{ close }">
-                <ul class="!py-0 text-dark dark:text-white-dark w-[300px] sm:w-[350px] divide-y dark:divide-white/10">
+                <ul class="!py-0 text-dark dark:text-white-dark w-[300px] sm:w-[350px] divide-y dark:divide-white/10 !rounded-xl">
                   <li>
                     <div class="flex items-center px-4 py-2 justify-between font-semibold">
                       <h4 class="text-lg">Notifikasi</h4>
@@ -456,7 +456,11 @@
                   :src="router?.currentRoute?.value?.fullPath.includes(item.link?.toString() ?? '') ? icons[item.icon_active?.toString() ?? ''] : icons[item.icon?.toString() ?? '']"
                   class="h-4 w-4" />
 
-                <span class="px-2">{{ item.name }}</span>
+                <span 
+                  class="px-2 text-gray-400 dark:text-[#506690]"
+                  :class="{ '!text-white': router?.currentRoute?.value?.fullPath.includes(item.link?.toString() ?? '') }">
+                  {{ item.name }}
+                </span>
               </div>
             </router-link>
           </li>
@@ -474,7 +478,11 @@
                   :src="router?.currentRoute?.value?.fullPath.includes(item.link?.toString() ?? '') ? icons[item.icon_active?.toString() ?? ''] : icons[item.icon?.toString() ?? '']"
                   class="h-4 w-4" />
 
-                <span class="px-2">{{ item.name }}</span>
+                <span 
+                  class="px-2 text-gray-500"
+                  :class="{ '!text-white': router?.currentRoute?.value?.fullPath.includes(item.link?.toString() ?? '') }">
+                  {{ item.name }}
+                </span>
               </div>
 
               <div class="right_arrow">
@@ -490,6 +498,7 @@
                   <router-link
                     :to="item_sub.link?.toString() ?? ''"
 
+                    class="text-gray-400 dark:text-[#506690]"
                     :class="{ active: router?.currentRoute?.value?.fullPath.includes(item_sub.link?.toString() ?? '') }">
                     {{ item_sub.name }}
                   </router-link>
@@ -500,17 +509,19 @@
                     :class="{ 'bg-primary text-white': router?.currentRoute?.value?.fullPath.includes(item_sub.link?.toString() ?? '') }"
                     class="relative">
                     <a 
-                      :class="{ 'hover:!bg-primary hover:!text-white': router?.currentRoute?.value?.fullPath.includes(item_sub.link?.toString() ?? '') }"
+                      :class="{ 'hover:!bg-primary hover:!text-white !text-white': router?.currentRoute?.value?.fullPath.includes(item_sub.link?.toString() ?? '') }"
+                      class="text-gray-400 dark:text-[#506690]"
                       href="javascript:;">
                       {{ item_sub.name }}
 
-                      <div class="ltr:ml-auto rtl:mr-auto rtl:rotate-90 -rotate-90">
-                        <icon-caret-down />
+                      <div 
+                        class="ltr:ml-auto rtl:mr-auto rtl:rotate-90 -rotate-90">
+                        <icon-caret-down :class="{ '!text-white': router?.currentRoute?.value?.fullPath.includes(item_sub.link?.toString() ?? '') }" />
                       </div>
                     </a>
 
                     <ul
-                      class="rounded absolute top-0 ltr:left-[95%] rtl:right-[95%] min-w-[180px] bg-white z-[10] text-dark dark:text-white-dark dark:bg-[#1b2e4b] shadow p-0 py-2 hidden">
+                      class="rounded-xl absolute top-0 ltr:left-[95%] rtl:right-[95%] min-w-[180px] bg-white z-[10] text-dark dark:text-white-dark dark:bg-[#1b2e4b] shadow p-0 py-2 hidden">
                       <template
                         v-for="(item_sub_child, index_sub_child) in item_sub.children"
                         :key="index_sub_child">
@@ -518,23 +529,25 @@
                           :class="{ 'bg-primary text-white': router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? '') }"
                           class="relative">
                           <a 
-                            :class="{ 'hover:!bg-primary hover:!text-white': router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? '') }"
+                            :class="{ 'hover:!bg-primary hover:!text-white !text-white': router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? '') }"
+                            class="text-gray-400 dark:text-[#506690]"
                             href="javascript:;">
                             {{ item_sub_child.name }}
 
                             <div class="ltr:ml-auto rtl:mr-auto rtl:rotate-90 -rotate-90">
-                              <icon-caret-down />
+                              <icon-caret-down :class="{ '!text-white': router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? '') }" />
                             </div>
                           </a>
 
                           <ul
-                            class="rounded absolute top-0 ltr:left-[95%] rtl:right-[95%] min-w-[180px] bg-white z-[10] text-dark dark:text-white-dark dark:bg-[#1b2e4b] shadow p-0 py-2 hidden">
+                            class="rounded-xl absolute top-0 ltr:left-[95%] rtl:right-[95%] min-w-[180px] bg-white z-[10] text-dark dark:text-white-dark dark:bg-[#1b2e4b] shadow p-0 py-2 hidden">
                             <li
                               v-for="(item_sub_child_great, index_sub_child_great) in item_sub_child.children"
                               :key="index_sub_child_great">
                               <router-link
                                 :to="item_sub_child_great.link?.toString() ?? ''"
 
+                                class="text-gray-400 dark:text-[#506690]"
                                 :class="{ 'text-primary': router?.currentRoute?.value?.fullPath.includes(item_sub_child_great.link?.toString() ?? '') }">
                                 {{ item_sub_child_great.name }}
                               </router-link>
@@ -545,7 +558,8 @@
                         <li v-if="item_sub_child.children && item_sub_child.children.length < 1 && item_sub_child.checked">
                           <router-link
                             :to="item_sub_child.link?.toString() ?? ''"
-
+                            
+                            class="text-gray-400 dark:text-[#506690]"
                             :class="{ 'text-primary': router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? '') }">
                             {{ item_sub_child.name }}
                           </router-link>

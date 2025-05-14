@@ -57,7 +57,7 @@
                       class="h-4 w-4" />
 
                     <span
-                      class="ltr:pl-3 rtl:pr-3 text-gray-400 dark:text-[#506690] group-hover:text-primary">
+                      class="ltr:pl-3 rtl:pr-3 text-gray-400 dark:text-[#506690] group-hover:text-primary dark:group-hover:text-white">
                       {{ item.name }}
                     </span>
                   </div>
@@ -103,7 +103,7 @@
                             :src="router?.currentRoute?.value?.fullPath.includes(item_sub.link?.toString() ?? '') ? icons[item_sub.icon_active?.toString() ?? ''] : icons[item_sub.icon?.toString() ?? '']"
                             class="h-4 w-4" />
   
-                          <span class="ltr:pl-3 rtl:pr-3 text-gray-400 dark:text-[#506690] group-hover:text-primary">
+                          <span class="ltr:pl-3 rtl:pr-3 text-gray-400 dark:text-[#506690] group-hover:text-primary dark:group-hover:text-white">
                             {{ item_sub.name }}
                           </span>
                         </div>
@@ -128,7 +128,7 @@
                               :src="activeDropdown === item_sub.name ? icons[item_sub.icon_active?.toString() ?? ''] : icons[item_sub.icon?.toString() ?? '']"
                               class="h-4 w-4" />
   
-                            <span class="ltr:pl-3 rtl:pr-3 text-gray-400 dark:text-[#506690] group-hover:text-primary">
+                            <span class="ltr:pl-3 rtl:pr-3 text-gray-400 dark:text-[#506690] group-hover:text-primary dark:group-hover:text-white">
                               {{ item_sub.name }}
                             </span>
                           </div>
@@ -164,17 +164,18 @@
                                       <div v-if="activeDropdownChild === item_sub_child.name"
                                         :class="{ 
                                           '!border-[#E1F1FF]': activeDropdownChild === item_sub_child.name,
-                                          'group-hover:!border-primary': activeDropdownChild !== item_sub_child.name,
+                                          'group-hover:!border-primary dark:group-hover:!border-white': activeDropdownChild !== item_sub_child.name,
                                         }"
                                         class="border-r-2 border-[#E1F1FF] dark:border-[#2f405c] h-10 absolute"></div>
                                       <div 
                                         :class="{ 
-                                          '!bg-[#E1F1FF]': activeDropdownChild === item_sub_child.name,'group-hover:!bg-primary': activeDropdownChild !== item_sub_child.name
+                                          '!bg-[#E1F1FF]': activeDropdownChild === item_sub_child.name,
+                                          'group-hover:!bg-primary dark:group-hover:!bg-white': activeDropdownChild !== item_sub_child.name
                                         }"
                                         class="h-2.5 w-2.5 bg-[#E1F1FF] dark:bg-[#2f405c] rounded-full absolute"></div>
                                     </div>
     
-                                    <span class="ltr:pl-[20px] rtl:pr-[20px] text-gray-400 dark:text-[#506690] group-hover:text-primary">
+                                    <span class="ltr:pl-[20px] rtl:pr-[20px] text-gray-400 dark:text-[#506690] group-hover:text-primary dark:group-hover:text-white">
                                       {{ item_sub_child.name }}
                                     </span>
                                   </div>
@@ -207,19 +208,19 @@
                                             <div v-if="router?.currentRoute?.value?.fullPath.includes(item_sub_child_great.link?.toString() ?? '')"
                                               :class="{ 
                                                 '!border-[#E1F1FF]': router?.currentRoute?.value?.fullPath.includes(item_sub_child_great.link?.toString() ?? ''),
-                                                'group-hover:!border-primary': !router?.currentRoute?.value?.fullPath.includes(item_sub_child_great.link?.toString() ?? ''),
+                                                'group-hover:!border-primary dark:group-hover:!border-white': !router?.currentRoute?.value?.fullPath.includes(item_sub_child_great.link?.toString() ?? ''),
                                               }"
                                               class="border-r-2 border-[#E1F1FF] dark:border-[#2f405c] h-10 absolute"></div>
                                             <div 
                                               :class="{ 
-                                                '!bg-[#E1F1FF]': router?.currentRoute?.value?.fullPath.includes(item_sub_child_great.link?.toString() ?? ''),'group-hover:!bg-primary': !router?.currentRoute?.value?.fullPath.includes(item_sub_child_great.link?.toString() ?? '') 
+                                                '!bg-[#E1F1FF]': router?.currentRoute?.value?.fullPath.includes(item_sub_child_great.link?.toString() ?? ''),'group-hover:!bg-primary dark:group-hover:!bg-white': !router?.currentRoute?.value?.fullPath.includes(item_sub_child_great.link?.toString() ?? '') 
                                               }"
                                               class="h-2.5 w-2.5 bg-[#E1F1FF] dark:bg-[#2f405c] rounded-full absolute"></div>
                                           </div>
           
                                           <span 
-                                            :class="{ 'hover:!bg-primary hover:!text-white text-white': router?.currentRoute?.value?.fullPath.includes(item_sub_child_great.link?.toString() ?? '') }"
-                                            class="ltr:pl-[31px] rtl:pr-[31px] text-gray-400">
+                                            :class="{ 'hover:!bg-primary hover:!text-white !text-white': router?.currentRoute?.value?.fullPath.includes(item_sub_child_great.link?.toString() ?? '') }"
+                                            class="ltr:pl-[31px] rtl:pr-[31px] text-gray-400 dark:text-[#506690] group-hover:text-primary dark:group-hover:text-white">
                                             {{ item_sub_child_great.name }}
                                           </span>
                                         </div>
@@ -251,19 +252,19 @@
                                       <div v-if="router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? '')"
                                         :class="{ 
                                           '!border-[#E1F1FF]': router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? ''),
-                                          'group-hover:!border-primary': !router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? ''),
+                                          'group-hover:!border-primary dark:group-hover:!border-white': !router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? ''),
                                         }"
                                         class="border-r-2 border-[#E1F1FF] dark:border-[#2f405c] h-10 absolute"></div>
                                       <div 
                                         :class="{ 
-                                          '!bg-[#E1F1FF]': router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? ''),'group-hover:!bg-primary': !router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? '') 
+                                          '!bg-[#E1F1FF]': router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? ''),'group-hover:!bg-primary dark:group-hover:!bg-white': !router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? '') 
                                         }"
                                         class="h-2.5 w-2.5 bg-[#E1F1FF] dark:bg-[#2f405c] rounded-full absolute"></div>
                                     </div>
     
                                     <span 
-                                      :class="{ 'hover:!bg-primary hover:!text-white text-white': router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? '') }"
-                                      class="ltr:pl-[31px] rtl:pr-[31px] text-gray-400">
+                                      :class="{ 'hover:!bg-primary hover:!text-white !text-white': router?.currentRoute?.value?.fullPath.includes(item_sub_child.link?.toString() ?? '') }"
+                                      class="ltr:pl-[31px] rtl:pr-[31px] text-gray-400 dark:text-[#506690] group-hover:text-primary dark:group-hover:text-white">
                                       {{ item_sub_child.name }}
                                     </span>
                                   </div>
