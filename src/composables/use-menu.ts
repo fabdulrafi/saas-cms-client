@@ -232,9 +232,45 @@ export const useArraymenus = (actived: boolean = false) => {
           checked: actived,
           children: [
             {
+              name: 'About',
+              icon: 'IconMinus',
+              link: '/main-menu/information/about',
+              checked: actived,
+              children: [],
+              actions: [],
+              tabs: []
+            },
+            {
               name: 'Facility',
               icon: 'IconMinus',
               link: '/main-menu/information/facility',
+              checked: actived,
+              children: [],
+              actions: [],
+              tabs: []
+            },
+            {
+              name: 'Nearby',
+              icon: 'IconMinus',
+              link: '/main-menu/information/nearby',
+              checked: actived,
+              children: [],
+              actions: [],
+              tabs: []
+            },
+            {
+              name: 'Resto',
+              icon: 'IconMinus',
+              link: '/main-menu/information/resto',
+              checked: actived,
+              children: [],
+              actions: [],
+              tabs: []
+            },
+            {
+              name: 'Service',
+              icon: 'IconMinus',
+              link: '/main-menu/information/service',
               checked: actived,
               children: [],
               actions: [],

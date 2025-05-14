@@ -3,7 +3,7 @@
     <div class="flex items-center whitespace-nowrap">
       <h5
         class="font-semibold capitalize text-lg dark:text-white-light">
-        {{ router.currentRoute.value.name }}
+        {{ router.currentRoute.value.meta.title }}
       </h5>
 
       <div
@@ -174,7 +174,7 @@
 
                   <div
                     class="text-lg capitalize font-bold bg-[#F9FBFE] dark:bg-[#121c2c] ltr:pl-5 rtl:pr-5 py-3 ltr:pr-[50px] rtl:pl-[50px]">
-                    {{ router.currentRoute.value.name }} {{ payload.uuid ? 'Edit' : 'Add' }}
+                    {{ router.currentRoute.value.meta.title }} {{ payload.uuid ? 'Edit' : 'Add' }}
                   </div>
 
                   <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>

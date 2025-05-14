@@ -10,7 +10,7 @@
 
       <h5
         class="font-semibold capitalize text-lg dark:text-white-light">
-        {{ router.currentRoute.value.name }}
+        {{ router.currentRoute.value.meta.title }}
       </h5>
 
       <div

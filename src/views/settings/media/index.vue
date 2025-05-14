@@ -2,7 +2,7 @@
   <div>
     <div class="flex items-center whitespace-nowrap">
       <div class="text-sm text-gray-400 font-semibold">
-        Settings / <span class="capitalize text-black dark:text-white-light">{{ router.currentRoute.value.name }}</span>
+        Settings / <span class="capitalize text-black dark:text-white-light">{{ router.currentRoute.value.meta.title }}</span>
       </div>
 
       <div

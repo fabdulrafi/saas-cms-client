@@ -72,6 +72,12 @@ export const useRouterMainMenu = () => [
     component: () => import(/* webpackChunkName: "main-menu/information/facility/add" */ '@/views/main_menu/information/facility/add/index.vue'),
     meta: { requiresAuth: true, title: 'Facility Add' }
   },
+  {
+    path: '/main-menu/information/facility/edit/:id',
+    name: 'facility edit',
+    component: () => import(/* webpackChunkName: "main-menu/information/facility/edit/:id" */ '@/views/main_menu/information/facility/edit/_id.vue'),
+    meta: { requiresAuth: true, title: 'Facility Edit' }
+  },
 
 
   {
