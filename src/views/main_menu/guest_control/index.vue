@@ -267,7 +267,7 @@
   const getList = () => {
     isLoading.value = true;
 
-    const { loading, data, error, get } = useApiWithAuth("user/data");
+    const { loading, data, error, get } = useApiWithAuth("client/guest");
 
     get(params);
 

@@ -107,7 +107,7 @@
                     <div class="">
                       <div class="flex items-center space-x-2 mb-6">
                         <div v-for="(item, index) in req_passwords" :key="index"
-                          :class="item.status ? 'bg-primary' : 'bg-[#F0F3FF]'"
+                          :class="item.status ? 'bg-primary' : 'bg-[#F0F3FF] dark:bg-[#17263c]'"
                           class="w-28 h-2.5 rounded-full">
                         </div>
                       </div>
