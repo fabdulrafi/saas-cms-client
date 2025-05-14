@@ -303,7 +303,7 @@
                       <td class="text-xs">
                         <div 
                           class="w-full text-xs font-semibold rounded-md text-center py-1"
-                          :class="(index + 1) % 2 !== 0 ? 'bg-warning/20 text-warning' : 'bg-success/20 text-success'">
+                          :class="(index + 1) % 2 !== 0 ? 'bg-warning/15 text-warning' : 'bg-success/15 text-success'">
                           {{ (index + 1) % 2 !== 0 ? 'Pending' : 'Success' }}
                         </div>
                       </td>
@@ -384,7 +384,7 @@
                       <td class="text-xs">
                         <div 
                           class="w-full text-xs font-semibold rounded-md text-center py-1"
-                          :class="(index + 1) % 2 !== 0 ? 'bg-warning/20 text-warning' : 'bg-success/20 text-success'">
+                          :class="(index + 1) % 2 !== 0 ? 'bg-warning/15 text-warning' : 'bg-success/15 text-success'">
                           {{ (index + 1) % 2 !== 0 ? 'Pending' : 'Success' }}
                         </div>
                       </td>
