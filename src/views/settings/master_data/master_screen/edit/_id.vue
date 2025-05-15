@@ -63,9 +63,10 @@
           <SingleSelect
             v-model="payload.type"
 
+            @change="payload.unit_uuid = undefined; payload.signage_uuid = undefined;"
+
             :options="[
-              { id: 'UNIT', name: 'UNIT' },
-              { id: 'SIGNAGE', name: 'SIGNAGE' },
+              { id: 'UNIT', name: 'UNIT' }
             ]"
 
             placeholder="Ex: UNIT"
@@ -97,11 +98,29 @@
           </div>
         </div>
 
+        <div v-if="payload.type === 'UNIT'">
+          <label class="text-sm font-semibold mb-2">
+            Unit Tag
+          </label>
+
+          <div class="flex items-center space-x-4">
+            <div v-if="payload.unit_uuid"
+              class="text-sm font-semibold bg-warning/15 text-warning p-[9px] px-4 rounded-xl flex items-center">
+              {{ rows_options_unit_tags.find((item: any) => item.uuid === payload.unit_uuid)?.name }}
+
+              <IconX @click="payload.unit_uuid = undefined"
+                class="w-4 h-4 text-danger ml-2 cursor-pointer" />
+            </div>
+
+            <BtnPrivate
+              @click="modal_unit_tags = true"
+              texts="Add New" />
+          </div>
+        </div>
+
         <div>
           <label class="text-sm font-semibold mb-2">
             Custom Tag
-
-            <span class="text-danger">*</span>
           </label>
 
           <div class="flex items-center space-x-4">
@@ -114,13 +133,8 @@
             </div>
 
             <BtnPrivate
-              @click="modal = true"
+              @click="modal_custom_tags = true"
               texts="Add New" />
-          </div>
-
-          <div v-if="v$.custom_tags.$error"
-            class="validator">
-            {{ v$.custom_tags.$errors[0].$message }}
           </div>
         </div>
 
@@ -174,10 +188,10 @@
       </div>
     </div>
 
-    <!-- modal -->
+    <!-- modal unit tags -->
     <TransitionRoot
       appear
-      :show="modal"
+      :show="modal_unit_tags"
       as="template">
       <Dialog
         as="div"
@@ -208,7 +222,160 @@
               <DialogPanel class="panel border-0 p-0 rounded-xl overflow-hidden w-full max-w-sm text-black dark:text-white-dark">
                 <form>
                   <button
-                    @click="modal = false"
+                    @click="modal_unit_tags = false"
+
+                    type="button"
+                    class="absolute top-4 ltr:right-4 rtl:left-4 text-gray-400 hover:text-danger dark:hover:text-danger outline-none">
+                    <icon-x />
+                  </button>
+
+                  <div
+                    class="text-lg capitalize font-bold bg-[#F9FBFE] dark:bg-[#121c2c] ltr:pl-5 rtl:pr-5 py-3 ltr:pr-[50px] rtl:pl-[50px]">
+                    Unit Tag
+                  </div>
+
+                  <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
+
+                  <div class="p-5">
+                    <div class="flex-1 grid grid-cols-1 gap-6">
+                      <div class="relative modal_placeholder">
+                        <input
+                          v-model="params_unit.search"
+                          @input="filterUnit"
+
+                          type="text"
+                          class="form-input ltr:pr-10 rtl:pl-10 peer sm:bg-transparent bg-gray-100 placeholder:tracking-widest"
+                          placeholder="Search . . ."/>
+
+                        <button type="button" class="absolute w-9 h-9 inset-0 ltr:left-auto rtl:right-auto mx-1 my-0.5 appearance-none peer-focus:text-primary">
+                          <icon-search class="mx-auto" />
+                        </button>
+                      </div>
+                      
+                      <div v-if="isLoadingOptionsUnitTags">
+                        <Accordion :widths="80" />
+                      </div>
+
+                      <div v-else>
+                        <div class="flex-1 grid grid-cols-1 gap-6">
+                          <div v-for="(item, index) in rows_options_unit_tags" :key="index"
+                            @click="toggleSelectionUnitTags(item.uuid)"
+                            :class="[
+                              'relative text-sm border border-dashed p-4 rounded-xl cursor-pointer',
+                              selectedItemsUnitTags === item.uuid
+                                ? 'border-primary ring-primary text-primary'
+                                : 'dark:border-[#1b2e4b] border-[#e0e6ed]'
+                            ]">
+                            <div class="flex justify-between">
+                              {{ item.name }}
+
+                              <IconChecks
+                                v-if="selectedItemsUnitTags === item.uuid"
+                                class="w-4 h-4 text-primary dark:text-white" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div v-if="paginationRowsUnit?.total_data > 0"
+                        class="flex items-center justify-end text-sm">
+                        <p class="ltr:mr-3 rtl:ml-3">
+                          <span v-if="paginationRowsUnit?.total_data > 0">
+                            {{ paginationRowsUnit?.start }} - {{ paginationRowsUnit?.start + paginationRowsUnit?.total_display - 1 }}
+                          </span>
+  
+                          <span v-else>
+                            0
+                          </span>
+  
+                          from {{ paginationRowsUnit?.total_data }}
+                        </p>
+  
+                        <button
+                          @click="params_unit.page --; getOptionsUnitTags();"
+
+                          :disabled="params_unit.page < 2"
+
+                          type="button"
+                          class="bg-white-light rounded-md p-1 enabled:hover:bg-primary enabled:hover:text-white dark:bg-white-dark/20 enabled:dark:hover:bg-white-dark/30 ltr:mr-3 rtl:ml-3 disabled:opacity-60 disabled:cursor-not-allowed">
+                          <IconCaretDown class="w-5 h-5 rtl:-rotate-90 rotate-90" />
+                        </button>
+
+                        <button
+                          @click="params_unit.page ++; getOptionsUnitTags();"
+
+                          :disabled="params_unit.page >= paginationRowsUnit.total_page"
+
+                          type="button"
+                          class="bg-white-light rounded-md p-1 enabled:hover:bg-primary enabled:hover:text-white dark:bg-white-dark/20 enabled:dark:hover:bg-white-dark/30 disabled:opacity-60 disabled:cursor-not-allowed">
+                          <IconCaretDown class="w-5 h-5 rtl:rotate-90 -rotate-90" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
+
+                  <div class="p-5">
+                    <div class="flex justify-end items-center">
+                      <BtnPrivate
+                        @click="toApplyUnitTags"
+
+                        :types="false"
+                        texts="Apply" />
+
+                      <button
+                        @click="modal_unit_tags = false"
+
+                        type="button"
+                        class="btn btn-outline-danger text-sm !font-semibold w-[80px] ltr:ml-4 rtl:mr-4 rounded-xl">
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </DialogPanel>
+            </TransitionChild>
+          </div>
+        </div>
+      </Dialog>
+    </TransitionRoot>
+    
+    <!-- modal custom tags -->
+    <TransitionRoot
+      appear
+      :show="modal_custom_tags"
+      as="template">
+      <Dialog
+        as="div"
+        class="relative z-[51]">
+        <TransitionChild
+          as="template"
+          enter="duration-300 ease-out"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="duration-200 ease-in"
+          leave-from="opacity-100"
+          leave-to="opacity-0">
+          <DialogOverlay class="fixed inset-0 bg-[black]/60" />
+        </TransitionChild>
+
+        <div
+          class="fixed inset-0 overflow-y-auto">
+          <div
+            class="flex min-h-full items-center justify-center px-4 py-8">
+            <TransitionChild
+              as="template"
+              enter="duration-300 ease-out"
+              enter-from="opacity-0 scale-95"
+              enter-to="opacity-100 scale-100"
+              leave="duration-200 ease-in"
+              leave-from="opacity-100 scale-100"
+              leave-to="opacity-0 scale-95">
+              <DialogPanel class="panel border-0 p-0 rounded-xl overflow-hidden w-full max-w-sm text-black dark:text-white-dark">
+                <form>
+                  <button
+                    @click="modal_custom_tags = false"
 
                     type="button"
                     class="absolute top-4 ltr:right-4 rtl:left-4 text-gray-400 hover:text-danger dark:hover:text-danger outline-none">
@@ -226,8 +393,8 @@
                     <div class="flex-1 grid grid-cols-1 gap-6">
                       <div class="relative modal_placeholder">
                         <input
-                          v-model="params.search"
-                          @input="filter"
+                          v-model="params_custom.search"
+                          @input="filterCustom"
 
                           type="text"
                           class="form-input ltr:pr-10 rtl:pl-10 peer sm:bg-transparent bg-gray-100 placeholder:tracking-widest"
@@ -238,17 +405,17 @@
                         </button>
                       </div>
                       
-                      <div v-if="isLoadingOptionsTags">
+                      <div v-if="isLoadingOptionsCustomTags">
                         <Accordion :widths="80" />
                       </div>
 
                       <div v-else>
                         <div class="flex-1 grid grid-cols-1 gap-6">
-                          <div v-for="(item, index) in rows_options_tags" :key="index"
-                            @click="toggleSelection(item.uuid)"
+                          <div v-for="(item, index) in rows_options_custom_tags" :key="index"
+                            @click="toggleSelectionCustomTags(item.uuid)"
                             :class="[
                               'relative text-sm border border-dashed p-4 rounded-xl cursor-pointer',
-                              selectedItems.has(item.uuid)
+                              selectedItemsCustomTags.has(item.uuid)
                                 ? 'border-primary ring-primary text-primary'
                                 : 'dark:border-[#1b2e4b] border-[#e0e6ed]'
                             ]">
@@ -256,31 +423,31 @@
                               {{ item.name }}
 
                               <IconChecks
-                                v-if="selectedItems.has(item.uuid)"
+                                v-if="selectedItemsCustomTags.has(item.uuid)"
                                 class="w-4 h-4 text-primary dark:text-white" />
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      <div v-if="paginationRows?.total_data > 0"
+                      <div v-if="paginationRowsCustom?.total_data > 0"
                         class="flex items-center justify-end text-sm">
                         <p class="ltr:mr-3 rtl:ml-3">
-                          <span v-if="paginationRows?.total_data > 0">
-                            {{ paginationRows?.start }} - {{ paginationRows?.start + paginationRows?.total_display - 1 }}
+                          <span v-if="paginationRowsCustom?.total_data > 0">
+                            {{ paginationRowsCustom?.start }} - {{ paginationRowsCustom?.start + paginationRowsCustom?.total_display - 1 }}
                           </span>
   
                           <span v-else>
                             0
                           </span>
   
-                          from {{ paginationRows?.total_data }}
+                          from {{ paginationRowsCustom?.total_data }}
                         </p>
   
                         <button
-                          @click="params.page --; getOptionsTags();"
+                          @click="params_custom.page --; getOptionsCustomTags();"
   
-                          :disabled="params.page < 2"
+                          :disabled="params_custom.page < 2"
   
                           type="button"
                           class="bg-white-light rounded-md p-1 enabled:hover:bg-primary enabled:hover:text-white dark:bg-white-dark/20 enabled:dark:hover:bg-white-dark/30 ltr:mr-3 rtl:ml-3 disabled:opacity-60 disabled:cursor-not-allowed">
@@ -288,9 +455,9 @@
                         </button>
   
                         <button
-                          @click="params.page ++; getOptionsTags();"
+                          @click="params_custom.page ++; getOptionsCustomTags();"
   
-                          :disabled="params.page >= paginationRows.total_page"
+                          :disabled="params_custom.page >= paginationRowsCustom.total_page"
   
                           type="button"
                           class="bg-white-light rounded-md p-1 enabled:hover:bg-primary enabled:hover:text-white dark:bg-white-dark/20 enabled:dark:hover:bg-white-dark/30 disabled:opacity-60 disabled:cursor-not-allowed">
@@ -305,13 +472,13 @@
                   <div class="p-5">
                     <div class="flex justify-end items-center">
                       <BtnPrivate
-                        @click="toApply"
+                        @click="toApplyCustomTags"
 
                         :types="false"
                         texts="Apply" />
 
                       <button
-                        @click="modal = false"
+                        @click="modal_custom_tags = false"
 
                         type="button"
                         class="btn btn-outline-danger text-sm !font-semibold w-[80px] ltr:ml-4 rtl:mr-4 rounded-xl">
@@ -358,10 +525,15 @@
 
   useMeta({ title: router.currentRoute.value.meta.title });
 
-  const modal = ref(false);
+  const modal_unit_tags = ref(false);
+  
+  const isLoadingOptionsUnitTags: any = ref(false);
+  const rows_options_unit_tags: any = ref([]);
 
-  const isLoadingOptionsTags: any = ref(false);
-  const rows_options_tags: any = ref([]);
+  const modal_custom_tags = ref(false);
+
+  const isLoadingOptionsCustomTags: any = ref(false);
+  const rows_options_custom_tags: any = ref([]);
   
   interface Payload {
     uuid?: string;
@@ -388,19 +560,18 @@
       description: '',
       status: 'ACTIVE',
       custom_tags: [],
-
+      
       status_view: true,
     }
   };
 
   const payload = reactive<Payload>(initialState());
 
-  const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm } = useValid(payload, ['uuid', 'unit_uuid', 'signage_uuid']);
-  const { loading, data, put, errorMessage, error } = useApiWithAuth('client/information');
+  const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm } = useValid(payload, ['uuid', 'unit_uuid', 'signage_uuid', 'custom_tags']);
+  const { loading, data, put, errorMessage, error } = useApiWithAuth('client/screen');
 
-
-  const totalRows = ref(6);
-  const paginationRows = ref({
+  const totalRowsUnit = ref(6);
+  const paginationRowsUnit = ref({
     total_page: 0,
     total_data: 0,
     total_display: 0,
@@ -410,7 +581,96 @@
     limit: 0
   });
 
-  const params: any = reactive({
+  const params_unit: any = reactive({
+    page: 1,
+    limit: 5,
+    search: '',
+    sort: '',
+    order_by: '',
+
+    is_unit: true
+  });
+
+  const selectedItemsUnitTags: any = ref(null);
+  const allItemsCacheUnitTags = reactive<Map<string, any>>(new Map());
+
+  let timer_unit: any;
+
+  const filterUnit = () => {
+    clearTimeout(timer_unit);
+    timer_unit = setTimeout(() => {
+      getOptionsUnitTags();
+    }, 300);
+  };
+
+  const getOptionsUnitTags = () => {
+    isLoadingOptionsUnitTags.value = true;
+
+    const { loading, data, error, get } = useApiWithAuth("client/tag");
+
+    get(params_unit);
+
+    watch([ loading ], () => {
+
+      isLoadingOptionsUnitTags.value = loading.value;
+
+      rows_options_unit_tags.value = Array.isArray(data.value?.data)
+        ? data.value.data.map((item: any) => {
+            allItemsCacheUnitTags.set(item.uuid, item);
+            return {
+              uuid: item.uuid,
+              name: item.name,
+            };
+          })
+        : [];
+      totalRowsUnit.value = data.value?.pagination?.total_data;
+
+      paginationRowsUnit.value = data.value?.pagination;
+
+    });
+  };
+
+  watch(modal_unit_tags, (value) => {
+    nextTick(() => {
+      if (!value) {
+        
+      }
+
+      else {
+        getOptionsUnitTags();
+
+        selectedItemsUnitTags.value = payload.unit_uuid;
+      }
+    });
+  });
+
+  const toggleSelectionUnitTags = (uuid: string) => {
+    selectedItemsUnitTags.value = uuid;
+  };
+
+  const toApplyUnitTags = () => {
+    payload.unit_uuid = selectedItemsUnitTags.value;
+
+    selectedItemsUnitTags.value = null;
+
+    modal_unit_tags.value = false;
+  };
+
+
+
+
+  const totalRowsCustom = ref(6);
+  const paginationRowsCustom = ref({
+    total_page: 0,
+    total_data: 0,
+    total_display: 0,
+    current_page: 0,
+    start: 0,
+    end: 0,
+    limit: 0
+  });
+
+  const params_custom: any = reactive({
     page: 1,
     limit: 5,
     search: '',
@@ -420,77 +680,77 @@
     is_custom: true
   });
 
-  const selectedItems = reactive(new Set<string>());
-  const allItemsCache = reactive<Map<string, any>>(new Map());
+  const selectedItemsCustomTags = reactive(new Set<string>());
+  const allItemsCacheCustomTags = reactive<Map<string, any>>(new Map());
 
-  let timer: any;
+  let timer_custom: any;
 
-  const filter = () => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      getOptionsTags();
+  const filterCustom = () => {
+    clearTimeout(timer_custom);
+    timer_custom = setTimeout(() => {
+      getOptionsCustomTags();
     }, 300);
   };
 
-  const getOptionsTags = () => {
-    isLoadingOptionsTags.value = true;
+  const getOptionsCustomTags = () => {
+    isLoadingOptionsCustomTags.value = true;
 
     const { loading, data, error, get } = useApiWithAuth("client/tag");
 
-    get(params);
+    get(params_custom);
 
     watch([ loading ], () => {
 
-      isLoadingOptionsTags.value = loading.value;
+      isLoadingOptionsCustomTags.value = loading.value;
 
-      rows_options_tags.value = Array.isArray(data.value?.data)
+      rows_options_custom_tags.value = Array.isArray(data.value?.data)
         ? data.value.data.map((item: any) => {
-            allItemsCache.set(item.uuid, item);
+            allItemsCacheCustomTags.set(item.uuid, item);
             return {
               uuid: item.uuid,
               name: item.name,
             };
           })
         : [];
-      totalRows.value = data.value?.pagination?.total_data;
+      totalRowsCustom.value = data.value?.pagination?.total_data;
 
-      paginationRows.value = data.value?.pagination;
+      paginationRowsCustom.value = data.value?.pagination;
 
     });
   };
 
-  watch(modal, (value) => {
+  watch(modal_custom_tags, (value) => {
     nextTick(() => {
       if (!value) {
         
       }
 
       else {
-        getOptionsTags();
+        getOptionsCustomTags();
 
         payload.custom_tags.forEach((item: any) => {
-          selectedItems.add(item.uuid);
+          selectedItemsCustomTags.add(item.uuid);
         });
       }
     });
   });
 
-  const toggleSelection = (uuid: string) => {
-    if (selectedItems.has(uuid)) {
-      selectedItems.delete(uuid);
+  const toggleSelectionCustomTags = (uuid: string) => {
+    if (selectedItemsCustomTags.has(uuid)) {
+      selectedItemsCustomTags.delete(uuid);
     } else {
-      selectedItems.add(uuid);
+      selectedItemsCustomTags.add(uuid);
     }
   };
 
-  const toApply = () => {
-    const selectedMedia = Array.from(selectedItems).map((uuid) => allItemsCache.get(uuid)).filter(Boolean);
+  const toApplyCustomTags = () => {
+    const selectedMedia = Array.from(selectedItemsCustomTags).map((uuid) => allItemsCacheCustomTags.get(uuid)).filter(Boolean);
     
     payload.custom_tags = selectedMedia;
 
-    selectedItems.clear();
+    selectedItemsCustomTags.clear();
 
-    modal.value = false;
+    modal_custom_tags.value = false;
   };
 
   const submit = async () => {

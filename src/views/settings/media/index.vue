@@ -32,12 +32,12 @@
                     Total Use 
                     
                     <span class="font-bold">
-                      {{ $format.formatsize(dataSummary.total_storage_used) }}
+                      {{ dataSummary.usedFormatted || '0 MB' }}
                     </span>
                   </div>
 
                   <div class="text-xs capitalize font-bold">
-                   {{ dataSummary.total_storage_capacity === 'unlimited' ? dataSummary.total_storage_capacity : $format.numeric(dataSummary.total_storage_capacity) }} {{ dataSummary.total_storage_capacity === 'unlimited' ? '' : 'Gb' }}
+                    {{ dataSummary.capacityFormatted || '0 GB' }}
                   </div>
                 </div>
                 

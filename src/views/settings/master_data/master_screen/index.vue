@@ -487,6 +487,8 @@
 
           payload.code = JSON.parse(scannedResult.value as string)?.code;
 
+          if (loading.value) return;
+
           submit();
         },
         (errorMessage: string) => {
@@ -547,19 +549,24 @@
 
     loading.value = true;
 
-    post(payload);
-
-    watch([ loading ], () => {
+    post(payload).then(() => {
+      // callback api
       swalAlert('Successfully saved data', 'success');
 
       stopScan();
-
+  
       router.push({
         name: 'master screen edit',
         params: {
           uuid: data.value?.data?.uuid
         }
       });
+    }).catch(() => {
+      if (error.value?.status === 404) {
+        swalAlert('Failed to save data', 'error');
+
+        stopScan();
+      }
     });
   };
 
