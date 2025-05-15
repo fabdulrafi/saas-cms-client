@@ -560,7 +560,7 @@
       description: '',
       status: 'ACTIVE',
       custom_tags: [],
-      
+
       status_view: true,
     }
   };
@@ -657,8 +657,7 @@
   };
 
 
-
-
+  
   const totalRowsCustom = ref(6);
   const paginationRowsCustom = ref({
     total_page: 0,
@@ -752,6 +751,8 @@
 
     modal_custom_tags.value = false;
   };
+
+
 
   const submit = async () => {
     const isFormCorrect = await v$.value.$validate();
