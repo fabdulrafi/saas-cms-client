@@ -31,35 +31,7 @@
         </div>
 
         <div class="flex items-center space-x-10 ltr:ml-auto rtl:mr-auto">
-          <button
-            type="button" 
-            class="btn p-0 shadow-none border-none text-base font-semibold dark:text-white-light">
-            Occupied
-  
-            <span class="badge font-bold rounded-full m-0 !px-[6px] bg-gray-100 text-black ltr:ml-2 rtl:mr-2">
-              10
-            </span>
-          </button>
-          
-          <button
-            type="button" 
-            class="btn p-0 shadow-none border-none text-base font-semibold dark:text-white-light">
-            Reserved
-  
-            <span class="badge font-bold rounded-full m-0 !px-[6px] bg-gray-100 text-black ltr:ml-2 rtl:mr-2">
-              29
-            </span>
-          </button>
 
-          <button
-            type="button" 
-            class="btn p-0 shadow-none border-none text-base font-semibold dark:text-white-light">
-            Ready
-  
-            <span class="badge font-bold rounded-full m-0 !px-[6px] bg-gray-100 text-black ltr:ml-2 rtl:mr-2">
-              12
-            </span>
-          </button>
         </div>
       </div>
 
@@ -96,8 +68,16 @@
           <template
             v-for="header in cols.filter((header) => header.hasOwnProperty('format'))"
             #[`${header.field}`]="{ value }">
-            <template v-if="header.format === 'date'">
-              {{ value[header.field] ? $format.date(value[header.field]) : '' }}
+            <template v-if="header.format === 'datetime'">
+              <div>
+                <div class="text-xs mb-0.5">
+                  {{ value[header.field] ? $format.date(value[header.field]) : '' }}
+                </div>
+
+                <div class="text-xs text-gray-400">
+                  {{ value[header.field] ? $format.time(value[header.field]) : '' }}
+                </div>
+              </div>
             </template>
             
             <template v-else-if="header.format === 'action'">
@@ -106,32 +86,26 @@
                 <button
                   type="button"
                   v-tippy="{ content: 'Billing', theme: 'primary' }"
-                  class="btn btn-primary w-7 h-7 p-0 rounded-md">
-                  <IconDollarSignCircle class="w-4 h-4" />
+                  class="btn bg-[#2A48961F] dark:bg-dark/40 hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60 w-8 h-8 p-0 rounded-lg text-white shadow-none border-none">
+                  <div class="bg-success rounded-full p-0.5">
+                    <IconDollarSign class="w-4 h-4" />
+                  </div>
                 </button>
 
-                <router-link
-                  :to="`/main-menu/guest-control/request/1`">
-                  <button
-                    type="button"
-                    v-tippy="{ content: 'Request', theme: value.status === 'Process' ? 'primary' : value.status === 'Arrival' ? 'success' : 'danger' }"
-                    :class="value.status === 'Process' ? 'btn-primary' : value.status === 'Arrival' ? 'btn-success' : 'btn-danger'"
-                    class="btn btn-sm w-[84px] h-7 p-0 rounded-md">
-                    {{ value.status }}
-                  </button>
-                </router-link>
+                <button
+                  type="button"
+                  class="btn bg-primary/15 w-[84px] h-8 p-0 rounded-lg text-sm shadow-none text-primary">
+                  Process
+                </button>
 
                 <router-link
                   :to="`/main-menu/guest-control/messages/1`">
                   <button
                     type="button"
-                    v-tippy="{ content: 'Messages', theme: 'primary' }"
-                    :class="value.messages ? 'btn-primary' : 'btn-outline-primary'"
-                    class="btn btn-sm w-[110px] h-7 p-0 rounded-md">
-                    {{ value.messages ? 'Messages' : 'No Messages' }}
+                    class="btn btn-primary w-[110px] h-8 p-0 rounded-lg text-sm shadow-none">
+                    Messages
   
-                    <span v-if="value.messages"
-                      class="text-[10px] font-bold rounded-full !px-[4px] bg-[#FFEB3B] text-black ltr:ml-2 rtl:mr-2">
+                    <span class="text-[8px] font-semibold rounded-full w-5 h-5 bg-[#FFB020] text-black ltr:ml-2 rtl:mr-2">
                       12
                     </span>
                   </button>
@@ -681,13 +655,15 @@
   import Datetime from "@/components/basic/picker/Datetime.vue";
 
   import IconSearch from '@/components/icon/icon-search.vue';
-  import IconDollarSignCircle from "@/components/icon/icon-dollar-sign-circle.vue";
   import IconX from '@/components/icon/icon-x.vue';
   import IconCaretDown from '@/components/icon/icon-caret-down.vue';
   import IconChecks from '@/components/icon/icon-checks.vue';
+  import IconDollarSign from "@/components/icon/icon-dollar-sign.vue";
 
   import takeOrMedia from '@/components/upload/TakeOrMedia.vue';
   import Maska from "@/components/basic/input/Maska.vue";
+
+  import Accordion from "@/components/basic/skeleton/Accordion.vue";
 
   import BtnPrivate from "@/components/basic/button/BtnPrivate.vue";
   import Error from '@/components/basic/Error.vue';
@@ -720,6 +696,42 @@
 
   const cols =
     reactive([
+      {
+        title: 'Resident Name',
+        field: 'name',
+        minWidth: '200px',
+        freeze: false
+      },
+      {
+        title: 'Phone Number',
+        field: 'phone_number',
+        minWidth: '200px',
+        freeze: false
+      },
+      {
+        title: 'Email',
+        field: 'email',
+        minWidth: '200px',
+        freeze: false
+      },
+      {
+        title: 'Arrival',
+        field: 'arrival_at',
+        width: '150px',
+        minWidth: '150px',
+        maxWidth: '150px',
+        format: 'datetime',
+        freeze: false
+      },
+      {
+        title: 'Departure',
+        field: 'departure_at',
+        width: '150px',
+        minWidth: '150px',
+        maxWidth: '150px',
+        format: 'datetime',
+        freeze: false
+      },
       {
         title: 'Action',
         field: 'id',
@@ -826,31 +838,20 @@
   const initialState = (): Payload => {
     return {
       uuid: undefined,
-      // name: '',
-      // phone_number: '',
-      // email: '',
-      // arrival_at: '',
-      // departure_at: '',
-      // greeting_type: 'IMAGE',
-      // greeting_text: '',
-      // greeting_image_url: '',
-      // units: [],
-
-      name: 'Fabdulrafi',
+      name: '',
       phone_number: '',
-      email: 'fabdulrafi@gmail.com',
+      email: '',
       arrival_at: '',
       departure_at: '',
       greeting_type: 'IMAGE',
       greeting_text: '',
-      greeting_image_url: 'https://storage.googleapis.com/smartiv1/6C8UFB/image_6826a29facd43.webp',
+      greeting_image_url: '',
       units: [],
-      phone_number_view: '85702656660',
 
       country: '',
       flag: '',
       code: '',
-      // phone_number_view: '',
+      phone_number_view: '',
 
       status_view: false
     }
@@ -879,7 +880,7 @@
     sort: '',
     order_by: '',
 
-    is_unit: true
+    status: 'ACTIVE'
   });
 
   const selectedItemsUnitTags = reactive(new Set<string>());
@@ -954,6 +955,34 @@
 
     modal_unit_tags.value = false;
   };
+
+  watch(() => payload?.status_view, (newValue, oldValue) => {
+    if (newValue) {
+      const { loading, data, error, get } = useApiWithAuth("client/unit");
+
+      get({ limit: 10000, status: 'ACTIVE' });
+
+      watch([ loading ], () => {
+        if (!data.value?.data) {
+          payload.status_view = false;
+          payload.units = [];
+
+          return
+        }
+        payload.units = data.value?.data.map((item: any) => {
+          return {
+            uuid: item.uuid,
+            name: item.name
+          }
+        });
+
+      });
+    }
+
+    else {
+      payload.units = [];
+    }
+  });
   
   watch(modal, (value) => {
     nextTick(() => {

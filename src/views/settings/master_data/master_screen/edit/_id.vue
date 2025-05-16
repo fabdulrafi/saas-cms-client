@@ -594,8 +594,8 @@
     search: '',
     sort: '',
     order_by: '',
-
-    is_unit: true
+    
+    status: 'ACTIVE'
   });
 
   const selectedItemsUnitTags: any = ref(null);
