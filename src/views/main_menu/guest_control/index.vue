@@ -83,9 +83,29 @@
             <template v-else-if="header.format === 'action'">
               <div
                 class="flex space-x-2">
+                <!-- <button
+                  @click="toUpdate(value)"
+                  type="button"
+                  v-tippy="{ content: 'Edit', theme: 'primary' }"
+                  class="btn bg-[#2A48961F] dark:bg-dark/40 hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60 w-8 h-8 p-0 rounded-lg text-white shadow-none border-none">
+                  <div class="bg-primary rounded-full p-1">
+                    <icon-pencil-paper class="w-3 h-3" />
+                  </div>
+                </button>
+
+                <button
+                  @click="toDelete(value)"
+                  type="button"
+                  v-tippy="{ content: 'Delete', theme: 'danger' }"
+                  class="btn bg-[#2A48961F] dark:bg-dark/40 hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60 w-8 h-8 p-0 rounded-lg text-white shadow-none border-none">
+                  <div class="bg-danger rounded-full p-1">
+                    <icon-trash-lines class="w-3 h-3" />
+                  </div>
+                </button> -->
+
                 <button
                   type="button"
-                  v-tippy="{ content: 'Billing', theme: 'primary' }"
+                  v-tippy="{ content: 'Billing', theme: 'success' }"
                   class="btn bg-[#2A48961F] dark:bg-dark/40 hover:bg-[#2A48961F]/20 dark:hover:bg-dark/60 w-8 h-8 p-0 rounded-lg text-white shadow-none border-none">
                   <div class="bg-success rounded-full p-0.5">
                     <IconDollarSign class="w-4 h-4" />
@@ -106,7 +126,7 @@
                     Messages
   
                     <span class="text-[8px] font-semibold rounded-full w-5 h-5 bg-[#FFB020] text-black ltr:ml-2 rtl:mr-2">
-                      12
+                      4
                     </span>
                   </button>
                 </router-link>
@@ -659,6 +679,8 @@
   import IconCaretDown from '@/components/icon/icon-caret-down.vue';
   import IconChecks from '@/components/icon/icon-checks.vue';
   import IconDollarSign from "@/components/icon/icon-dollar-sign.vue";
+  import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
+  import IconPencilPaper from '@/components/icon/icon-pencil-paper.vue';
 
   import takeOrMedia from '@/components/upload/TakeOrMedia.vue';
   import Maska from "@/components/basic/input/Maska.vue";
@@ -1021,6 +1043,51 @@
       swalAlert('Successfully saved data', 'success');
       
       getList();
+    });
+  };
+
+  const toUpdate = (item: any) => {
+    const { loading, data, error, get } = useApiWithAuth(`client/guest/${item.uuid}`);
+
+    get();
+
+    watch([ loading ], () => {
+      
+      let item_data = data.value?.data;
+
+    });
+
+    // let item_country = countryCallingCodes.find((i) => i.country === item.country);
+
+    // payload.uuid = item.uuid;
+    // payload.name = item.name;
+    // payload.phone_number = item.phone_number;
+    // payload.email = item.email;
+    // payload.arrival_at = item.arrival_at;
+    // payload.departure_at = item.departure_at;
+    // payload.greeting_type = item.greeting_type;
+    // payload.greeting_text = item.greeting_text;
+    // payload.greeting_image_url = item.greeting_image_url;
+    // payload.units = item.units;
+
+    // payload.country = 'Singapore';
+    // payload.flag = 'https://cdn.ipwhois.io/flags/sg.svg';
+    // payload.code = '+65'
+    // payload.phone_number_view = item?.phone_number?.split(item_country?.calling_code)[1] || '';
+
+    // payload.status_view = item.units === rows_options_unit_tags ? true : false;
+
+    // modal.value = true;
+  };
+
+  const toDelete = (item: any) => {
+    swalAlertConfirm(`Are you sure you want to delete data ${item.name}?`, 'warning', 'client/guest', item.uuid)
+    .then((res) => {
+      if (res) {
+        swalAlert('Successfully delete data', 'success');
+
+        getList();
+      }
     });
   };
 
