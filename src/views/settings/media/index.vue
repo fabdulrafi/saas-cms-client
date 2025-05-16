@@ -11,130 +11,132 @@
       </div>
     </div>
     
-    <div class="panel p- mt-[24px] shadow-none rounded-xl min-h-[calc(100vh-225px)]">
-      <div class="flex-1 grid grid-cols-1 gap-6">
-        <div class="flex-1 grid grid-cols-3 gap-6">
-          <div>
-            <BtnPrivate
-              @click="modal = true"
-              texts="Add New" />
-          </div>
-          
-          <div class="col-start-3">
-            <div class="flex justify-between items-end">
-              <div class="text-sm font-semibold">
-                Storage
-              </div>
-
-              <div class="w-[75%]">
-                <div class="flex items-center justify-between mb-1.5">
-                  <div class="text-xs">
-                    Total Use 
-                    
-                    <span class="font-bold">
-                      {{ dataSummary.usedFormatted || '0 MB' }}
-                    </span>
+    <div class="panel p- mt-[24px] shadow-none rounded-xl">
+      <div class="min-h-[calc(100vh-303px)] mb-5">
+        <div class="flex-1 grid grid-cols-1 gap-6">
+          <div class="flex-1 grid grid-cols-3 gap-6">
+            <div>
+              <BtnPrivate
+                @click="modal = true"
+                texts="Add New" />
+            </div>
+            
+            <div class="col-start-3">
+              <div class="flex justify-between items-end">
+                <div class="text-sm font-semibold">
+                  Storage
+                </div>
+  
+                <div class="w-[75%]">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <div class="text-xs">
+                      Total Use 
+                      
+                      <span class="font-bold">
+                        {{ dataSummary.usedFormatted || '0 MB' }}
+                      </span>
+                    </div>
+  
+                    <div class="text-xs capitalize font-bold">
+                      {{ dataSummary.capacityFormatted || '0 GB' }}
+                    </div>
                   </div>
-
-                  <div class="text-xs capitalize font-bold">
-                    {{ dataSummary.capacityFormatted || '0 GB' }}
+                  
+                  <div class="w-full h-4 bg-[#2A48961F] dark:bg-dark/40 rounded-full flex overflow-hidden">
+                    <!-- Progress Normal (<= 50%) -->
+                    <div v-if="progress <= 50"
+                      :style="{ width: progress + '%' }"
+                      class="bg-primary h-4 ltr:rounded-l-full rtl:rounded-r-full flex items-center justify-center text-[8px] text-white font-semibold">
+                      {{ progress }}%
+                    </div>
+  
+                    <!-- Progress Warning (>50% && <=85%) -->
+                    <div v-else-if="progress > 50 && progress <= 85"
+                      :style="{ width: progress + '%' }"
+                      class="bg-warning h-4 flex items-center justify-center text-[8px] text-white font-semibold">
+                      {{ progress }}%
+                    </div>
+  
+                    <!-- Progress Overused (>85%) -->
+                    <div v-else
+                      :style="{ width: '100%' }"
+                      class="bg-danger h-4 ltr:rounded-r-full rtl:rounded-l-full flex items-center justify-center text-[8px] text-white font-semibold">
+                      100%+
+                    </div>
                   </div>
                 </div>
-                
-                <div class="w-full h-4 bg-[#2A48961F] dark:bg-dark/40 rounded-full flex overflow-hidden">
-                  <!-- Progress Normal (<= 50%) -->
-                  <div v-if="progress <= 50"
-                    :style="{ width: progress + '%' }"
-                    class="bg-primary h-4 ltr:rounded-l-full rtl:rounded-r-full flex items-center justify-center text-[8px] text-white font-semibold">
-                    {{ progress }}%
-                  </div>
-
-                  <!-- Progress Warning (>50% && <=85%) -->
-                  <div v-else-if="progress > 50 && progress <= 85"
-                    :style="{ width: progress + '%' }"
-                    class="bg-warning h-4 flex items-center justify-center text-[8px] text-white font-semibold">
-                    {{ progress }}%
-                  </div>
-
-                  <!-- Progress Overused (>85%) -->
-                  <div v-else
-                    :style="{ width: '100%' }"
-                    class="bg-danger h-4 ltr:rounded-r-full rtl:rounded-l-full flex items-center justify-center text-[8px] text-white font-semibold">
-                    100%+
+              </div>
+            </div>
+          </div>
+  
+          <div v-if="isLoading"
+            class="flex-1 grid grid-cols-8 gap-6">
+            <div v-for="i in 16" :key="i"
+              class="rounded-xl overflow-hidden">
+              <Image
+                :heights="150" />
+            </div>
+          </div>
+  
+          <div v-else
+            class="flex-1 grid grid-cols-8 gap-6">
+            <div v-for="(item, index) in rows" :key="index">
+              <div class="relative rounded-xl border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] overflow-hidden">
+                <img
+                  @click="toImage(item.url, 'empty')"
+  
+                  class="h-[125px] w-full object-contain cursor-pointer"
+                  :src="item.url"
+                  alt="" />
+  
+                  
+                <div class="text-xs bg-[#2A48961F] text-primary dark:text-white-light font-semibold p-1.5 mt-2 flex justify-between items-center">
+                  {{ $format.formatsize(item.sizebytes) }}
+  
+                  <div
+                    @click="toDelete(item)">
+                    <icon-trash-lines class="w-3.5 h-3.5 text-danger cursor-pointer" />
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div v-if="isLoading"
-          class="flex-1 grid grid-cols-8 gap-6">
-          <div v-for="i in 16" :key="i"
-            class="rounded-xl overflow-hidden">
-            <Image
-              :heights="150" />
-          </div>
-        </div>
+      <div v-if="paginationRows?.total_data > 0"
+        class="flex items-center justify-center sm:justify-end sm:flex-auto">
+        <p class="ltr:mr-3 rtl:ml-3">
+          <span v-if="paginationRows?.total_data > 0">
+            {{ paginationRows?.start }} - {{ paginationRows?.start + paginationRows?.total_display - 1 }}
+          </span>
 
-        <div v-else
-          class="flex-1 grid grid-cols-8 gap-6">
-          <div v-for="(item, index) in rows" :key="index">
-            <div class="relative rounded-xl border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b] overflow-hidden">
-              <img
-                @click="toImage(item.url, 'empty')"
+          <span v-else>
+            0
+          </span>
 
-                class="h-[125px] w-full object-contain cursor-pointer"
-                :src="item.url"
-                alt="" />
+          from {{ paginationRows?.total_data }}
+        </p>
 
-                
-              <div class="text-xs bg-[#2A48961F] text-primary dark:text-white-light font-semibold p-1.5 mt-2 flex justify-between items-center">
-                {{ $format.formatsize(item.sizebytes) }}
+        <button
+          @click="params.page --; getList();"
 
-                <div
-                  @click="toDelete(item)">
-                  <icon-trash-lines class="w-3.5 h-3.5 text-danger cursor-pointer" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          :disabled="params.page < 2"
 
-        <div v-if="paginationRows?.total_data > 0"
-          class="flex items-center justify-center sm:justify-end sm:flex-auto flex-1 absolute bottom-4 left-4 right-4">
-          <p class="ltr:mr-3 rtl:ml-3">
-            <span v-if="paginationRows?.total_data > 0">
-              {{ paginationRows?.start }} - {{ paginationRows?.start + paginationRows?.total_display - 1 }}
-            </span>
+          type="button"
+          class="bg-white-light rounded-md p-1 enabled:hover:bg-primary enabled:hover:text-white dark:bg-white-dark/20 enabled:dark:hover:bg-white-dark/30 ltr:mr-3 rtl:ml-3 disabled:opacity-60 disabled:cursor-not-allowed">
+          <IconCaretDown class="w-5 h-5 rtl:-rotate-90 rotate-90" />
+        </button>
 
-            <span v-else>
-              0
-            </span>
+        <button
+          @click="params.page ++; getList();"
 
-            from {{ paginationRows?.total_data }}
-          </p>
+          :disabled="params.page >= paginationRows.total_page"
 
-          <button
-            @click="params.page --; getList();"
-
-            :disabled="params.page < 2"
-
-            type="button"
-            class="bg-white-light rounded-md p-1 enabled:hover:bg-primary enabled:hover:text-white dark:bg-white-dark/20 enabled:dark:hover:bg-white-dark/30 ltr:mr-3 rtl:ml-3 disabled:opacity-60 disabled:cursor-not-allowed">
-            <IconCaretDown class="w-5 h-5 rtl:-rotate-90 rotate-90" />
-          </button>
-
-          <button
-            @click="params.page ++; getList();"
-
-            :disabled="params.page >= paginationRows.total_page"
-
-            type="button"
-            class="bg-white-light rounded-md p-1 enabled:hover:bg-primary enabled:hover:text-white dark:bg-white-dark/20 enabled:dark:hover:bg-white-dark/30 disabled:opacity-60 disabled:cursor-not-allowed">
-            <IconCaretDown class="w-5 h-5 rtl:rotate-90 -rotate-90" />
-          </button>
-        </div>
+          type="button"
+          class="bg-white-light rounded-md p-1 enabled:hover:bg-primary enabled:hover:text-white dark:bg-white-dark/20 enabled:dark:hover:bg-white-dark/30 disabled:opacity-60 disabled:cursor-not-allowed">
+          <IconCaretDown class="w-5 h-5 rtl:rotate-90 -rotate-90" />
+        </button>
       </div>
     </div>
 
