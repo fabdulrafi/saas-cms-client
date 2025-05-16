@@ -390,7 +390,7 @@
       },
       {
         title: 'Action',
-        field: 'id',
+        field: 'uuid',
         width: '80px',
         minWidth: '80px',
         maxWidth: '80px',
