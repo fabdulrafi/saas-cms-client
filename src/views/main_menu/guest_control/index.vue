@@ -841,7 +841,7 @@
       departure_at: '',
       greeting_type: 'IMAGE',
       greeting_text: '',
-      greeting_image_url: '',
+      greeting_image_url: 'https://storage.googleapis.com/smartiv1/6C8UFB/image_6826a29facd43.webp',
       units: [],
       phone_number_view: '85702656660',
 
