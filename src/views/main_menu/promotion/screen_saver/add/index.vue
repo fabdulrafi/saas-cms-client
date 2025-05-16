@@ -277,7 +277,7 @@
             </div>
   
             <div class="text-sm text-black/50 dark:text-white/50">
-              Your contents must be a JPEG up to 5 MB or Video up to 250 MB, and 1,920 px by 1,080 px a 16:9 ratio.
+              Your contents must be a JPG/JPEG/PNG up to 10 MB or Video up to 250 MB, and 1,920 px by 1,080 px a 16:9 ratio.
             </div>
           </div>
 

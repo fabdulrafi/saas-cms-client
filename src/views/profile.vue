@@ -85,25 +85,9 @@
 
                     <div>
                       <div class="relative h-[225px] w-[225px] rounded-xl">
-                        <div v-if="payload.image_url"
-                          class="relative">
-                          <img
-                            class="h-[225px] w-[225px] object-contain rounded-xl border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b]"
-                            :src="payload.image_url"
-                            alt="" />
-          
-                          <button
-                            @click="toDeleteFile(payload.image_url)"
-          
-                            type="button"
-                            class="btn btn-danger w-5 h-5 p-0 rounded-md absolute top-[-8px] right-[-8px]">
-                            <icon-trash-lines class="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-          
-                        <uploadImage v-else
-                          @input="changeImage"
-                          class="h-[225px] w-[225px]" />
+                        <takeOrMedia
+                          v-model:contents="payload.image_url"
+                          wh="w-[225px] h-[225px]" />
                       </div>
           
                       <div v-if="v$.image_url.$error"
@@ -511,7 +495,7 @@
   import { useCountry } from "@/composables/use-country";
   import { usePassword } from '@/modules/password';
 
-  import uploadImage from '@/components/upload/ImageMedia.vue';
+  import takeOrMedia from '@/components/upload/TakeOrMedia.vue';
 
   import BtnPrivate from "@/components/basic/button/BtnPrivate.vue";
   import Error from '@/components/basic/Error.vue';
@@ -595,23 +579,6 @@
     'email', 'current_password', 'new_password', 'mobile_number', 'flag', 'code'
   ]);
   const { loading, data, put, errorMessage, error } = useApiWithAuth('client/profile');
-
-  const changeImage = (e) => {
-    if (e?.url) payload.image_url = e.url;
-  };
-
-  const toDeleteFile = (url: string) => {
-    // deleteFile(url)
-    // .then((res) => {
-    //   if (res) {
-    //     payload.image_url = '';
-
-    //     swalAlert('Successfully delete file', 'success');
-    //   }
-    // });
-
-    payload.image_url = '';
-  };
 
   const submit_general = async () => {
     const isFormCorrect = await v$.value.$validate();

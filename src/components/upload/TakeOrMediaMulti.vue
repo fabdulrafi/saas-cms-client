@@ -1,9 +1,7 @@
 <template>
   <div>
-    <div v-if="!props.contents"
-      @click="modal = true"
-      :class="`${wh}`"
-      class="panel p-0 !rounded-xl bg-[#e0e6ed] dark:bg-[#121e32] flex items-center justify-center shadow-none cursor-pointer">
+    <div @click="modal = true"
+      class="panel p-0 !rounded-xl bg-[#e0e6ed] dark:bg-[#121e32] h-full w-full flex items-center justify-center shadow-none cursor-pointer">
       <div class="text-center">
         <img 
           src="/assets/figma/icon_upload.svg"
@@ -13,23 +11,6 @@
           Upload Image
         </div>
       </div>
-    </div>
-
-    <div v-else
-      :class="`${wh}`"
-      class="relative">
-      <img
-        :src="props.contents"
-        :class="`${wh}`"
-        class="object-contain rounded-xl border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b]"
-        alt="" />
-
-      <button
-        @click="toDeleteFile"
-        type="button"
-        class="btn btn-danger w-5 h-5 p-0 rounded-md absolute top-[-8px] right-[-8px]">
-        <icon-trash-lines class="w-3.5 h-3.5" />
-      </button>
     </div>
 
     <!-- modal -->
@@ -97,7 +78,7 @@
                           @click="toggleSelection(item.uuid)"
                           :class="[
                             'relative rounded-xl border border-dashed overflow-hidden cursor-pointer',
-                            selectedItems === item.uuid
+                            selectedItems.has(item.uuid)
                               ? 'border-primary ring-primary'
                               : 'dark:border-[#1b2e4b] border-[#e0e6ed]'
                           ]">
@@ -110,7 +91,7 @@
                             {{ $format.formatsize(item.sizebytes) }}
 
                             <IconChecks
-                              v-if="selectedItems === item.uuid"
+                              v-if="selectedItems.has(item.uuid)"
                               class="w-4 h-4 text-primary" />
                           </div>
                         </div>
@@ -185,28 +166,22 @@
   import IconX from '@/components/icon/icon-x.vue';
   import IconCaretDown from '@/components/icon/icon-caret-down.vue';
   import IconChecks from '@/components/icon/icon-checks.vue';
-  import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
 
   import uploadImageMedia from '@/components/upload/ImageMedia.vue';
   import Image from "@/components/basic/skeleton/Image.vue";
   import BtnPrivate from "@/components/basic/button/BtnPrivate.vue";
 
   interface Props {
-    contents?: string;
-    wh?: any
+    contents?: any;
   };
 
   const props = withDefaults(defineProps<Props>(), {
-    contents: '',
-    wh: {
-      type: String,
-      default: 'w-[300px] h-[200px]'
-    }
+    contents: []
   });
 
   const emit = defineEmits(['update:contents']);
 
-  const selectedItems: any = ref(null);
+  const selectedItems = reactive(new Set<string>());
   const allItemsCache = reactive<Map<string, any>>(new Map());
 
   const modal = ref(false);
@@ -274,36 +249,29 @@
       else {
         getList();
 
-        if (props.contents) {
-          for (let [uuid, item] of allItemsCache.entries()) {
-            if (item.url === props.contents) {
-              selectedItems.value = uuid;
-              break;
-            }
-          }
-        }
+        props.contents.forEach((item: any) => {
+          selectedItems.add(item.uuid);
+        });
       }
     });
   });
 
   const toggleSelection = (uuid: string) => {
-    selectedItems.value = selectedItems.value === uuid ? null : uuid;
+    if (selectedItems.has(uuid)) {
+      selectedItems.delete(uuid);
+    } else {
+      selectedItems.add(uuid);
+    }
   };
 
   const toApply = () => {
-    const selected = allItemsCache.get(selectedItems.value || '');
+    const selectedMedia = Array.from(selectedItems).map((uuid) => allItemsCache.get(uuid)).filter(Boolean);
 
-    if (selected) {
-      emit('update:contents', selected.url);
-    }
+    emit('update:contents', selectedMedia);
 
-    selectedItems.value = null;
+    selectedItems.clear();
 
     modal.value = false;
-  };
-
-  const toDeleteFile = () => {
-    emit('update:contents', '');
   };
 
   const { swalAlert } = useValid({});

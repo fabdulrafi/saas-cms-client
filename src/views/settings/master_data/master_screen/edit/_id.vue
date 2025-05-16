@@ -105,7 +105,7 @@
 
           <div class="flex items-center space-x-4">
             <div v-if="payload.unit_uuid"
-              class="text-sm font-semibold bg-warning/15 text-warning p-[9px] px-4 rounded-xl flex items-center">
+              class="text-sm font-semibold bg-primary/15 text-primary dark:text-white/50 p-[9px] px-4 rounded-xl flex items-center">
               {{ rows_options_unit_tags.find((item: any) => item.uuid === payload.unit_uuid)?.name }}
 
               <IconX @click="payload.unit_uuid = undefined"
@@ -116,6 +116,11 @@
               @click="modal_unit_tags = true"
               texts="Add New" />
           </div>
+
+          <div v-if="v$.unit_uuid.$error"
+            class="validator">
+            {{ v$.unit_uuid.$errors[0].$message }}
+          </div>
         </div>
 
         <div>
@@ -125,7 +130,7 @@
 
           <div class="flex items-center space-x-4">
             <div v-for="(item, index) in payload.custom_tags" :key="index"
-              class="text-sm font-semibold bg-warning/15 text-warning p-[9px] px-4 rounded-xl flex items-center">
+              class="text-sm font-semibold bg-warning/15 text-warning dark:text-white/50 p-[9px] px-4 rounded-xl flex items-center">
               {{ item.name }}
 
               <IconX @click="payload.custom_tags?.splice(index, 1)"
@@ -135,6 +140,11 @@
             <BtnPrivate
               @click="modal_custom_tags = true"
               texts="Add New" />
+          </div>
+
+          <div v-if="v$.custom_tags.$error"
+            class="validator">
+            {{ v$.custom_tags.$errors[0].$message }}
           </div>
         </div>
 
@@ -263,7 +273,7 @@
                             :class="[
                               'relative text-sm border border-dashed p-4 rounded-xl cursor-pointer',
                               selectedItemsUnitTags === item.uuid
-                                ? 'border-primary ring-primary text-primary'
+                                ? 'border-primary ring-primary text-primary dark:text-white-light'
                                 : 'dark:border-[#1b2e4b] border-[#e0e6ed]'
                             ]">
                             <div class="flex justify-between">
@@ -416,7 +426,7 @@
                             :class="[
                               'relative text-sm border border-dashed p-4 rounded-xl cursor-pointer',
                               selectedItemsCustomTags.has(item.uuid)
-                                ? 'border-primary ring-primary text-primary'
+                                ? 'border-primary ring-primary text-primary dark:text-white-light'
                                 : 'dark:border-[#1b2e4b] border-[#e0e6ed]'
                             ]">
                             <div class="flex justify-between">
@@ -567,7 +577,7 @@
 
   const payload = reactive<Payload>(initialState());
 
-  const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm } = useValid(payload, ['uuid', 'unit_uuid', 'signage_uuid', 'custom_tags']);
+  const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm } = useValid(payload, ['uuid']);
   const { loading, data, put, errorMessage, error } = useApiWithAuth('client/screen');
 
   const totalRowsUnit = ref(6);

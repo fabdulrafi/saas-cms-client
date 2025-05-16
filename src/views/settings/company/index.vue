@@ -373,27 +373,9 @@
             </label>
   
             <div>
-              <div class="relative h-[200px] w-[300px] rounded-xl">
-                <div v-if="payload.logo_url"
-                  class="relative">
-                  <img
-                    class="h-[200px] w-[300px] object-contain rounded-xl border border-dashed border-[#e0e6ed] dark:border-[#1b2e4b]"
-                    :src="payload.logo_url"
-                    alt="" />
-  
-                  <button
-                    @click="toDeleteFile(payload.logo_url)"
-  
-                    type="button"
-                    class="btn btn-danger w-5 h-5 p-0 rounded-md absolute top-[-8px] right-[-8px]">
-                    <icon-trash-lines class="w-3.5 h-3.5" />
-                  </button>
-                </div>
-  
-                <uploadImage v-else
-                  @input="changeImage"
-                  class="h-[200px] w-[300px]" />
-              </div>
+              <takeOrMedia
+                v-model:contents="payload.logo_url"
+                wh="w-[300px] h-[200px]" />
   
               <div v-if="v$.logo_url.$error"
                 class="validator">
@@ -571,7 +553,7 @@
   import IconEyeHide from "@/components/icon/icon-eye-hide.vue";
   import IconX from '@/components/icon/icon-x.vue';
 
-  import uploadImage from '@/components/upload/ImageMedia.vue';
+  import takeOrMedia from '@/components/upload/TakeOrMedia.vue';
   import Maska from "@/components/basic/input/Maska.vue";
 
   import BtnPrivate from "@/components/basic/button/BtnPrivate.vue";
@@ -681,10 +663,6 @@
     payload.longitude = event.latLng.lng();
   };
 
-  const changeImage = (e) => {
-    if (e?.url) payload.logo_url = e.url;
-  };
-
   const submit = async () => {
     const isFormCorrect = await v$.value.$validate();
 
@@ -753,19 +731,6 @@
       isLoading.value = false;
 
     });
-  };
-
-  const toDeleteFile = (url: string) => {
-    // deleteFile(url)
-    // .then((res) => {
-    //   if (res) {
-    //     payload.logo_url = '';
-
-    //     swalAlert('Successfully delete file', 'success');
-    //   }
-    // });
-
-    payload.logo_url = '';
   };
 
   onMounted(() => {

@@ -19,14 +19,14 @@ export const useValid = (payload: any, field: any = []) => {
     Object.keys(payload).forEach(key => {
       if (field.find(keys => keys === key)) return;
 
-      // ✅ pengecualian untuk qr_code_url
+      // ✅ pengecualian
       if (key === 'qr_code_url') {
         state.push({
           [key]: {
-            required: helpers.withMessage('QR Code URL is required', (val: string) => {
+            required: helpers.withMessage(`${key.replace(/_/g, ' ')} cannot be empty`, (val: string) => {
               return !payload.qr || !!val;
             }),
-            url: helpers.withMessage('Must be a valid URL', (val: string) => {
+            url: helpers.withMessage(`${key.replace(/_/g, ' ')} must be a valid url`, (val: string) => {
               if (!payload.qr || !val) return true;
               try {
                 new URL(val);
@@ -34,6 +34,39 @@ export const useValid = (payload: any, field: any = []) => {
               } catch (_) {
                 return false;
               }
+            }),
+          }
+        });
+        return;
+      }
+
+      if (key === 'greeting_text') {
+        state.push({
+          [key]: {
+            required: helpers.withMessage(`${key.replace(/_/g, ' ')} cannot be empty`, (val: string) => {
+              return payload.greeting_type !== 'TEXT_IMAGE' || !!val;
+            }),
+          }
+        });
+        return;
+      }
+
+      if (key === 'unit_uuid') {
+        state.push({
+          [key]: {
+            required: helpers.withMessage(`${key.replace(/_/g, ' ')} cannot be empty`, (val: string) => {
+              return payload.type !== 'UNIT' || !!val;
+            }),
+          }
+        });
+        return;
+      }
+
+      if (key === 'signage_uuid') {
+        state.push({
+          [key]: {
+            required: helpers.withMessage(`${key.replace(/_/g, ' ')} cannot be empty`, (val: string) => {
+              return payload.type !== 'SIGNAGE' || !!val;
             }),
           }
         });

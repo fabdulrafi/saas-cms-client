@@ -182,7 +182,7 @@
               </button>
             </div>
             
-            <takeOrMedia
+            <takeOrMediaMulti
               v-model:contents="payload.contents"
               class="w-full h-[200px]" />
           </div>
@@ -198,7 +198,7 @@
               src="/assets/figma/icon_information.svg"
               alt="" />
 
-            Your contents must be a JPEG up to 5 MB or Video up to 250 MB, and 1,920 px by 1,080 px a 16:9 ratio.
+            Your contents must be a JPG/JPEG/PNG up to 10 MB or Video up to 250 MB, and 1,920 px by 1,080 px a 16:9 ratio.
           </div>
         </div>
       </div>
@@ -249,7 +249,7 @@
   import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
   import IconArrowBackward from "@/components/icon/icon-arrow-backward.vue";
 
-  import takeOrMedia from '@/components/upload/TakeOrMedia.vue';
+  import takeOrMediaMulti from '@/components/upload/TakeOrMediaMulti.vue';
 
   import BtnPrivate from "@/components/basic/button/BtnPrivate.vue";
   import Error from '@/components/basic/Error.vue';
