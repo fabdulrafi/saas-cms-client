@@ -101,6 +101,8 @@
         <div v-if="payload.type === 'UNIT'">
           <label class="text-sm font-semibold mb-2">
             Unit Tag
+
+            <span class="text-danger">*</span>
           </label>
 
           <div class="flex items-center space-x-4">
@@ -140,11 +142,6 @@
             <BtnPrivate
               @click="modal_custom_tags = true"
               texts="Add New" />
-          </div>
-
-          <div v-if="v$.custom_tags.$error"
-            class="validator">
-            {{ v$.custom_tags.$errors[0].$message }}
           </div>
         </div>
 
@@ -577,7 +574,7 @@
 
   const payload = reactive<Payload>(initialState());
 
-  const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm } = useValid(payload, ['uuid']);
+  const { v$, swalAlert, swalAlertUpdate, swalAlertConfirm } = useValid(payload, ['uuid', 'custom_tags']);
   const { loading, data, put, errorMessage, error } = useApiWithAuth('client/screen');
 
   const totalRowsUnit = ref(6);

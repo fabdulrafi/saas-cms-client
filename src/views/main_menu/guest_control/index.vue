@@ -824,31 +824,31 @@
   const initialState = (): Payload => {
     return {
       uuid: undefined,
-      // name: '',
-      // phone_number: '',
-      // email: '',
-      // arrival_at: '',
-      // departure_at: '',
-      // greeting_type: 'IMAGE',
-      // greeting_text: '',
-      // greeting_image_url: '',
-      // units: [],
-
-      name: 'Fabdulrafi',
+      name: '',
       phone_number: '',
-      email: 'fabdulrafi@gmail.com',
+      email: '',
       arrival_at: '',
       departure_at: '',
       greeting_type: 'IMAGE',
       greeting_text: '',
-      greeting_image_url: 'https://storage.googleapis.com/smartiv1/6C8UFB/image_6826a29facd43.webp',
+      greeting_image_url: '',
       units: [],
-      phone_number_view: '85702656660',
+
+      // name: 'Fabdulrafi',
+      // phone_number: '',
+      // email: 'fabdulrafi@gmail.com',
+      // arrival_at: '',
+      // departure_at: '',
+      // greeting_type: 'IMAGE',
+      // greeting_text: '',
+      // greeting_image_url: 'https://storage.googleapis.com/smartiv1/6C8UFB/image_6826a29facd43.webp',
+      // units: [],
+      // phone_number_view: '85702656660',
 
       country: '',
       flag: '',
       code: '',
-      // phone_number_view: '',
+      phone_number_view: '',
 
       status_view: false
     }
