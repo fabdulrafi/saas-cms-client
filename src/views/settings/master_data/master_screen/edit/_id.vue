@@ -613,7 +613,7 @@
   const getOptionsUnitTags = () => {
     isLoadingOptionsUnitTags.value = true;
 
-    const { loading, data, error, get } = useApiWithAuth("client/tag");
+    const { loading, data, error, get } = useApiWithAuth("client/unit");
 
     get(params_unit);
 
@@ -788,7 +788,7 @@
       let item = data.value?.data
 
       payload.uuid = item.uuid;
-      payload.unit_uuid = undefined;
+      payload.unit_uuid = item?.unit?.uuid;
       payload.signage_uuid = undefined;
 
       payload.type = item.type;
@@ -798,6 +798,8 @@
       payload.custom_tags = item.custom_tags;
 
       payload.status_view = item.status === 'ACTIVE' ? true : false;
+
+      if (payload.unit_uuid) getOptionsUnitTags();
     });
   };
   

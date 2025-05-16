@@ -489,7 +489,7 @@
         <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b] my-4 px-4"></div>
 
         <div class="flex justify-between items-center space-x-16 px-4">
-          <div>
+          <div class="w-full">
             <Error :messages="errorMessage" margins="m-0 w-full" />
           </div>
 
@@ -692,6 +692,8 @@
   import BtnPrivate from "@/components/basic/button/BtnPrivate.vue";
   import Error from '@/components/basic/Error.vue';
 
+  import moment from "moment";
+
   const router = useRouter();
   const store = useAppStore();
   const {
@@ -806,8 +808,8 @@
     name?: string;
     phone_number?: string;
     email?: string;
-    arrival_at?: string;
-    departure_at?: string;
+    arrival_at?: any;
+    departure_at?: any;
     greeting_type?: string;
     greeting_text?: string;
     greeting_image_url?: string;
@@ -824,31 +826,31 @@
   const initialState = (): Payload => {
     return {
       uuid: undefined,
-      name: '',
-      phone_number: '',
-      email: '',
-      arrival_at: '',
-      departure_at: '',
-      greeting_type: 'IMAGE',
-      greeting_text: '',
-      greeting_image_url: '',
-      units: [],
-
-      // name: 'Fabdulrafi',
+      // name: '',
       // phone_number: '',
-      // email: 'fabdulrafi@gmail.com',
+      // email: '',
       // arrival_at: '',
       // departure_at: '',
       // greeting_type: 'IMAGE',
       // greeting_text: '',
-      // greeting_image_url: 'https://storage.googleapis.com/smartiv1/6C8UFB/image_6826a29facd43.webp',
+      // greeting_image_url: '',
       // units: [],
-      // phone_number_view: '85702656660',
+
+      name: 'Fabdulrafi',
+      phone_number: '',
+      email: 'fabdulrafi@gmail.com',
+      arrival_at: '',
+      departure_at: '',
+      greeting_type: 'IMAGE',
+      greeting_text: '',
+      greeting_image_url: 'https://storage.googleapis.com/smartiv1/6C8UFB/image_6826a29facd43.webp',
+      units: [],
+      phone_number_view: '85702656660',
 
       country: '',
       flag: '',
       code: '',
-      phone_number_view: '',
+      // phone_number_view: '',
 
       status_view: false
     }
@@ -895,7 +897,7 @@
   const getOptionsUnitTags = () => {
     isLoadingOptionsUnitTags.value = true;
 
-    const { loading, data, error, get } = useApiWithAuth("client/tag");
+    const { loading, data, error, get } = useApiWithAuth("client/unit");
 
     get(params_unit);
 
@@ -981,6 +983,9 @@
     loading.value = true;
 
     payload.phone_number = `${payload.code}${payload.phone_number_view}`;
+
+    payload.arrival_at = payload.arrival_at ? moment(payload.arrival_at).format('YYYY-MM-DD HH:mm:ss') : null;
+    payload.departure_at = payload.departure_at ? moment(payload.departure_at).format('YYYY-MM-DD HH:mm:ss') : null;
 
     post(payload).then(() => {
       // callback api
