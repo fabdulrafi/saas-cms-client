@@ -297,49 +297,30 @@
   const { loading, data, post, put, errorMessage, error } = useApiWithAuth('client/information');
 
   const toggleStatus = (item: any) => {
-    const { loading, data, error, get } = useApiWithAuth(`client/information/${item.uuid}`);
+    const { put: stPut } = useApiWithAuth(`client/information/status/${item.uuid}`);
 
-    get(params);
+    const current = rows.value.find((i: any) => i.id === item.id);
 
-    watch([ loading ], () => {
+    if (!current) return;
+    
+    swalAlertUpdate(`Are you sure you want to ${current.status === 'ACTIVE' ? 'activate' : 'deactivate'} data ${item.title}?`, 'warning')
+    .then((res) => {
+      if (res) {
+        stPut({ status: current.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE' })
+          .then(() => {
+            // callback api
+            swalAlert('Successfully saved data');
 
-      const current = data.value?.data;
+            getList();
+          })
+          .catch(() => {
+            swalAlert('Failed saved data', 'error');
+          });
+      }
 
-      if (!current) return;
-
-      const payload: any = {
-        uuid: current.uuid,
-        type: current.type,
-        title: current.title,
-        description: current.description,
-        status: current.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE',
-        qr: current.qr,
-        qr_code_url: current.qr_code_url,
-        contents: current.contents,
-      };
-
-      payload.status_view = payload.status === 'ACTIVE' ? false : true;
-
-      swalAlertUpdate(`Are you sure you want to ${payload.status_view ? 'activate' : 'deactivate'} data ${current.title}?`, 'warning')
-      .then((res) => {
-        if (res) {
-          put(payload)
-            .then(() => {
-              // callback api
-              swalAlert('Successfully saved data');
-
-              getList();
-            })
-            .catch(() => {
-              swalAlert('Failed saved data', 'error');
-            });
-        }
-
-        else {
-          
-        }
-      });
-
+      else {
+        
+      }
     });
   };
 

@@ -707,34 +707,21 @@
   };
 
   const toggleStatus = (item: any) => {
+    const { put: stPut } = useApiWithAuth(`client/unit/status/${item.uuid}`);
+
     const current = rows.value.find((i: any) => i.id === item.id);
 
     if (!current) return;
-
-    payload.status_view = current.status === 'ACTIVE' ? false : true;
-
-    payload.uuid = item.uuid;
-    payload.unit_type_uuid = item.unit_type.uuid;
-
-    payload.name = item.name;
-    payload.description = item.description;
-    payload.status = payload.status_view ? 'ACTIVE' : 'INACTIVE';
     
-    swalAlertUpdate(`Are you sure you want to ${payload.status_view ? 'activate' : 'deactivate'} data ${item.name}?`, 'warning')
+    swalAlertUpdate(`Are you sure you want to ${current.status === 'ACTIVE' ? 'activate' : 'deactivate'} data ${item.name}?`, 'warning')
     .then((res) => {
       if (res) {
-        put(payload)
+        stPut({ status: current.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE' })
           .then(() => {
             // callback api
             swalAlert('Successfully saved data');
 
             getList();
-
-            Object.assign(payload, initialState());
-
-            v$.value.$reset();
-
-            error.value = '';
           })
           .catch(() => {
             swalAlert('Failed saved data', 'error');
